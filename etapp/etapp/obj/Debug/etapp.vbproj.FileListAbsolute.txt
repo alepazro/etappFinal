@@ -92,3 +92,17 @@ C:\Users\Administrator\source\repos\alepazro\etappV2\etapp\etapp\obj\Debug\etapp
 C:\Users\Administrator\source\repos\alepazro\etappV2\etapp\etapp\obj\Debug\etapp.dll
 C:\Users\Administrator\source\repos\alepazro\etappV2\etapp\etapp\obj\Debug\etapp.xml
 C:\Users\Administrator\source\repos\alepazro\etappV2\etapp\etapp\obj\Debug\etapp.pdb
+C:\Users\dapr1\source\repos\etappFinal\etapp\etapp\bin\etapp.dll.config
+C:\Users\dapr1\source\repos\etappFinal\etapp\etapp\bin\etapp.dll
+C:\Users\dapr1\source\repos\etappFinal\etapp\etapp\bin\etapp.pdb
+C:\Users\dapr1\source\repos\etappFinal\etapp\etapp\bin\etapp.xml
+C:\Users\dapr1\source\repos\etappFinal\etapp\etapp\bin\Newtonsoft.Json.dll
+C:\Users\dapr1\source\repos\etappFinal\etapp\etapp\bin\Newtonsoft.Json.xml
+C:\Users\dapr1\source\repos\etappFinal\etapp\etapp\obj\Debug\etapp.vbproj.AssemblyReference.cache
+C:\Users\dapr1\source\repos\etappFinal\etapp\etapp\obj\Debug\etapp.Resources.resources
+C:\Users\dapr1\source\repos\etappFinal\etapp\etapp\obj\Debug\etapp.vbproj.GenerateResource.cache
+C:\Users\dapr1\source\repos\etappFinal\etapp\etapp\obj\Debug\etapp.vbproj.CoreCompileInputs.cache
+C:\Users\dapr1\source\repos\etappFinal\etapp\etapp\obj\Debug\etapp.vbproj.CopyComplete
+C:\Users\dapr1\source\repos\etappFinal\etapp\etapp\obj\Debug\etapp.dll
+C:\Users\dapr1\source\repos\etappFinal\etapp\etapp\obj\Debug\etapp.xml
+C:\Users\dapr1\source\repos\etappFinal\etapp\etapp\obj\Debug\etapp.pdb

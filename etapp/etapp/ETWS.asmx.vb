@@ -1062,12 +1062,12 @@ Public Class ETWS
             End If
             If Not IsNothing(HttpContext.Current.Request.Form("dateFrom")) Then
                 If IsDate(HttpContext.Current.Request.Form("dateFrom")) Then
-                    dateFrom = CDate(HttpContext.Current.Request.Form("dateFrom"))
+                    dateFrom = CDate(HttpContext.Current.Request.Form("dateFrom")).ToString("MM/dd/yyyy")
                 Else
-                    dateFrom = Now.Date
+                    dateFrom = Now.Date.ToString("MM/dd/yyyy")
                 End If
             Else
-                dateFrom = Now.Date
+                dateFrom = Now.Date.ToString("MM/dd/yyyy")
             End If
             If Not IsNothing(HttpContext.Current.Request.Form("hourFrom")) Then
                 hourFrom = HttpContext.Current.Request.Form("hourFrom")
