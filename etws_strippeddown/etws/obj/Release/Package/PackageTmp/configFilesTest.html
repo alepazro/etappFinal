@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+
+</head>
+<body>
+
+    <button onclick="saveFile()">Save File</button>
+    <button onclick="getFiles()">Get Files</button>
+    <button onclick="resetFile()">Reset File Flag</button>
+
+    <script src="vendors/jquery-2.0.3.min.js"></script>
+    <script>
+
+        function getFiles() {
+            var url = 'ws.svc/getScripts';
+
+            jQuery.ajax({
+                url: url,
+                data: 0,
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                type: "GET",
+                success: function (a, b, c) {
+                    var z = 1;
+                },
+                error: function (a, b, c) {
+                    var z = 1;
+                },
+                async: false
+            });
+        }
+
+        function saveFile() {
+            try{
+                var data = {
+                    folder: '94DDB199-85EC-4BF9-AF47-003372126540',
+                    fullName: 'Joe',
+                    name: 'jdoedoe.com',
+                    content: '555-222-3333'
+                }
+                data = JSON.stringify(data);
+
+                var url = 'ws.svc/saveScript';
+
+                jQuery.ajax({
+                    url: url,
+                    data: data,
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    success: function (a, b, c) {
+                        var z = 1;
+                    },
+                    error: function (a, b, c) {
+                        var z = 1;
+                    },
+                    async: false
+                });
+            }
+            catch (err) {
+                alert(err.message);
+            }
+        }
+
+        function resetFile() {
+            try{
+                var url = 'ws.svc/resetScriptStatus/0';
+
+                jQuery.ajax({
+                    url: url,
+                    data: 0,
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    type: "GET",
+                    success: function (a, b, c) {
+                        var z = 1;
+                    },
+                    error: function (a, b, c) {
+                        var z = 1;
+                    },
+                    async: false
+                });
+
+            }
+            catch (err) {
+                alert(err.message);
+            }
+        }
+
+    </script>
+
+</body>
+</html>

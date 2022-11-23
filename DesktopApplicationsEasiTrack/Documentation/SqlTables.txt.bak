@@ -1,0 +1,123 @@
+P44 TABLES
+CREATE TABLE P44AuthorizedCompanies (
+    ID int NOT NULL IDENTITY,
+    CompanyID int NOT NULL,
+    ClientId nvarchar(max),	
+	ClientSecret nvarchar(max),
+	GrantType nvarchar(500),
+	UrlToken nvarchar(max),
+	Token varchar(max),
+	LastUpdateToken datetime,
+	Authorized bit,
+	CreatedOn datetime,
+	LastUpdate datetime
+    PRIMARY KEY (ID)     
+);
+CREATE TABLE P44Log (
+    ID int NOT NULL IDENTITY,
+    CompanyID int NOT NULL,    
+	Action nvarchar(255),
+	Value varchar(max),
+	CreatedOn datetime,
+	CreatedBy int,
+    PRIMARY KEY (ID)     
+);
+CREATE TABLE JobsV2 (
+    ID int NOT NULL IDENTITY,
+    CompanyID int NOT NULL,
+	UniqueKey nvarchar(255),
+    JobNumber nvarchar(255),
+	JobName nvarchar(255),
+	GeofencesTarget int,
+	DurationHH int,
+	DurationMM int,
+	DueDate datetime,
+	StartOn datetime,
+	CompleteOn datetime,
+	StatusID int,
+	CategoryID int,
+	PriorityID int,
+	Latitude decimal(18,6),
+	Longitude decimal(18,6),
+	LastUpdatedOn datetime,
+	LastUpdatedBy int,
+	CreateOn datetime,
+	CreatedBy int,
+	AssignedToID INT,
+	AssignedOn datetime,
+	AssignedBy int,
+	UpdateSource tinyint,
+	DeviceId int,
+	RecordHistory tinyint,
+	GUID VARCHAR(255),
+    PRIMARY KEY (ID)     
+);
+CREATE TABLE Jobs_StopsV2 (  StopOrderNumber
+ID int NOT NULL IDENTITY,
+UniqueKey varchar(255),
++81 int,
+GeofencesId int,
+StartOn datetime,
+DueDate datetime,
+CreatedOn datetime,
+StatusId tinyint,
+LastUpdate datetime,
+UpdateSource tinyint,
+StopOrdenNumber tinyint,
+CompletedOn datetime,
+Description varchar(255)
+PRIMARY KEY (ID)       
+);
+
+create table JobsStatusLogV2(
+ID int IDENTITY(1,1) NOT NULL,
+	CompanyID int NOT NULL,
+	JobID int NOT NULL,
+	StopID int NULL,
+	DeviceID int NULL,
+	TransactionID varchar(50) NULL,
+	StatusID int NULL,
+	EventToSendP44 varchar(50) NULL,
+	EventCodeDevice int NULL,
+	EventDate datetime NULL,
+	Lat decimal(18, 6) NULL,
+	Lng decimal(18, 6) NULL,
+	CreatedOn datetime NULL,	
+	SendP44 bit NULL,
+	SendP44Date datetime NULL,	
+	Source tinyint
+	StopOrdenNumber tinyint,
+	DueDate datetime NULL
+)
+)
+
+
+Job to execute the Jobs_CheckJobStatus stored procedure to feed the Jobs_CustomerHistory table
+
+ACTUALIZAR SP JAY
+Jobs_QuickDispatch_SAVE_NEW
+Jobs_StatusLog_POST
+p44_CheckGeofencesJob
+P44Geofences_ValidatePointInside
+p44_GetDevicesToSend
+p44_AddCustomers
+p44_GetCompanies
+Jobs_GET_V2
+Jobs_Savev2
+
+ALTER TABLE JobsStatusLog
+ADD DeviceID INT;
+ALTER TABLE JobsStatusLog
+ADD SendP44 BIT;
+ALTER TABLE JobsStatusLog
+ADD SendP44Date datetime;
+ALTER TABLE geofences
+ADD IsStop BIT;
+ALTER TABLE Jobs_Stops
+ADD StopOrderNumber tinyint;
+ALTER TABLE JobsStatusLog
+ADD StopID int
+
+crear vistas
+ViewP44hHDevices -- reporte lat long devices hasta 2 horas atras
+ViewP44Jobs-- jobs que no se han completado ni cancelado

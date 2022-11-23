@@ -1,0 +1,118 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title>View Customer</title>
+    <link href="themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+    <link href="themes/redmond/jquery-ui-1.9.0.custom.min.css" rel="stylesheet" type="text/css" />
+    <link href="jquery.jqGrid-4.4.1/css/ui.jqgrid.css" rel="stylesheet" type="text/css" />
+    <link href="jquery.jqGrid-4.4.1/plugins/ui.multiselect.css" rel="stylesheet" type="text/css" />
+    <link href="scripts/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="Styles/common.css" rel="stylesheet" type="text/css" />
+    <link href="Styles/app.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="jquery.jqGrid-4.4.1/js/i18n/grid.locale-en.js" type="text/javascript"></script>
+    <script src="jquery.jqGrid-4.4.1/js/jquery.jqGrid.src.js" type="text/javascript"></script>
+    <script src="jquery.jqGrid-4.4.1/plugins/ui.multiselect.js" type="text/javascript"></script>
+    <script src="jquery.jqGrid-4.4.1/plugins/jquery.tablednd.js" type="text/javascript"></script>
+    <script src="jquery.jqGrid-4.4.1/plugins/jquery.searchFilter.js" type="text/javascript"></script>
+    <script src="vendors/underscore-1.7/underscore-min.js"></script>
+    <script src="scripts/angular.js"></script>
+    <script src="scripts/bootstrap/js/bootstrap.min.js"></script>
+    <script src="Scripts/jquery.json-2.3.min.js" type="text/javascript"></script>
+
+    <script src="Scripts/utilities_002.js" type="text/javascript"></script>
+
+    <script src="Scripts/crmCommon.js" type="text/javascript"></script>
+    <script src="Scripts/crmdb.js" type="text/javascript"></script>
+    <script src="Scripts/crmAuthorization.js" type="text/javascript"></script>
+    <script src="Scripts/crmViewCustomer.js" type="text/javascript"></script>
+    <script src="Scripts/crmCases.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if (crmValidateToken() == true) {
+                setWelcomeTitle();
+            }
+            loadBillingControls();
+            loadCustomer();
+            getNotes();
+        });
+    </script>
+
+</head>
+<body>
+    <div id="header">
+        <div id="topMenu">
+            <a href="#" onclick="crmLogout()" class="loginDivClass">Logout</a>
+            <div id="welcomeTitleDiv">
+                <span id="welcomeTitleSpan"></span>
+            </div>
+        </div>
+    </div>
+
+    <div style="width:1200px;margin:0 auto;">
+        <div style="width:100%;padding:10px 0px;">
+            <label style="font-size:16px;font-weight:600;">Company Name:</label>
+            <span id="companyName"></span>
+            &nbsp;&nbsp;(<span id="newCustomerCase"></span>)
+            <div id="customerDetailsDiv">
+                <table>
+                    <tr>
+                        <td>
+                            <h5>Payment Method</h5>
+                        </td>
+                        <td>
+                            <h5>Day of billing</h5>
+                        </td>
+                        <td>
+                            <h5>Is V.V.I.P.</h5>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select id="cbxPaymentMethods" class="form-control"></select>
+                        </td>
+                        <td>
+                            <select id="cbxMonthDays" class="form-control"></select>
+                        </td>
+                        <td style="text-align:center;vertical-align:middle;border:1px solid #a1a1a1;">
+                            <input type="checkbox" id="isVVIP" class="form-control" />
+                        </td>
+                        <td>
+                            <button id="btnSaveBillingDet" class="btn btn-success" onclick="saveBillingDet()">SAVE</button>
+                        </td>
+                        <td>
+                            <button id="btnSnoozeCollection" class="btn btn-primary" onclick="snoozeCollections()">Snooze Collections Emails</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <table id="tblUsers"></table>
+        <div id="tblUsersPager"></div>
+        <br style="clear:both;"/>
+        <table id="tblDevices"></table>
+        <div id="tblDevicesPager"></div>
+        <div style="width:100%;margin:3px 0px;">
+            <div style="width:600px;float:right;text-align:right;">
+                <span>*Note: NoInst: Not Installed; RMA: RMA'ed device; INAC: Inactivated; NotW: Device Not working</span>
+            </div>
+            <div style="float:left;">
+                <input type="button" id="bedata" value="Edit Selected" onclick="" />
+            </div>
+        </div>
+        <br style="clear:both;" />
+        <div id="companyNotes" style="padding:10px;">
+            <textarea id="txtNewNote" rows="2" style="width:100%;"></textarea>
+            <button id="btnSaveNote" onclick="saveNote()">Save</button>
+            <div id="Notes" style="width:100%;"></div>
+        </div>
+
+    </div>
+
+</body>
+</html>

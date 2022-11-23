@@ -1,0 +1,94 @@
+c:\users\juan carlos\Dropbox\etapp\etapp\obj\Debug\etapp.Resources.resources
+c:\users\juan carlos\Dropbox\etapp\etapp\bin\etapp.dll
+c:\users\juan carlos\Dropbox\etapp\etapp\bin\etapp.pdb
+c:\users\juan carlos\Dropbox\etapp\etapp\bin\etapp.xml
+c:\users\juan carlos\Dropbox\etapp\etapp\bin\Newtonsoft.Json.dll
+c:\users\juan carlos\Dropbox\etapp\etapp\obj\Debug\etapp.dll
+c:\users\juan carlos\Dropbox\etapp\etapp\obj\Debug\etapp.xml
+c:\users\juan carlos\Dropbox\etapp\etapp\obj\Debug\etapp.pdb
+Z:\juan_olano On My Mac\Dropbox\etapp\etapp\bin\etapp.dll
+Z:\juan_olano On My Mac\Dropbox\etapp\etapp\bin\etapp.pdb
+Z:\juan_olano On My Mac\Dropbox\etapp\etapp\bin\etapp.xml
+Z:\juan_olano On My Mac\Dropbox\etapp\etapp\bin\Newtonsoft.Json.dll
+Z:\juan_olano On My Mac\Dropbox\etapp\etapp\obj\Debug\ResolveAssemblyReference.cache
+Z:\juan_olano On My Mac\Dropbox\etapp\etapp\obj\Debug\etapp.Resources.resources
+Z:\juan_olano On My Mac\Dropbox\etapp\etapp\obj\Debug\GenerateResource.read.1.tlog
+Z:\juan_olano On My Mac\Dropbox\etapp\etapp\obj\Debug\GenerateResource.write.1.tlog
+Z:\juan_olano On My Mac\Dropbox\etapp\etapp\obj\Debug\etapp.dll
+Z:\juan_olano On My Mac\Dropbox\etapp\etapp\obj\Debug\etapp.xml
+Z:\juan_olano On My Mac\Dropbox\etapp\etapp\obj\Debug\etapp.pdb
+C:\Users\Juan Carlos\Dropbox\etapp\etapp\obj\Debug\etapp.vbprojResolveAssemblyReference.cache
+C:\Users\Juan Carlos\Dropbox\etapp\etapp\obj\Debug\etapp.vbproj.GenerateResource.Cache
+C:\Users\Juan\Dropbox\etapp\etapp\bin\etapp.dll
+C:\Users\Juan\Dropbox\etapp\etapp\bin\etapp.pdb
+C:\Users\Juan\Dropbox\etapp\etapp\bin\etapp.xml
+C:\Users\Juan\Dropbox\etapp\etapp\bin\Newtonsoft.Json.dll
+C:\Users\Juan\Dropbox\etapp\etapp\obj\Debug\etapp.Resources.resources
+C:\Users\Juan\Dropbox\etapp\etapp\obj\Debug\etapp.vbproj.GenerateResource.Cache
+C:\Users\Juan\Dropbox\etapp\etapp\obj\Debug\etapp.dll
+C:\Users\Juan\Dropbox\etapp\etapp\obj\Debug\etapp.xml
+C:\Users\Juan\Dropbox\etapp\etapp\obj\Debug\etapp.pdb
+C:\Users\Juan\Dropbox\etapp\etapp\obj\Debug\etapp.vbprojResolveAssemblyReference.cache
+C:\Dropbox\etapp\etapp\bin\etapp.dll
+C:\Dropbox\etapp\etapp\bin\etapp.pdb
+C:\Dropbox\etapp\etapp\bin\etapp.xml
+C:\Dropbox\etapp\etapp\obj\Debug\etapp.Resources.resources
+C:\Dropbox\etapp\etapp\obj\Debug\etapp.vbproj.GenerateResource.Cache
+C:\Dropbox\etapp\etapp\obj\Debug\etapp.dll
+C:\Dropbox\etapp\etapp\obj\Debug\etapp.xml
+C:\Dropbox\etapp\etapp\obj\Debug\etapp.pdb
+C:\Dropbox\etapp\etapp\bin\etapp.dll.config
+C:\Dropbox\et_\etapp\etapp\bin\etapp.dll.config
+C:\Dropbox\et_\etapp\etapp\bin\etapp.dll
+C:\Dropbox\et_\etapp\etapp\bin\etapp.pdb
+C:\Dropbox\et_\etapp\etapp\bin\etapp.xml
+C:\Dropbox\et_\etapp\etapp\bin\Newtonsoft.Json.dll
+C:\Dropbox\et_\etapp\etapp\obj\Debug\etapp.vbprojResolveAssemblyReference.cache
+C:\Dropbox\et_\etapp\etapp\obj\Debug\etapp.Resources.resources
+C:\Dropbox\et_\etapp\etapp\obj\Debug\etapp.vbproj.GenerateResource.Cache
+C:\Dropbox\et_\etapp\etapp\obj\Debug\etapp.dll
+C:\Dropbox\et_\etapp\etapp\obj\Debug\etapp.xml
+C:\Dropbox\et_\etapp\etapp\obj\Debug\etapp.pdb
+C:\Dropbox\etapp\etapp\obj\Debug\etapp.vbprojResolveAssemblyReference.cache
+C:\Dropbox\etapp\etapp\bin\Newtonsoft.Json.dll
+C:\Users\Administrator\source\repos\etapp\etapp\bin\etapp.dll.config
+C:\Users\Administrator\source\repos\etapp\etapp\bin\etapp.dll
+C:\Users\Administrator\source\repos\etapp\etapp\bin\etapp.pdb
+C:\Users\Administrator\source\repos\etapp\etapp\bin\etapp.xml
+C:\Users\Administrator\source\repos\etapp\etapp\bin\Newtonsoft.Json.dll
+C:\Users\Administrator\source\repos\etapp\etapp\obj\Debug\etapp.Resources.resources
+C:\Users\Administrator\source\repos\etapp\etapp\obj\Debug\etapp.vbproj.GenerateResource.cache
+C:\Users\Administrator\source\repos\etapp\etapp\obj\Debug\etapp.dll
+C:\Users\Administrator\source\repos\etapp\etapp\obj\Debug\etapp.xml
+C:\Users\Administrator\source\repos\etapp\etapp\obj\Debug\etapp.pdb
+C:\Users\Administrator\source\repos\etapp\etapp\obj\Debug\etapp.vbproj.CopyComplete
+C:\Users\Administrator\source\repos\etapp\etapp\bin\Newtonsoft.Json.xml
+C:\Users\Administrator\source\repos\etapp\etapp\obj\Debug\etapp.vbprojAssemblyReference.cache
+C:\Users\dapr1\source\repos\etapp\etapp\bin\etapp.dll.config
+C:\Users\dapr1\source\repos\etapp\etapp\bin\etapp.dll
+C:\Users\dapr1\source\repos\etapp\etapp\bin\etapp.pdb
+C:\Users\dapr1\source\repos\etapp\etapp\bin\etapp.xml
+C:\Users\dapr1\source\repos\etapp\etapp\bin\Newtonsoft.Json.dll
+C:\Users\dapr1\source\repos\etapp\etapp\bin\Newtonsoft.Json.xml
+C:\Users\dapr1\source\repos\etapp\etapp\obj\Debug\etapp.vbproj.AssemblyReference.cache
+C:\Users\dapr1\source\repos\etapp\etapp\obj\Debug\etapp.Resources.resources
+C:\Users\dapr1\source\repos\etapp\etapp\obj\Debug\etapp.vbproj.GenerateResource.cache
+C:\Users\dapr1\source\repos\etapp\etapp\obj\Debug\etapp.vbproj.CoreCompileInputs.cache
+C:\Users\dapr1\source\repos\etapp\etapp\obj\Debug\etapp.vbproj.CopyComplete
+C:\Users\dapr1\source\repos\etapp\etapp\obj\Debug\etapp.dll
+C:\Users\dapr1\source\repos\etapp\etapp\obj\Debug\etapp.xml
+C:\Users\dapr1\source\repos\etapp\etapp\obj\Debug\etapp.pdb
+C:\Users\Administrator\source\repos\alepazro\etappV2\etapp\etapp\bin\etapp.dll.config
+C:\Users\Administrator\source\repos\alepazro\etappV2\etapp\etapp\bin\etapp.dll
+C:\Users\Administrator\source\repos\alepazro\etappV2\etapp\etapp\bin\etapp.pdb
+C:\Users\Administrator\source\repos\alepazro\etappV2\etapp\etapp\bin\etapp.xml
+C:\Users\Administrator\source\repos\alepazro\etappV2\etapp\etapp\bin\Newtonsoft.Json.dll
+C:\Users\Administrator\source\repos\alepazro\etappV2\etapp\etapp\bin\Newtonsoft.Json.xml
+C:\Users\Administrator\source\repos\alepazro\etappV2\etapp\etapp\obj\Debug\etapp.vbproj.AssemblyReference.cache
+C:\Users\Administrator\source\repos\alepazro\etappV2\etapp\etapp\obj\Debug\etapp.Resources.resources
+C:\Users\Administrator\source\repos\alepazro\etappV2\etapp\etapp\obj\Debug\etapp.vbproj.GenerateResource.cache
+C:\Users\Administrator\source\repos\alepazro\etappV2\etapp\etapp\obj\Debug\etapp.vbproj.CoreCompileInputs.cache
+C:\Users\Administrator\source\repos\alepazro\etappV2\etapp\etapp\obj\Debug\etapp.vbproj.CopyComplete
+C:\Users\Administrator\source\repos\alepazro\etappV2\etapp\etapp\obj\Debug\etapp.dll
+C:\Users\Administrator\source\repos\alepazro\etappV2\etapp\etapp\obj\Debug\etapp.xml
+C:\Users\Administrator\source\repos\alepazro\etappV2\etapp\etapp\obj\Debug\etapp.pdb

@@ -1,0 +1,535 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="https://www.w3.org/1999/xhtml">
+<head>
+    <title>Settings Module</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <!--    CSS includes -->
+        <link href="themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+        <link href="themes/flick/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+        <link href="Styles/common.css" rel="stylesheet" type="text/css" />
+        <link href="Styles/app.css" rel="stylesheet" type="text/css" />
+        <link href="Styles/logo.css" rel="stylesheet" type="text/css" />
+        <link href="Styles/dd.css" rel="stylesheet" type="text/css" />
+
+    <!--    Javascript includes -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="Scripts/jquery.json-2.3.min.js" type="text/javascript"></script>
+        <script src="Scripts/jquery.dd.js" type="text/javascript"></script>
+        <script src="Scripts/date.format.js" type="text/javascript"></script>
+        <script src="Scripts/db_v002.js" type="text/javascript"></script>
+        <script src="Scripts/branding.js" type="text/javascript"></script>
+        <script src="Scripts/authorization_006.js" type="text/javascript"></script>
+        <script src="Scripts/utilities_002.js" type="text/javascript"></script>
+        <script src="Scripts/settings.js" type="text/javascript"></script>
+        <script src="Scripts/geofences.js" type="text/javascript"></script>
+        <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+        <script src="Scripts/users_001.js" type="text/javascript"></script>
+        <script src="Scripts/devicesSettings.js" type="text/javascript"></script>
+        <script src="Scripts/alerts.js" type="text/javascript"></script>
+        <script src="Scripts/recurrentReports.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                getAppFeatures(4);
+                getBrand();
+                hideSettingsDivs();
+                getUsers();
+                getDevices();
+                getReports();
+                getRecRepFrequencies();
+                setupNewUserDlg();
+                setupNewGeofenceDlg();
+                setupNewAlertDlg();
+                setupNewRecRepDlg();
+                setupUserChangePWDlg();
+                setupUserRemoveDlg();
+                setupDeviceUpdateDlg();
+                setupAlertRemoveDlg();
+                setupRecRepRemoveDlg();
+                $('#deviceUpdateIcons').msDropDown();
+                $(document.getElementById('ctrlPanel')).attr('style', 'height:' + (h - 80) + 'px; width:18%; float:left; overflow:hidden; display:inline-block;');
+                $(document.getElementById('settingsContent')).attr('style', 'height:' + (h - 80) + 'px; width:80%; float:right;overflow:auto;margin-right:2px; overflow:auto; display:inline-block;');
+                if (validateToken() == true) {
+                    setWelcomeTitle();
+                }
+            });
+        </script>
+</head>
+<body>
+    <div id="header">
+        <div id="topMenu">
+            <a href="#" onclick="logout()" class="loginDivClass">Logout</a>
+            <div class="logoPosition">
+                <span id="dealerBrand" class="logoDesign"></span>
+            </div>
+            <div id="welcomeTitleDiv">
+                <span id="welcomeTitleSpan"></span>
+            </div>
+            <div id="panelTypes">
+                <span id="mod1"><input id="rbtTracking" name="panelType" onclick="changePanel(1)" type="radio" style="margin-top:10px;" /><span class="topMenuOption">Tracking</span></span>
+                <span id="mod2"><input id="rbtMultiTracking" name="panelType" onclick="changePanel(4)" type="radio" style="margin-top:10px;" /><span class="topMenuOption">Multi-Tracking</span></span>
+                <span id="mod3"><input id="rbtReports" name="panelType" onclick="changePanel(2)" type="radio" style="margin-top:10px;" /><span class="topMenuOption">Reports</span></span>
+                <span id="mod5"><input id="rbtMaintenance" name="panelType" onclick="changePanel(5)" type="radio" style="margin-top:10px;" /><span class="topMenuOption">Maintenance</span></span>
+                <span id="mod4"><input id="rbtSettings" name="panelType" checked="checked" type="radio" style="margin-top:10px;" /><span class="topMenuOption">Settings</span></span>
+            </div>
+        </div>
+    </div>
+    <div id="wrapper">
+        <div id="settingsContent">
+            <div id="usrDiv" style="width:100%;">
+                <div style="width:100%;text-align:center;">
+                    <h2>Create / Update Users</h2>
+                </div>
+                <div style="text-align:right;padding:5px;">
+                    <button id="btnNewUser" onclick="newUser()">New</button>
+                </div>
+                <table id="usersTbl" style="width:100%;border:1px solid #a1a1a1;">
+                    <tr id="usersTblTitle" style="background-color:#0000ff;color:#ffffff;height:20px;">
+                        <td style="width:80px;">First Name</td>
+                        <td style="width:80px;">Last Name</td>
+                        <td style="width:180px;">Email</td>
+                        <td style="width:90px;">Phone</td>
+                        <td style="width:90px;">Cell Phone</td>
+                        <td style="width:70px;">Login</td>
+                        <td style="width:70px;">Time Zone</td>
+                        <td style="width:70px;">Is Driver?</td>
+                        <td style="width:70px;">AccessLevel</td>
+                        <td style="text-align:center;width:40px;">PWD</td>
+                        <td style="text-align:center;width:40px;">Edit</td>
+                        <td style="text-align:center;width:40px;">Del</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="devDiv" style="width:100%;">
+                <div style="width:100%;text-align:center;">
+                    <h2>Update Vehicles Information</h2>
+                </div>
+                <table id="devicesTbl" style="width:100%;border:1px solid #a1a1a1;">
+                    <tr id="devicesTblTitle" style="background-color:#0000ff;color:#ffffff;height:20px;">
+                        <td>Icon</td>
+                        <td>Device Name</td>
+                        <td>Short Name</td>
+                        <td style="text-align:center;">Last Update On</td>
+                        <td>Last Event</td>
+                        <td style="text-align:center;">Last Event On</td>
+                        <td>Assigned Driver</td>
+                        <td style="text-align:center;">Idle Threshold</td>
+                        <td style="text-align:center;">Speed Threshold</td>
+                        <td style="text-align:center;">Edit</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="geoDiv" style="width:100%;">
+                <div style="width:100%;text-align:center;">
+                    <h2>Create / Update Geofences</h2>
+                </div>
+                <div style="text-align:right;padding:5px;">
+                    <button id="btnNewGeofence" onclick="newGeofence()">New</button>
+                </div>
+                <table id="geofencesTbl" style="width:100%;border:1px solid #a1a1a1;">
+                    <tr id="geofencesTblTitle" style="background-color:#0000ff;color:#ffffff;height:20px;">
+                        <td>GeofenceType</td>
+                        <td>Geofence Name</td>
+                        <td>Geofence Address</td>
+                        <td style="text-align:center;">Latitude</td>
+                        <td style="text-align:center;">Longitude</td>
+                        <td style="text-align:center;">Radius (feet)</td>
+                        <td>Notification</td>
+                        <td style="text-align:center;">Edit</td>
+                    </tr>
+                </table>
+                <div id="noGeofencesTitle" style="width:100%;text-align:center;"><span style="font-size:20px;font-weight:800;color:#e1e1e1;">There are no geofences</span></div>
+            </div>
+            <div id="alertsDiv" style="width:100%;">
+                <div style="width:100%;text-align:center;">
+                    <h2>Alerts Set Up</h2>
+                </div>
+                <div style="text-align:right;padding:5px;">
+                    <select id="cbxAlertsTypes"><option value="0">[Pick Type]</option></select>
+                    <button id="btnNewAlert" onclick="newAlert()">New</button>
+                </div>
+                <table id="alertsTbl" style="width:100%;border:1px solid #a1a1a1;">
+                    <tr id="alertsTblTitle" style="background-color:#0000ff;color:#ffffff;height:20px;">
+                        <td>Alert Type</td>
+                        <td style="text-align:left;">Name</td>
+                        <td style="text-align:center;">Value</td>
+                        <td style="text-align:center;">Applies to all vehicles?</td>
+                        <td style="text-align:center;">Created On</td>
+                        <td style="text-align:center;">Edit</td>
+                        <td style="text-align:center;">Del</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="recurrentReportsDiv" style="width:100%;">
+                <div style="width:100%;text-align:center;">
+                    <h2>Recurrent Reports Set Up</h2>
+                </div>
+                <div style="text-align:right;padding:5px;">
+                    <button id="btnNewRecurrentReport" onclick="newRecurrentReport()">New</button>
+                </div>
+                <table id="recurrentReportsTable" style="width:100%;border:1px solid #a1a1a1;">
+                    <tr id="recurrentReportsTableTitle" style="background-color:#0000ff;color:#ffffff;height:20px;">
+                        <td style="text-align:left;">Report Name</td>
+                        <td style="text-align:left;">Frequency</td>
+                        <td style="text-align:center;">Include Weekends?</td>
+                        <td style="text-align:center;">All Vehicles?</td>
+                        <td style="text-align:center;">Created On</td>
+                        <td style="text-align:center;">Edit</td>
+                        <td style="text-align:center;">Del</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="ctrlPanel">
+            <div id="ctrlPanelContainer">
+                <div id="ctrlPanelContent">
+                    <div style="width:100%; display:block;">
+                        <p class="panelTitle">Company Settings</p>
+                    </div>
+                    <div style="width:100%; display:block; font-size:11px; margin-top:5px;">
+                        <p class="settingsItem" onclick="showSettingsDivs(1)"><span>Users</span></p>
+                        <p class="settingsItem" onclick="showSettingsDivs(2)"><span>Vehicles</span></p>
+                        <p class="settingsItem" onclick="showSettingsDivs(3)"><span>Geofences</span></p>
+                        <p class="settingsItem" onclick="showSettingsDivs(4)"><span>Alerts Set Up</span></p>
+                        <p class="settingsItem" onclick="showSettingsDivs(5)"><span>Recurrent Reports</span></p>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+
+    <div id="userRemoveDlg" title="Remove User">
+        <p>Are you sure you want to remove <span id="userRemoveName"></span>?</p>
+    </div>
+
+    <div id="deviceUpdateDlg" title="Update Vehicle Information">
+        <p class="validateTips"></p>
+        <fieldset>
+            <table style="width:100%;">
+                <tr style="display:none;">
+                    <td class="cellpading" style="display:none">Device ID:</td>
+                    <td class="cellpading" style="display:none"><span id="deviceUpdateDeviceId"></span></td>
+                </tr>
+
+                <tr>
+                    <td class="cellpading">Icon:</td>
+                    <td class="cellpading"><select id="deviceUpdateIcons" name="deviceUpdateIcons" style="width:200px;" class="mydds"><option value="0" title="">[No icons loaded]</option></select></td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Device Name:</td>
+                    <td class="cellpading"><input id="deviceUpdateName" style="width:200px;" /></td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Short Name:</td>
+                    <td class="cellpading"><input id="deviceUpdateShortName" style="width:50px;" maxlength="6" />(Max.6 chars.)</td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Driver:</td>
+                    <td class="cellpading"><select id="deviceUpdateDrivers"><option value="0">[No Drivers]</option></select></td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Idle Threshold:</td>
+                    <td class="cellpading"><input id="deviceUpdateIdle" style="width:50px;text-align:center;" /></td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Speed Threshold:</td>
+                    <td class="cellpading"><input id="deviceUpdateSpeed" style="width:50px;text-align:center;" /></td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Label Line 2:</td>
+                    <td class="cellpading"><input id="deviceUpdateLine2" style="width:50px;" maxlength="6" />(Max.6 chars.)</td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+
+    <div id="userChangePWDlg" title="Change Credentials">
+        <p class="validateTips"></p>
+        <fieldset>
+            <table style="width:100%;">
+                <tr>
+                    <td class="cellpading">Login:</td>
+                    <td class="cellpading"><input id="userChangeLogin" style="width:200px;" /></td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Password:</td>
+                    <td class="cellpading"><input id="userChangePW1" type="password" style="width:200px;" /></td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Re-Enter Password:</td>
+                    <td class="cellpading"><input id="userChangePW2" type="password" style="width:200px;" /></td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+
+    <div id="newUserDlg" title="Add / Update a User">
+        <p class="validateTips"></p>
+        <fieldset>
+            <table style="width:100%;">
+                <tr>
+                    <td class="cellpading">First Name:</td>
+                    <td class="cellpading"><input id="newUserFirstName" style="width:200px;" /></td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Last Name:</td>
+                    <td class="cellpading"><input id="newUserLastName" style="width:200px;" /></td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Email:</td>
+                    <td class="cellpading"><input id="newUserEmail" style="width:200px;" /></td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Phone:</td>
+                    <td class="cellpading"><input id="newUserPhone" style="width:200px;" /></td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Cell Phone:</td>
+                    <td class="cellpading"><input id="newUserCellPhone" style="width:100px;" /><span style="font-size:10px;color:#a1a1a1;">(ex. 5552223333)</span></td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Cell Carrier:</td>
+                    <td class="cellpading"><select id="newUserCarrier"><option value="0">[Pick one]</option></select></td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Login:</td>
+                    <td class="cellpading"><input id="newUserLogin" style="width:200px;" /></td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Password:</td>
+                    <td class="cellpading"><input id="newUserPassword" type="password" style="width:200px;" /></td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Time Zone:</td>
+                    <td class="cellpading">
+                        <select id="newUserTimeZone" style="width:200px;">
+                            <option value="AZ">Arizona Time</option>
+                            <option value="CST">Central Time</option>
+                            <option value="EST">Eastern Time</option>
+                            <option value="MST">Mountain Time</option>
+                            <option value="PST">Pacific Time</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Is Driver?</td>
+                    <td class="cellpading"><input id="newUserIsDriver" type="checkbox" /></td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Access Level:</td>
+                    <td class="cellpading"><select id="newUserAccessLevel"><option value="0">[Pick one]</option></select></td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+
+    <div id="newGeofenceDlg" title="Add a Geofence">
+        <fieldset>
+            <table style="width:100%;">
+                <tr>
+                    <td class="cellpading" style="width:150px;">Geofence Type</td>
+                    <td class="cellpading"><select id="cbxGeofencesTypes"><option value="0">[Select Type]</option></select></td>
+                </tr>
+                <tr>
+                    <td class="cellpading" style="width:150px;">Geofence Name</td>
+                    <td class="cellpading"><input id="newGeofenceName" style="width:200px;" /></td>
+                </tr>
+                <tr>
+                    <td class="cellpading" style="width:150px;">Geofence Address</td>
+                    <td class="cellpading"><input id="newGeofenceAddress" style="width:350px;" /></td>
+                </tr>
+                <tr>
+                    <td class="cellpading" style="width:150px;">Send Notification:</td>
+                    <td class="cellpading"><select id="cbxGeofencesAlertsTypes"><option value="0">Never</option></select><span style="font-size:10px;">(Event that will trigger an email notification)</span></td>
+                </tr>
+                <tr>
+                    <td class="cellpading" style="width:150px;">Radius (Feet):</td>
+                    <td class="cellpading"><input id="newGeofenceRadius" style="width:50px;" /></td>
+                </tr>
+                <tr>
+                    <td class="cellpading" style="width:150px;">Notes:</td>
+                    <td class="cellpading"><textarea cols="100" rows="3" id="newGeofenceComments"></textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align:center;" class="cellpading"><button id="btnSearchAddress" onclick="searchNewGeofenceAddress()">Search</button></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="cellpading">
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:50%;border:1px solid #a1a1a1;"><div id="newGeofenceMap1" style="height:250px;"></div></td>
+                                <td style="width:50%;border:1px solid #a1a1a1;vertical-align:top;">
+                                    <div id="newGeofenceResults"></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+
+    <div id="newAlertDlg" title="Create/Update Alert">
+        <h2 id="alertTitle"></h2>
+        <fieldset>
+            <div id="alerts1Div">
+                <table style="width:100%;">
+                    <tr>
+                        <td class="cellpading">Alert Name:</td>
+                        <td><input id="newAlertName" style="width:200px;" /></td>
+                    </tr>
+                    <tr id="newAlertValueTR">
+                        <td class="cellpading"><span id="newAlertValueLabel"></span></td>
+                        <td><input id="newAlertValue" style="width:100px;" /></td>
+                    </tr>
+                    <tr id="newAlertScheduleDaysTR">
+                        <td class="cellpading">Select the days:</td>
+                        <td class="cellpading">
+                            <input id="newAlertSchedMon" type="checkbox" />Mon
+                            <input id="newAlertSchedTue" type="checkbox" />Tue
+                            <input id="newAlertSchedWed" type="checkbox" />Wed
+                            <input id="newAlertSchedThu" type="checkbox" />Thu
+                            <input id="newAlertSchedFri" type="checkbox" />Fri
+                            <input id="newAlertSchedSat" type="checkbox" />Sat
+                            <input id="newAlertSchedSun" type="checkbox" />Sun
+                            <!--<table style="width:100%;">
+                                <tr>
+                                    <td><input id="newAlertSchedWeekdays" type="checkbox" />Weekdays</td>
+                                    <td><input id="newAlertSchedWeekends" type="checkbox" />Weekends</td>
+                                </tr>
+                            </table>-->
+                        </td>
+                    </tr>
+                    <tr id="newAlertScheduleHoursTR">
+                        <td class="cellpading">Select the hours range:</td>
+                        <td class="cellpading">
+                            <table style="width:100%;">
+                                <tr>
+                                    <td>From: 
+                                        <select id="newAlertsHourFrom" style="font-size:11px; width:70px;">
+                                            <option style="font-size:11px;">12:00 AM</option>
+                                        </select>
+                                    </td>
+                                    <td>To:
+                                        <select id="newAlertsHourTo" style="font-size:11px; width:70px;">
+                                            <option style="font-size:11px;">12:00 AM</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr id="newAlertGeofenceMsgTR">
+                        <td colspan="2">
+                            <p>All geofences are evaluated on entry and exit.  Please select from the list below the people you want the system to notify of these events on every geofence.</p>
+                        </td>
+                    </tr>
+                </table>
+                <br />
+                <table style="width:100%;">
+                    <tr>
+                        <td style="width:50%;">
+                            <div style="text-align:center;">
+                                <h3>Select the devices</h3>
+                                <div class="newAlertSelectors">
+                                    <ul>
+                                        <li><a href="#" style="padding-right:5px;" onclick="newAlertSelectAll('newAlertDevicesList', true)">Select All</a></li>
+                                        <li><a href="#" onclick="newAlertSelectAll('newAlertDevicesList', false)">Unselect All</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div style="width:100%; height:200px;overflow:auto;border:1px solid #a0a0a0;">
+                                <ul id="newAlertDevicesList" class="newAlertListClass">
+                                    <li>&nbsp;</li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td style="width:50%;">
+                            <div style="text-align:center;">
+                                <h3>Select the users</h3>
+                                <div  class="newAlertSelectors">
+                                    <ul>
+                                        <li><a href="#" style="padding-right:5px;" onclick="newAlertSelectAll('newAlertUsersList', true)">Select All</a></li>
+                                        <li><a href="#" onclick="newAlertSelectAll('newAlertUsersList', false)">Unselect All</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div style="width:100%; height:200px;overflow:auto;border:1px solid #a0a0a0;">
+                                <ul id="newAlertUsersList" class="newAlertListClass">
+                                    <li>&nbsp;</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </fieldset>
+    </div>
+    <div id="alertRemoveDlg" title="Remove Alert">
+        <p>Are you sure you want to remove <span id="alertRemoveName"></span> alert?</p>
+    </div>
+
+    <div id="newRecRepDlg" title="Create/Update Recurrent Reports">
+        <input id="recRepId" type="hidden" />
+        <fieldset>
+            <table style="width:100%;">
+                <tr>
+                    <td class="cellpading">Report:</td>
+                    <td class="cellpading"><select id="cbxRecRepReports"><option value="0">[Pick one]</option></select></td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Frequency:</td>
+                    <td class="cellpading"><select id="cbxRecRepFrequencies"><option value="0">[Pick one]</option></select></td>
+                </tr>
+                <tr>
+                    <td class="cellpading">Exclude Weekends:</td>
+                    <td class="cellpading"><input id="chkRecRepWeekends" type="checkbox" /></td>
+                </tr>
+            </table>
+            <br />
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:50%;">
+                        <div style="text-align:center;">
+                            <h3>Select the devices</h3>
+                            <div class="newAlertSelectors">
+                                <ul>
+                                    <li><a href="#" style="padding-right:5px;" onclick="newAlertSelectAll('newRecRepDevicesList', true)">Select All</a></li>
+                                    <li><a href="#" onclick="newAlertSelectAll('newRecRepDevicesList', false)">Unselect All</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div style="width:100%; height:200px;overflow:auto;border:1px solid #a0a0a0;">
+                            <ul id="newRecRepDevicesList" class="newAlertListClass">
+                                <li>&nbsp;</li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td style="width:50%;">
+                        <div style="text-align:center;">
+                            <h3>Select the users</h3>
+                            <div  class="newAlertSelectors">
+                                <ul>
+                                    <li><a href="#" style="padding-right:5px;" onclick="newAlertSelectAll('newRecRepUsersList', true)">Select All</a></li>
+                                    <li><a href="#" onclick="newAlertSelectAll('newRecRepUsersList', false)">Unselect All</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div style="width:100%; height:200px;overflow:auto;border:1px solid #a0a0a0;">
+                            <ul id="newRecRepUsersList" class="newAlertListClass">
+                                <li>&nbsp;</li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+    <div id="recRepRemoveDlg" title="Remove Recurrent Report">
+        <p>Are you sure you want to remove <span id="recRepRemoveName"></span> recurrent report?</p>
+    </div>
+
+</body>
+</html>

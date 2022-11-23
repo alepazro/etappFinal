@@ -1,0 +1,543 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>eTrack API Test Page</title>
+
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="Scripts/eTrackAPITest.js"></script>
+    <script src="Scripts/apiTestDevices.js"></script>
+    <script src="Scripts/apiTestGeofences.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#tabs").tabs();
+
+            $('#geofenceSpeedLimitAlert').click(function () {
+                if ($(this).is(':checked')) {
+                    $('#geofenceSpeedLimit').show();
+                } else {
+                    $('#geofenceSpeedLimit').hide();
+                }
+            });
+
+            $('#geoAdd').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#geoUpdateId').hide();
+                    $('#btnGeofenceAdd').show();
+                    $('#btnGeofenceUpdate').hide();
+                }
+            });
+
+            $('#geoUpdate').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#geoUpdateId').show();
+                    $('#btnGeofenceAdd').hide();
+                    $('#btnGeofenceUpdate').show();
+                }
+            });
+
+            $('#chkIsEnabled').click(function () {
+                if ($(this).is(':checked')) {
+                    $('#txtSpeedLimit').show();
+                } else {
+                    $('#txtSpeedLimit').hide();
+                }
+            });
+
+        });
+
+        function saveDeviceEvent() {
+            try {
+
+                var postData = $('#txtJson').val();
+
+                //var postData = {
+                //    "EventDate": "2019-12-19T06:01:16",
+                //    "Heading": "N",
+                //    "decHeading": 0,
+                //    "relay3": false,
+                //    "relay4": false,
+                //    "Latitude": -80.298496,
+                //    "relay1": false,
+                //    "relay2": false,
+                //    "IOStatus": 0,
+                //    "SW1": false,
+                //    "Relays": 0,
+                //    "EventCode": "1",
+                //    "SW3": false,
+                //    "SW2": false,
+                //    "SW4": false,
+                //    "temperature3": 0,
+                //    "temperature2": 0,
+                //    "parserId": 0,
+                //    "temperature1": 0,
+                //    "serverIP": "173.246.47.184",
+                //    "hasTemperature": false,
+                //    "Speed": 0,
+                //    "workerId": 0,
+                //    "rssi": 0,
+                //    "GPSAge": 2,
+                //    "Consecutive": 0,
+                //    "originalEvent": "1",
+                //    "Odometer": 0,
+                //    "deviceFamily": "TEST",
+                //    "temperature4": 0,
+                //    "ExtraData": "",
+                //    "IgnitionStatus": 0,
+                //    "GPSStatus": 0,
+                //    "Longitude": 1.8552772,
+                //    "isBrief": false,
+                //    "SerialNumber": "4674006191",
+                //    "port": 10842,
+                //    "iButtonID": "12345"
+                //};
+
+                //postData = JSON.stringify(postData);
+
+                var url = 'ws.svc/api/v1/device/event/save';
+
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: postData,
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    processdata: true,
+                    success: function (data, textStatus, jqXHR) {
+                        var a = 1;
+                        data = JSON.stringify(data);
+                        var b = 2;
+                        alert("SUCCESS");
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        var a = 1;
+                        $('#txtResult').val(jqXHR.responseText);
+                    },
+                    async: true
+                });
+
+            } catch (err) {
+
+            }
+        }
+
+    </script>
+
+</head>
+<body>
+    <h1 style="text-align:center;">eTrack API Test Page</h1>
+    <div id="tabs">
+        <ul>
+            <li><a href="#tabs-0">TEST JSON</a></li>
+            <li><a href="#tabs-1">Introduction</a></li>
+            <li><a href="#tabs-2">Devices</a></li>
+            <li><a href="#tabs-3">Geofences</a></li>
+            <li><a href="#tabs-4">Samples</a></li>
+            <li><a href="#tabs-5">Embedded Map Add-On</a></li>
+        </ul>
+
+        <div id="tabs-0">
+            <h3>Test JSON</h3>
+           
+            <div class="k-grid">
+                <div class="k-group-cell">
+                    <div class="well">
+                        <p>Enter Json here:</p>
+                        <textarea id="txtJson" rows="20" cols="100" style="width:50%;"></textarea>
+                        <button onclick="saveDeviceEvent()">saveDeviceEvent</button>
+                    </div>
+                </div>
+                <div class="k-group-cell">
+                    <div class="well">
+                        <p>Response:</p>
+                        <textarea id="txtResult" rows="20" cols="100" style="width:50%;"></textarea>
+                    </div>
+                </div>
+                
+               
+            </div>
+            <br />
+           
+        </div>
+
+        <div id="tabs-1">
+            <h3>Basic information</h3>
+            <ul>
+                <li>eTrack API is a set of RESTful services.</li>
+                <li>Methods of the eTrack API use JSON on the requests and the responses.</li>
+                <li>You will need an API Key to use the eTrack API.</li>
+                <li>eTrack API can be used from any system that supports RESTful services (most modern development tools do).  You can do HTTP Requests via AJAX or via network libraries from your system to connect to eTrack API and get/set information related to your GPS Tracking account.</li>
+            </ul>
+            <br />
+
+            <h3>Enter your API key (users.apiToken)</h3>
+            <p>API Key has to be requested to your Account Manager.</p>
+            <p>To start testing the API, please enter your API Key below.</p>
+            <input id="txtAPIKey" value=""/>
+            <button id="btnApplyApiKey" onclick="applyApiKey()">Apply API Key</button>
+        
+        </div>
+
+        <div id="tabs-2">
+            <h3>Devices Services</h3>
+            <p>With the Devices Services you can get the most used information about your devices.</p>
+            <br />
+
+            <h4>Get all your devices</h4>
+            <p>This service will return a json with information about all your devices.</p>
+            <div class="well">
+                <button onclick="getAllDevices()">Get all devices in your account</button>
+            </div>
+            <br />
+
+            <h4>Get one device</h4>
+            <p>This service will return a json with information about one device.  Provide the device ID and press the button.  You can get the device ID by running the method "getDevices()".</p>
+            <label for="txtDeviceId">Device ID</label>
+            <input type="text" id="txtDeviceId" name="txtDeviceId" value="" />
+            <div class="well">
+                <button onclick="getOneDevice()">Get one device</button>
+            </div>
+            <br />
+
+            <h4>Get device history</h4>
+            <p>This service will return a json with all the events of a given device in a time frame.</p>
+            <label for="txtHdeviceId">Device ID</label>
+            <input type="text" id="txtHdeviceId" name="txtHdeviceId" value="" />
+            <label for="txtHfrom">Date From:</label>
+            <input type="text" id="txtHfrom" name="txtHfrom" value="" />
+            <label for="txtHto">Date To:</label>
+            <input type="text" id="txtHto" name="txtHto" value="" />
+            <div class="well">
+                <button onclick="getDeviceHistory()">Get device history</button>
+            </div>
+           
+
+        </div>
+
+        <div id="tabs-3">
+            <h3>Geofences Services</h3>
+            <p>With the Geofences Services you can get the most used information about your geofences.  You can also create and update geofences, and set parameters regarding your geofences.</p>
+            <br />
+
+            <h4>Get all geofences</h4>
+            <p>This service will return a json with information about all your geofences.</p>
+            <div class="well">
+                <button onclick="getAllGeofences()">Get all geofences in your account</button>
+            </div>
+            <br />
+
+            <h4>Get one geofence</h4>
+            <p>This service will return a json with information about one geofence.  Provide the geofence ID and press the button.  You can get the geofence ID by running the method "getGeofences()".</p>
+            <label for="txtGeofenceId">Geofence ID</label>
+            <input type="text" id="txtGeofenceId" name="txtGeofenceId" value="" />
+            <div class="well">
+                <button onclick="getOneGeofence()">Get one geofence</button>
+            </div>
+            <br />
+
+            <h4>Add/Update geofence</h4>
+            <p>This service will add or udpate a geofence.  Pass a json with all the information about the geofence.  If successful, the API will return a json with the ID of the newly created/updated geofence.</p>
+
+            <fieldset>
+                    <legend>Geofence Information</legend>
+                <div class="form-horizontal">
+                    <div class="control-group">
+                        <label class="control-label" for="geoAdd">What will you do?</label>
+                        <div class="controls">
+                            Add: <input type="radio" id="geoAdd" name="geoAddUpdate" checked="checked"/>
+                            Update: <input type="radio" id="geoUpdate" name="geoAddUpdate" />
+                        </div>
+                    </div>
+                    <div id="geoUpdateId" class="control-group" style="display:none;">
+                        <label class="control-label" for="geofenceUpdateId">Geofence ID</label>
+                        <div class="controls">
+                            <input type="text" id="geofenceUpdateId" placeholder="Geofence ID" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="geofenceName">Geofence Name</label>
+                        <div class="controls">
+                            <input type="text" id="geofenceName" placeholder="Geofence Name">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="geofenceStreet">Address</label>
+                        <div class="controls">
+                            <input type="text" id="geofenceStreet" placeholder="Street">
+                            <input type="text" id="geofenceCity" placeholder="City">
+                            <input type="text" id="geofenceState" placeholder="State">
+                            <input type="text" id="geofencePostalCode" placeholder="Postal Code">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="geofenceLat">Lat/Lon (Optional)</label>
+                        <div class="controls">
+                            <input type="text" id="geofenceLat" placeholder="Latitude" value="0">
+                            <input type="text" id="geofenceLng" placeholder="Longitude" value="0">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="geofenceRadius">Radius (Feet)</label>
+                        <div class="controls">
+                            <input type="text" id="geofenceRadius" placeholder="Radius (Feet)" value="300">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="geofenceAlertTypeId">Alert Type</label>
+                        <div class="controls">
+                            <select id="geofenceAlertTypeId">
+                                <option value="0">None</option>
+                                <option value="1">On entry</option>
+                                <option value="2">On Exit</option>
+                                <option value="3">On entry and exit</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="geofenceSpeedLimitAlert">Speed Limit Inside Geofence</label>
+                        <div class="controls">
+                            <input type="checkbox" id="geofenceSpeedLimitAlert" />
+                            <input type="text" id="geofenceSpeedLimit" placeholder="MPH"  style="display:none;">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="geofenceTypeId">Geofence Type</label>
+                        <div class="controls">
+                            <input type="text" id="geofenceTypeId" placeholder="Geofence Type">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="well">
+                <button id="btnGeofenceAdd" onclick="addGeofence()">Add Geofence</button>
+                <button id="btnGeofenceUpdate" onclick="updateGeofence()" style="display:none;">Update Geofence</button>
+            </div>
+            <br />
+
+            <h4>Delete geofence</h4>
+            <p>This service will delete a geofence.  Pass the ID of the geofence to be deleted.  If successful, the API will return a json with a result of TRUE</p>
+            <label for="txtGeofenceDeleteId">Geofence ID</label>
+            <input type="text" id="txtGeofenceDeleteId" name="txtGeofenceDeleteId" value="" />
+            <div class="well">
+                <button onclick="deleteGeofence()">Delete geofence</button>
+            </div>
+            <br />
+
+            <h4>Get Geofence Alert Type</h4>
+            <p>This service will get the type of alert on a given geofence.</p>
+            <div>
+                <div class="control-group">
+                    <label class="control-label" for="getAlertTypeGeofenceId">Geofence ID</label>
+                    <div class="controls">
+                         <input type="text" id="getAlertTypeGeofenceId" name="getAlertTypeGeofenceId" placeholder="Geofence ID" />
+                    </div>
+                </div>
+            </div>
+            <div class="well">
+                <button onclick="getGeofenceAlertType()">Get now</button>
+            </div>
+            <br />
+
+            <h4>Set Geofence Alert Type</h4>
+            <p>This service will set the type of alert on a given geofence.</p>
+            <div>
+                <div class="control-group">
+                    <label class="control-label" for="alertTypeGeofenceId">Geofence ID</label>
+                    <div class="controls">
+                         <input type="text" id="alertTypeGeofenceId" name="alertTypeGeofenceId" placeholder="Geofence ID" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="cbxAlertTypes">Alert Type</label>
+                    <div class="controls">
+                        <select id="cbxAlertTypes">
+                            <option value="0">None</option>
+                            <option value="1">On entry</option>
+                            <option value="2">On Exit</option>
+                            <option value="3">On entry and exit</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="well">
+                <button onclick="setGeofenceAlertType()">Set now</button>
+            </div>
+            <br />
+
+            <h4>Get Geofence Speeding Alert Status</h4>
+            <p>This service will get the speeding alert status on a given geofence.</p>
+            <div>
+                <div class="control-group">
+                    <label class="control-label" for="getSpeedAlertStatusGeofenceId">Geofence ID</label>
+                    <div class="controls">
+                         <input type="text" id="getSpeedAlertStatusGeofenceId" name="getSpeedAlertStatusGeofenceId" placeholder="Geofence ID" />
+                    </div>
+                </div>
+            </div>
+            <div class="well">
+                <button onclick="getGeofenceSpeedLimitStatus()">Get now</button>
+            </div>
+            <br />
+
+            <h4>Set geofence speed limit</h4>
+            <p>This service will set the speeding alert on a given geofence.</p>
+            <div class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label" for="setSpeedLimitGeofenceId">Geofence ID</label>
+                    <div class="controls">
+                         <input type="text" id="setSpeedLimitGeofenceId" name="setSpeedLimitGeofenceId" placeholder="Geofence ID" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="chkIsEnabled">Speed Limit Inside Geofence</label>
+                    <div class="controls">
+                        <input type="checkbox" id="chkIsEnabled" />
+                        <input type="text" id="txtSpeedLimit" placeholder="MPH"  style="display:none;">
+                    </div>
+                </div>
+            </div>
+            <div class="well">
+                <button onclick="setGeofenceSpeedLimitStatus()">Set now</button>
+            </div>
+
+
+            <!--<a href="etrest.svc/getGeofenceCrossings/{apiToken}/{geofenceId}?dateFrom=2013-04-01 10:00:00&dateTo=2013-04-03 18:00:00">Get geofence crossing</a>-->
+
+            <h4>Get Geofence Types</h4>
+            <p>This service will return a json with all the geofence types defined within your account.</p>
+            <div class="well">
+                <button onclick="getGeofenceTypes()">Get now</button>
+            </div>
+
+            <h4>Add Geofence Type</h4>
+            <p>This service will allow you to add a geofence type to your account.  If successful, it will return a json with the new geofence type id.</p>
+            <label for="txtGeofenceTypeName">Geofence Type Name:</label>
+            <input type="text" id="txtGeofenceTypeName" name="txtGeofenceTypeName" value="" />
+            <div class="well">
+                <button onclick="addGeofenceType()">Add now</button>
+            </div>
+
+            <h4>Update Geofence Type</h4>
+            <p>This service will allow you to update the name of a geofence type.</p>
+            <label for="txtGeofenceTypeID">Geofence Type ID:</label>
+            <input type="text" id="txtGeofenceTypeId" name="txtGeofenceTypeId" value="" />
+            <label for="txtGeofenceTypeName2">Geofence Type Name:</label>
+            <input type="text" id="txtGeofenceTypeName2" name="txtGeofenceTypeName2" value="" />
+            <div class="well">
+                <button onclick="updateGeofenceType()">Update now</button>
+            </div>
+
+            <h4>Delete Geofence Type</h4>
+            <p>This service will allow you to delete a geofence type.  It will only accept geofence types created by your account.  It will not delete any default geofence type.</p>
+            <label for="txtDeleteGeofenceTypeID">Geofence Type ID:</label>
+            <input type="text" id="txtDeleteGeofenceTypeID" name="txtDeleteGeofenceTypeID" value="" />
+            <div class="well">
+                <button onclick="deleteGeofenceType()">Delete now</button>
+            </div>
+
+            <h4>Valid point inside Geofence</h4>
+            <p>This service will validate whether a point (latitude/longitude) is inside a geofence.  For circular geofences, the validation will take the Geofence's radius as defined in the system.  If the point is inside the geofence, the geofence name and ID will be returned.</p>
+            <label for="txtInsideLat">Latitude:</label>
+            <input type="text" id="txtInsideLat" name="txtInsideLat" value="0" />
+            <label for="txtInsideLng">Longitude:</label>
+            <input type="text" id="txtInsideLng" name="txtInsideLng" value="0" />
+            <div class="well">
+                <button onclick="validatePointInsideGeofence()">Validate Now</button>
+            </div>
+
+        </div>
+
+        <div id="tabs-4">
+            <h3>How to call REST web services from .Net</h3>
+            <p>You should use HttpWebRequest to GET from the web service, which returns a JSON string. It looks something like this for a GET:</p>
+
+            <pre>
+// Returns JSON stringstring GET(url) 
+{
+    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+    try {
+        WebResponse response = request.GetResponse();
+        using (Stream responseStream = response.GetResponseStream()) {
+            StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+            return reader.ReadToEnd();
+        }
+    }
+    catch (WebException ex) {
+        WebResponse errorResponse = ex.Response;
+        using (Stream responseStream = errorResponse.GetResponseStream())
+        {
+            StreamReader reader = new StreamReader(responseStream, GetEncoding("utf-8"));
+            String errorText = reader.ReadToEnd();
+            // log errorText
+        }
+        throw;}
+            </pre>
+
+            <p>Then use JSON.Net to dynamically parse the string. Alternatively, you can generate the C# class statically from sample JSON output using this codeplex tool: <a href="https://jsonclassgenerator.codeplex.com">https://jsonclassgenerator.codeplex.com</a> </p>
+            <p>POST looks like this:</p>
+
+            <pre>
+// POST a JSON stringvoid POST(string url, string jsonContent) 
+{
+    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+    request.Method = "POST";
+    request.ContentLength = jsonContent.Length;
+    request.ContentType = @"application/json";
+    System.Text.UTF8Encoding encoding = new System.Text.UTF8Encoding();
+    Byte[] byteArray = encoding.GetBytes(jsonContent);
+
+    using (Stream dataStream = request.GetRequestStream()) {
+        dataStream.Write(byteArray, 0, byteArray.Length);
+    }
+    long length = 0;
+    try {
+        using (HttpWebResponse response = (HttpWebResponse)request.GetResponse()) {
+            length = response.ContentLength;
+        }
+    }
+    catch (WebException ex) {
+        // Log exception and throw as for GET example above
+    }}
+            </pre>
+        </div>
+
+        <div id="tabs-5">
+            <h3>eTrack Embedded Map</h3>
+            <p>You can have a map embedded in your web site showing your devices in real time.</p>
+            <p>To have the map of eTrack showing the most current location of your vehicles, just place the following DIV wherever you want the map to appear in the web site:</p>
+            <pre>
+&lt;div id="easitrack" data-easiTrackAPI="YOUR_ETRACK_API_KEY_HERE" data-googleAPI="YOUR_GOOGLE_API_KEY_HERE" style="width:YOUR_WIDTHpx;height:YOUR_HEIGHTpx;"&gt;&lt;/div&gt;
+            </pre>
+            <p>The following values are needed:</p>
+            <ul>
+                <li>YOUR_ETRACK_API_KEY_HERE: You will need to request your API to your account manager.</li>
+                <li>YOUR_GOOGLE_API_KEY_HERE: Please get a Google API (see below)</li>
+                <li>YOUR_WIDTH: Set the width of the div as you need it</li>
+                <li>YOUR_HEIGHT: Set the height of the div as you need it</li>
+            </ul>
+            <p>Then, at the end of the page, right before the <code>&lt;/body&gt;</code> tag, please include this line:</p>
+            <pre>
+&lt;script type="text/javascript" src="https://etrack.ws/easiTrackAddOn.js"&gt;&lt;/script&gt;
+            </pre>
+            <h4>Google API Key</h4>
+            <p>You'll need a Google Account for the eTrack Embedded Map Add-On to work.</p>
+            <p>To create your API key with Google:</p>
+            <ul>
+                <li>Visit the APIs Console at <a href="https://code.google.com/apis/console">https://code.google.com/apis/console</a> and log in with your Google Account.</li>
+                <li>Click the <strong>Services</strong> link from the left-hand menu.</li>
+                <li>Activate the <strong>Google Maps API v3</strong> service</li>
+                <li>Click the <strong>API Access</strong> link from the left-hand menu. Your API key is available from the <strong>API Access</strong> page, in the <strong>Simple API Access</strong> section. Maps API applications use theKey for browser apps.</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

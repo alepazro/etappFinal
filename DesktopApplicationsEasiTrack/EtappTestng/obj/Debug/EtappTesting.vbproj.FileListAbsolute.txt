@@ -1,0 +1,12 @@
+C:\Users\dapr1\source\repos\DesktopApplicationsEasiTrack\EtappTestng\bin\Debug\EtappTestng.exe.config
+C:\Users\dapr1\source\repos\DesktopApplicationsEasiTrack\EtappTestng\bin\Debug\EtappTestng.exe
+C:\Users\dapr1\source\repos\DesktopApplicationsEasiTrack\EtappTestng\bin\Debug\EtappTestng.pdb
+C:\Users\dapr1\source\repos\DesktopApplicationsEasiTrack\EtappTestng\bin\Debug\EtappTestng.xml
+C:\Users\dapr1\source\repos\DesktopApplicationsEasiTrack\EtappTestng\obj\Debug\EtappTesting.vbproj.AssemblyReference.cache
+C:\Users\dapr1\source\repos\DesktopApplicationsEasiTrack\EtappTestng\obj\Debug\EtappTesting.vbproj.SuggestedBindingRedirects.cache
+C:\Users\dapr1\source\repos\DesktopApplicationsEasiTrack\EtappTestng\obj\Debug\EtappTestng.Resources.resources
+C:\Users\dapr1\source\repos\DesktopApplicationsEasiTrack\EtappTestng\obj\Debug\EtappTesting.vbproj.GenerateResource.cache
+C:\Users\dapr1\source\repos\DesktopApplicationsEasiTrack\EtappTestng\obj\Debug\EtappTesting.vbproj.CoreCompileInputs.cache
+C:\Users\dapr1\source\repos\DesktopApplicationsEasiTrack\EtappTestng\obj\Debug\EtappTestng.exe
+C:\Users\dapr1\source\repos\DesktopApplicationsEasiTrack\EtappTestng\obj\Debug\EtappTestng.xml
+C:\Users\dapr1\source\repos\DesktopApplicationsEasiTrack\EtappTestng\obj\Debug\EtappTestng.pdb

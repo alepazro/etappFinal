@@ -1,0 +1,441 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html ng-app="etApp">
+    <head>
+        <title>Tracking Module</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <!--    CSS includes -->
+        <link href="themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+        <link href="themes/flick/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+        <link href="Styles/common.css" rel="stylesheet" type="text/css" />
+        <link href="Styles/app.css" rel="stylesheet" type="text/css" />
+        <link href="Styles/logo.css" rel="stylesheet" type="text/css" />
+        <link href="Styles/toggleSwitches.css" rel="stylesheet" type="text/css" />
+        <!--<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />-->
+        <link href="vendors/kendo-2013.3.1119/styles/kendo.common.min.css" rel="stylesheet" />
+        <link href="vendors/kendo-2013.3.1119/styles/kendo.default.min.css" rel="stylesheet" />
+
+        <script type="text/javascript"> 
+            if (window.location.href.indexOf('matchpointgps') != -1) {
+                document.write('<link rel="stylesheet" type="text/css" href="Styles/matchpointgps.css" />')
+            } 
+        </script>
+
+    </head>
+    <body>
+        <div id="header" >
+            <div id="topMenu">
+                <div id="feedback" style="float:right;height:15px;margin:7px 3px;padding:5px;background-color:#ffffff; vertical-align:middle;cursor:pointer;">
+                    <div><span style="font-weight:600;">Feedback</span></div>
+                </div>
+                <div style="float:right;height:15px;margin:7px 3px;padding:5px;background-color:#ffffff; vertical-align:middle;">
+                    <!-- BEGIN ProvideSupport.com Text Chat Link Code -->
+                    <div id="ciWtVh" style="z-index:100;position:absolute"></div><div id="scWtVh" style="display:inline"></div><div id="sdWtVh" style="display:none"></div>
+                    <noscript><div style="display:inline"><a href="http://www.providesupport.com?messenger=0325vm2g5aj6809q0cspkf44yw">Customer Support Chat</a></div></noscript>
+                    <!-- END ProvideSupport.com Text Chat Link Code -->
+                </div>
+
+                <a href="#" onclick="logout()" class="loginDivClass">Logout</a>
+                <div class="logoPosition">
+                    <span id="dealerBrand" class="logoDesign"></span>
+                </div>
+                <div id="welcomeTitleDiv">
+                    <span id="welcomeTitleSpan"></span>
+                    <input type="hidden" id="userFullName" />
+                </div>
+                <div id="panelTypes">
+                    <span id="mod1"><input id="rbtTracking" name="panelType" checked="checked" type="radio" style="margin-top:10px;" /><span class="topMenuOption">Tracking</span></span>
+                    <span id="mod2"><input id="rbtMultiTracking" name="panelType" onclick="changePanel(2)" type="radio" style="margin-top:10px;" /><span class="topMenuOption">Multi-Tracking</span></span>
+                    <span id="mod3"><input id="rbtReports" name="panelType" onclick="changePanel(3)" type="radio" style="margin-top:10px;" /><span class="topMenuOption">Reports</span></span>
+                    <span id="mod5"><input id="rbtMaintenance" name="panelType" onclick="changePanel(5)" type="radio" style="margin-top:10px;" /><span class="topMenuOption">Maintenance</span></span>
+                    <span id="mod4"><input id="rbtSettings" name="panelType" onclick="changePanel(4)" type="radio" style="margin-top:10px;" /><span class="topMenuOption">Settings</span></span>
+                </div>
+            </div>
+        </div>
+        <div id="middleMenu">
+            <ul id="mainMenu" style="margin:0px;">
+                <li><a id="trackingFleetLocation" href="#" class="mainMenuOption" onclick="mainMenuClick('fleetLocationDiv')">Fleet Location</a></li>
+                <li><a href="#" class="mainMenuOption" onclick="mainMenuClick('dispatchingDiv')">Quick Dispatching</a></li>
+                <li><a href="#" class="mainMenuOption" onclick="mainMenuClick('breadcrumbDiv')">Breadcrumb Trail</a></li>
+                <li><a href="fleetStatusBoard.html" class="mainMenuOption"><span style="color:Yellow;">Fleet Status Board</span></a></li>
+                <li><a href="hotSpots.html" class="mainMenuOption"><span style="color:Yellow;">Hot Spots</span></a></li>
+            </ul>
+
+        </div>
+        <div id="wrapper">
+            <div id="ctrlPanel" style="display:none;">
+                <div id="ctrlPanelContainer">
+                    <div id="closeCtrlPanelDiv">
+                        <img src="images/RedCloseX.bmp" alt="Close Control Panel" onclick="closeCtrlPanel()" />
+                    </div>
+                    <div id="ctrlPanelContent">
+                        <div id="fleetLocationDiv" style="display:none;">
+                            <div style="width:100%; display:block;">
+                                <p class="panelTitle">Fleet Location</p>
+                                <!--<div>
+                                    <select>
+                                        <option>Groups</option>
+                                    </select>
+                                </div>-->
+                                <div id="lastKnownLocation">
+                                    <a href="#" onclick="getLastKnowLocation()">Get Last Known Location</a>
+                                </div>
+                                <div id="fleetSelectors">
+                                    <ul>
+                                        <li><a href="#" style="padding-right:5px;" onclick="addAllDevicesToMap()">Select All</a></li>
+                                        <li><a href="#" onclick="removeAllDevicesFromMap()">Unselect All</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <br style="clear:both;" />
+                            <div id="fleetListDiv">
+                                <ul id="fleetList" class="devicesListClass">
+                                    <li>&nbsp;</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="dispatchingDiv" style="display:none;">
+                            <div style="width:100%; display:block;">
+                                <p class="panelTitle">Dispatching</p>
+                            </div>
+                            <div style="width:100%; display:block; font-size:11px; margin-top:5px;">
+                                <fieldset style="margin-top:5px;">
+                                    <legend><input type="radio" id="dispatchToGeofence" name="dispatchToType" checked="checked" value="1" onclick="dispatchToTypeToggle(1);" />Select a geofence or <input type="radio" id="dispatchToAddress" name="dispatchToType" value="2" onclick="dispatchToTypeToggle(2);"/>Enter an address</legend>
+                                    <table style="padding:5px;">
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <select id="cboDispatchGeofences" onchange="cboDispatchGeofencesChange(this);" style="font-size:11px; width:175px;">
+                                                    <option style="font-size:11px;">[There are no geofences]</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Job/Cust.Name</td><td><input id="dispatchName" type="text" style="font-size:11px; width:175px;" value="" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Job/Cust.Phone</td><td><input id="dispatchJobPhone" type="text" style="font-size:11px; width:175px;" value="" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="dispatchToAddress">Street*</span></td><td><input id="dispatchStreet" type="text" style="font-size:11px; width:175px;" value="" class="dispatchToAddress" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="dispatchToAddress">City</span></td><td><input id="dispatchCity" type="text" style="font-size:11px; width:175px;" value="" class="dispatchToAddress" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="dispatchToAddress">State</span></td><td><input id="dispatchState" type="text" style="font-size:11px; width:175px;" value="" class="dispatchToAddress" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="dispatchToAddress">Postal Code*</span></td><td><input id="dispatchPostalCode" type="text" style="font-size:11px; width:175px;" value="" class="dispatchToAddress" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Job Description</td><td><textarea id="dispatchJobDescription" cols="20" rows="4"></textarea></td>
+                                        </tr>
+                                    </table>
+                                </fieldset>
+                                <div style="width:100%; text-align:right;">
+                                    <button style="font-size:12px; margin:5px;" onclick="findDispatchLocation()">Find location</button>
+                                    <a href="#" class="deviceAction" id="saveDispatchLocation" onclick="saveNewDispatchLocation()" style="display:none;">Save Location</a>
+                                    <a href="#" class="deviceAction" onclick="clearDispatchPanel()">Clear</a>
+                                </div>
+                                <div id="dispatchFleetListDiv" style="display:none;">
+                                    <div style="width:100%; display:block;">
+                                        <span class="panelSubTitle">Fleet by distance</span>
+                                        <a href="#" class="deviceAction" onclick="findClosestDevice()">(Refresh)</a>
+                                    </div>
+                                    <div id="dispatchListDiv">
+                                        <ul id="devicesByDistanceList" class="devicesListClass">
+                                            <li>[Empty list]</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="breadcrumbDiv" style="display:none;">
+                            <div style="width:100%; display:block;">
+                                <p class="panelTitle">Breadcrumb Trail</p>
+                            </div>
+                            <div style="width:100%; display:block; font-size:11px; margin-top:5px;">
+                                <fieldset style="margin-top:5px;">
+                                    <legend>Select a vehicle and a date</legend>
+                                    <table style="padding:5px;">
+                                        <tr>
+                                            <td>Vehicle</td>
+                                            <td>
+                                                <select id="cboBreadcrumbVehicles" style="font-size:11px; width:150px;">
+                                                    <option style="font-size:11px;">[There are no Vehicles]</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Date</td>
+                                            <td><input id="breadcrumbDatepicker" type="text" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hour From:</td>
+                                            <td>
+                                                <select id="cboHourFrom" style="font-size:11px; width:80px;" onclick="setQuickTrailCustom()">
+                                                    <option style="font-size:11px;">12:00 AM</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hour To:</td>
+                                            <td>
+                                                <select id="cboHourTo" style="font-size:11px; width:80px;" onclick="setQuickTrailCustom()">
+                                                    <option style="font-size:11px;">11:59 PM</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <input id="quickTrailCustom" name="quickTrailSpan" type="radio" value="0" onclick="quickTrailChange(0)" checked="checked"/> Custom
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <input id="quickTrailLast3" name="quickTrailSpan" type="radio" value="1" onclick="quickTrailChange(1)" /> Last 3 hours
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <input id="quickTrailLast6" name="quickTrailSpan" type="radio" value="2" onclick="quickTrailChange(2)" /> Last 6 hours
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <input id="quickTrailToday" name="quickTrailSpan" type="radio" value="3" onclick="quickTrailChange(3)" /> Today
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <input id="quickTrailYesterday" name="quickTrailSpan" type="radio" value="4" onclick="quickTrailChange(4)" /> Yesterday
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </fieldset>
+                                <div style="width:100%; text-align:right;">
+                                    <button style="font-size:12px; margin:5px;" onclick="createBreadcrumbTrail()">Show Trail</button>
+                                    <a href="#" class="deviceAction" onclick="clearBreadcrumbTrail()">Clear</a>
+                                </div>
+                                <div id="trailDetailDiv" style="display:none;">
+                                    <div style="width:100%; display:block;">
+                                        <span class="panelSubTitle">Trail Detail</span>
+                                    </div>
+                                    <div id="trailListDiv">
+                                        <ul id="trailDetailsList" class="devicesListClass">
+                                            <li>[No Trail]</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="geofencesDiv" style="display:none;">
+                            <div style="width:100%; display:block;">
+                                <p class="panelTitle">Geofences</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="map_area">
+                <div id="map_controls" style="height:25px;display:inline-block;">
+                    <table>
+                        <tr>
+                            <td style="font-weight:600;">Freeze Auto-Zoom </td>
+                            <td><input class="checkbox" type="checkbox" name="freezeAutoZoom" value="yes" id="freezeAutoZoom" data-function="toggleFreezeAutoZoom" /></td>
+                            <td><img id="help_freezeZoom" src="icons\icon_question_mark.jpg" alt="help" title="Freeze Auto-Zoom: Turn On to prevent the screen from zooming out everytime the update happens, which is every minute." /></td>
+                            <td style="font-weight:600;">Show Traffic Information </td>
+                            <td><input class="checkbox" type="checkbox" name="mapTraffic" value="yes" id="mapTraffic" data-function="toggleGoogleTraffic" /></td>
+                            <td><img id="help_showTraffic" src="icons\icon_question_mark.jpg" alt="help" title="Show Traffic Information: Turn On to display the current traffic conditions of the locations where your vehicles are located at." /></td>
+                            <td style="font-weight:600;padding-left:5px;">Show Geofences </td>
+                            <td><input class="checkbox" type="checkbox" name="geoLayers" value="yes" id="geoLayers" data-function="toggleGeofencesLayer" /></td>
+                            <td><img id="help_geoLayer" src="icons\icon_question_mark.jpg" alt="help" title="Show Geofences: Turn On to overlay all your geofences. Tip: Click geofence to display more information." /></td>
+                            <!--<td style="font-weight:600;padding-left:5px;">Show HotSpots </td>
+                            <td><input class="checkbox" type="checkbox" name="hotSpotsLayer" value="yes" id="hotSpotsLayer" data-function="toggleHotSpotsLayer" /></td>
+                            <td><img id="help_hotSpotsLayer" src="icons\icon_question_mark.jpg" alt="help" title="Show HotSpots: Turn On to overlay your drivers' hotspots.  HotSpots are places where your drivers go with a certain frequency, that are not created as geofences.  With HotSpots you can pin-point any place that is being visited by your drivers with or without your knowledge. HotSpots is based on a very complex analytical algorithm that extracts intelligent data from the behavior of your fleet, to give you an insight that otherwise would be nearly impossible to acquire." /></td>-->
+                        </tr>
+                    </table>
+                </div>
+                <div id="map_canvas"></div>
+            </div>
+        </div>
+
+        <div id="geofenceForm" title="Create new Geofence" style="display:none;">
+            <p class="validateTips"></p>
+            <table style="margin:5px;">
+                <tr>
+                    <td>Geofence Name*</td><td><input type="text" name="geoFormName" id="geoFormName" class="text ui-widget-content ui-corner-all" /></td>
+                </tr>
+                <tr>
+                    <td>Street*</td><td><input type="text" name="geoFormStreet" id="geoFormStreet" class="text ui-widget-content ui-corner-all" /></td>
+                </tr>
+                <tr>
+                    <td>City*</td><td><input type="text" name="geoFormCity" id="geoFormCity" class="text ui-widget-content ui-corner-all" /></td>
+                </tr>
+                <tr>
+                    <td>State*</td><td><input type="text" name="geoFormState" id="geoFormState" class="text ui-widget-content ui-corner-all" /></td>
+                </tr>
+                <tr>
+                    <td>Postal Code*</td><td><input type="text" name="geoFormPostalCode" id="geoFormPostalCode" class="text ui-widget-content ui-corner-all" /></td>
+                </tr>
+                <tr>
+                    <td>Latitude (optional)</td><td><input type="text" name="geoFormLatitude" id="geoFormLatitude" class="text ui-widget-content ui-corner-all" /></td>
+                </tr>
+                <tr>
+                    <td>Longitude (optional)</td><td><input type="text" name="geoFormLongitude" id="geoFormLongitude" class="text ui-widget-content ui-corner-all" /></td>
+                </tr>
+                <tr>
+                    <td>Radius (Feet):</td>
+                    <td><input type="text" name="geoFormRadius" id="geoFormRadius" class="text ui-widget-content ui-corner-all" style="width:50px;" /></td>
+                </tr>
+            </table>
+        </div>
+      
+        <div id="dlgTelemetry" title="Telemetry Control Panel" style="display:none;" ng-controller="telemetryCtrl">
+            <div class="k-content">
+                <h1>{{dev.name}}</h1>
+                <br />
+                <p>Telemetry allows you to control remotely (from the web) things in your vehicle, like Horn, Alarm, Locks, and Ignition.  You can turn them On or OFF remotely, or you can Disable / Enable ignition remotely.</p>
+                <br />
+                <hr />
+                <br />
+                <div class="k-content">
+                    <div class="k-block k-info-colored">
+                        <table class="k-grid" style="width:100%;">
+                            <thead class="k-grid-header">
+                                <tr>
+                                    <td class="k-grid-column-menu" style="width:50%;">Relay</td>
+                                    <td class="k-grid-column-menu" style="width:25%;text-align:center;">State</td>
+                                    <td class="k-grid-column-menu" style="width:25%;text-align:center;">Switch</td>
+                                </tr>
+                            </thead>
+                            <tbody class="k-grid-content">
+                                <tr>
+                                    <td>{{dev.name1}}</td>
+                                    <td><div class="k-block" ng-class="(dev.status1==true) ? 'k-success-colored' : 'k-error-colored'"><div style="text-align:center;font-weight:600;">{{statusText(1, dev.status1, false)}}</div></div></td>
+                                    <td><button class="k-button" ng-click="switchOutput(1, dev.status1)">Turn {{statusText(1, dev.status1, true)}}</button></td>
+                                </tr>
+                                <tr>
+                                    <td>{{dev.name2}}</td>
+                                    <td><div class="k-block" ng-class="(dev.status2==true) ? 'k-success-colored' : 'k-error-colored'"><div style="text-align:center;font-weight:600;">{{statusText(2, dev.status2, false)}}</div></div></td>
+                                    <td><button class="k-button" ng-click="switchOutput(2, dev.status2)">Turn {{statusText(2, dev.status2, true)}}</button></td>
+                                </tr>
+                                <tr>
+                                    <td>{{dev.name3}}</td>
+                                    <td><div class="k-block" ng-class="(dev.status3==true) ? 'k-success-colored' : 'k-error-colored'"><div style="text-align:center;font-weight:600;">{{statusText(3, dev.status3, false)}}</div></div></td>
+                                    <td><button class="k-button" ng-click="switchOutput(3, dev.status3)">Turn {{statusText(3, dev.status3, true)}}</button></td>
+                                </tr>
+                                <tr>
+                                    <td>{{dev.name4}}</td>
+                                    <td><div class="k-block" ng-class="(dev.status4==true) ? 'k-success-colored' : 'k-error-colored'"><div style="text-align:center;font-weight:600;">{{statusText(4, dev.status4, false)}}</div></div></td>
+                                    <td><button class="k-button" ng-click="switchOutput(4, dev.status4)">Turn {{statusText(4, dev.status4, true)}}</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="msgSystem" ng-controller="msgSystemCtrl"></div>
+
+        <div id="waitingSpinner" style="display:none;"><p><img src="images/loading.gif" alt="Loading Spinner" width="100" height="100" /></p></div>
+        <div id="streetViewDlg" style="display:none;">
+            <div id="streetViewContainer" style="width:400px;height:400px;"></div>
+        </div>
+
+<!--        <script id="_webengage_script_tag" type="text/javascript">
+            window.webengageWidgetInit = window.webengageWidgetInit || function () {
+                webengage.init({
+                    licenseCode: "~10a5cbb2c"
+                }).onReady(function () {
+                    webengage.render();
+                });
+            };
+
+            (function (d) {
+                var _we = d.createElement('script');
+                _we.type = 'text/javascript';
+                _we.async = true;
+                _we.src = (d.location.protocol == 'https:' ? "//ssl.widgets.webengage.com" : "//cdn.widgets.webengage.com") + "/js/widget/webengage-min-v-3.0.js";
+                var _sNode = d.getElementById('_webengage_script_tag');
+                _sNode.parentNode.insertBefore(_we, _sNode);
+            })(document);
+        </script>-->
+
+    </body>
+
+    <!--    Javascript includes -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="Scripts/jquery.json-2.3.min.js" type="text/javascript"></script>
+    <!--<script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>-->
+    <script src="Scripts/jquery.tools.min.js" type="text/javascript"></script>
+    <script src="Scripts/date.format.js" type="text/javascript"></script>
+    <script src="Scripts/db.js" type="text/javascript"></script>
+    <script src="Scripts/branding.js" type="text/javascript"></script>
+    <script src="Scripts/map.js" type="text/javascript"></script>
+    <script src="Scripts/utilities.js" type="text/javascript"></script>
+    <script src="Scripts/authorization.js" type="text/javascript"></script>
+    <script src="Scripts/tracking.js" type="text/javascript"></script>
+    <script src="Scripts/geofence.js" type="text/javascript"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAVQhnzCo2uxlnC0OOm1Zpi6c-MTRP4its&sensor=false"></script>
+    <script src="Scripts/markerwithlabel_packed.js" type="text/javascript"></script>
+    <script src="Scripts/toggleSwitches.js" type="text/javascript"></script>
+    <script src="Scripts/helpTracking.js" type="text/javascript"></script>
+    <script src="Scripts/streetView.js" type="text/javascript"></script>
+    <script src="Scripts/helpPopovers.js" type="text/javascript"></script>
+    <script src="Scripts/telemetry.js" type="text/javascript"></script>
+    <script src="vendors/angular.min.js" type="text/javascript"></script>
+    <script src="vendors/underscore-min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular-resource.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular-route.min.js" type="text/javascript"></script>
+    <script src="vendors/kendo-2013.3.1119/js/kendo.web.min.js" type="text/javascript"></script>
+    <script src="vendors/angular-kendo.min.js" type="text/javascript"></script>
+
+    <script src="appTelemetry/etApp.js" type="text/javascript"></script>
+    <script src="appTelemetry/services/services.js" type="text/javascript"></script>
+    <script src="appTelemetry/controllers/telemetryCtrl.js" type="text/javascript"></script>
+
+    <script src="appMsgSystem/controllers/msgSystemCtrl.js" type="text/javascript"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            getAppFeatures(1);
+            toggleSwitches();
+            getBrand();
+            $(document.getElementById('ctrlPanel')).attr('style', 'max-height:' + (h - 90) + 'px;');
+            $("#waitingSpinner").attr('style', 'display:none;width:100px;height:100px;right:' + (w / 2) + 'px;top:' + (h / 2) + 'px;position:fixed;z-index:999;');
+            $("#breadcrumbDatepicker").datepicker();
+            $('#breadcrumbDatepicker').val(getNow());
+            setGeofenceDlg();
+            setStreetViewDlg();
+            dispatchToTypeToggle(1);
+            $(document.getElementById('map_canvas')).attr('style', 'height:' + (h - 90 - 20) + 'px;');
+            if (validateToken(false, 'tracking.html') == true) {
+                setWelcomeTitle();
+                initialize("map_canvas");
+                loadDevices();
+                tooltipsSetUp();
+                setLiveChat();
+                setWebEngage();
+            }
+            activityIndicator();
+            mainMenuClick('fleetLocationDiv');
+
+//            addPopovers();
+        });
+    </script>
+    <script type="text/javascript">
+        //setInterval("getLastKnowLocation()", 1 * 30 * 1000);
+    </script>
+
+</html>

@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html ng-app="etApp">
+<head>
+    <title>Field Service</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="vendors/jquery-ui-1.10.3.custom/css/redmond/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />
+    <link href="appFieldService/css/jobs.css" rel="stylesheet" />
+    <link href="vendors/bootstrap-3.0.3/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="vendors/kendo-2013.3.1119/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="vendors/kendo-2013.3.1119/styles/kendo.default.min.css" rel="stylesheet" />
+
+    <script src="vendors/jquery-1.10.2.min.js"></script>
+    <script src="vendors/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="vendors/underscore-min.js"></script>
+    <script src="vendors/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular-resource.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular-route.min.js"></script>
+    <script src="vendors/bootstrap-3.0.3/js/bootstrap.min.js"></script>
+    <script src="vendors/kendo-2013.3.1119/js/kendo.web.min.js"></script>
+    <script src="vendors/angular-kendo.min.js"></script>
+
+    <script src="Scripts/authorization.js"></script>
+    <script src="Scripts/util.js"></script>
+
+    <script src="appFieldService/etApp.js"></script>
+    <script src="appFieldService/services/services.js"></script>
+    <script src="appFieldService/controllers/jobsController.js"></script>
+    <script src="appFieldService/controllers/jobController.js"></script>
+    <script src="app/controllers/etLogoutController.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#rbtFieldService").prop("checked", true);
+            $("#tabs").tabs();
+        });
+    </script>
+
+</head>
+<body ng-cloak>
+    <div id="header">
+        <div id="topMenu">
+            <div class="row">
+                <div class="col-md-3">
+                    <span id="dealerBrand" class="logoDesign">eTrack</span>
+                </div>
+                <div class="col-md-6">
+                    <div id="appModules" class="center-block">
+                        <span id="mod1"><input id="rbtTracking" name="panelType"  onclick="changePanel(1)" type="radio" style="margin-top:10px;" /><span class="topMenuOption">Tracking</span></span>
+                        <span id="mod2"><input id="rbtMultiTracking" name="panelType" onclick="changePanel(2)" type="radio" style="margin-top:10px;" /><span class="topMenuOption">Multi-Tracking</span></span>
+                        <span id="mod6"><input id="rbtFieldService" name="panelType" onclick="changePanel(6)" checked="checked" type="radio" style="margin-top:10px;" /><span class="topMenuOption">Field Service</span></span>
+                        <span id="mod3"><input id="rbtReports" name="panelType" onclick="changePanel(3)" type="radio" style="margin-top:10px;" /><span class="topMenuOption">Reports</span></span>
+                        <span id="mod5"><input id="rbtMaintenance" name="panelType" onclick="changePanel(5)" type="radio" style="margin-top:10px;" /><span class="topMenuOption">Maintenance</span></span>
+                        <span id="mod4"><input id="rbtSettings" name="panelType" onclick="changePanel(4)" type="radio" style="margin-top:10px;" /><span class="topMenuOption">Settings</span></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div id="welcomeTitle1" class="pull-right" style="padding:3px;">
+                        <span id="welcomeTitle">Welcome, John</span>
+                        <input type="hidden" id="userFullName" />
+                        <button class="btn" ng-controller="logoutController" ng-click="logout()">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="tabs">
+        <ul>
+            <li><a href="#tabs-1">Jobs</a></li>
+        </ul>
+        <div id="tabs-1" >
+
+            <div class="MiddleContentArea" ng-view>         
+                <!-- Content (Put here the application modules)
+    	        ================================================== -->
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
