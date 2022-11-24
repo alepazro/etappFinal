@@ -662,11 +662,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dapr1\\source\\repos\\etapp_aws\\etapp_aws.csproj",
+      "projectUniqueName": "C:\\Users\\dapr1\\source\\repos\\etappFinal\\etapp_aws\\etapp_aws.csproj",
       "projectName": "etapp_aws",
-      "projectPath": "C:\\Users\\dapr1\\source\\repos\\etapp_aws\\etapp_aws.csproj",
+      "projectPath": "C:\\Users\\dapr1\\source\\repos\\etappFinal\\etapp_aws\\etapp_aws.csproj",
       "packagesPath": "C:\\Users\\dapr1\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dapr1\\source\\repos\\etapp_aws\\obj\\",
+      "outputPath": "C:\\Users\\dapr1\\source\\repos\\etappFinal\\etapp_aws\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -687,8 +687,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\dapr1\\source\\repos\\etws_strippeddown\\etws\\etws_stripped.vbproj": {
-              "projectPath": "C:\\Users\\dapr1\\source\\repos\\etws_strippeddown\\etws\\etws_stripped.vbproj"
+            "C:\\Users\\dapr1\\source\\repos\\etappFinal\\etws_strippeddown\\etws\\etws_stripped.vbproj": {
+              "projectPath": "C:\\Users\\dapr1\\source\\repos\\etappFinal\\etws_strippeddown\\etws\\etws_stripped.vbproj"
             }
           }
         }

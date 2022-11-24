@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nLYL0yDFKFFzYTiYiI3KHEjpM4LXUE+cKRvHRopi/yk2ox2Zu4R5razx/c2bJQWdwULlNQ4bOa+SbZ4feycM1w==",
+  "dgSpecHash": "s5O8SB+8KDKBrc3imdnT4W+4iiPVNiIrnrPC0Ch3Q3ovp0bQboF2C3NwOPgD/Tu22oXGlWhYUQETP6k9VaQLAQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\dapr1\\source\\repos\\etapp_aws\\etapp_aws.csproj",
+  "projectFilePath": "C:\\Users\\dapr1\\source\\repos\\etappFinal\\etapp_aws\\etapp_aws.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dapr1\\.nuget\\packages\\awssdk.core\\3.7.12.10\\awssdk.core.3.7.12.10.nupkg.sha512",
     "C:\\Users\\dapr1\\.nuget\\packages\\awssdk.extensions.netcore.setup\\3.7.2\\awssdk.extensions.netcore.setup.3.7.2.nupkg.sha512",

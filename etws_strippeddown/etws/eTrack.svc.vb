@@ -721,7 +721,7 @@ Public Class eTrack
                                        data.fullAddress, data.street, data.streetNumber,
                                        data.route, data.suite, data.city, data.county, data.state, data.postalCode, data.country, data.latitude, data.longitude, data.geofenceAlertTypeId,
                                        data.radius, data.comments, data.shapeId, data.jsonPolyVerticesTXT, data.KMLData, data.SQLData, data.isSpeedLimit, data.speedLimit,
-                                       data.arrivalMsgId, data.arrivalMsgTxt, data.departureMsgId, data.departureMsgTxt,
+                                       data.arrivalMsgId, data.arrivalMsgTxt, data.departureMsgId, data.departureMsgTxt, data.IsStopForJob,
                                        res.msg)
             Else
                 res.isOk = False

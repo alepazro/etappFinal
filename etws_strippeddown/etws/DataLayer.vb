@@ -7969,11 +7969,13 @@ Public Class DataLayer
                                  ByVal arrivalMsgTxt As String,
                                  ByVal departureMsgId As Integer,
                                  ByVal departureMsgTxt As String,
+                                 ByVal isStopForJob As Boolean,
                                  ByRef strError As String) As String
         Dim GUID As String = ""
 
         Try
-            strCommand = "Geofences_INSERT"
+            'strCommand = "Geofences_INSERT"
+            strCommand = "Geofences_INSERT_NEW"
             conString = ConfigurationManager.AppSettings("ConnectionString")
             conSQL = New SqlConnection(conString)
             Command = New SqlCommand
@@ -8120,6 +8122,10 @@ Public Class DataLayer
             Dim parDepartureMsgTxt As New SqlClient.SqlParameter("@DepartureMsgTxt", SqlDbType.NVarChar)
             parDepartureMsgTxt.Value = departureMsgTxt
             Command.Parameters.Add(parDepartureMsgTxt)
+
+            Dim parIsStopForJob As New SqlClient.SqlParameter("@IsStopForJob", SqlDbType.Bit)
+            parIsStopForJob.Value = isStopForJob
+            Command.Parameters.Add(parIsStopForJob)
 
             Dim parGUID As New SqlClient.SqlParameter("@GUID", SqlDbType.NVarChar, 50)
             parGUID.Direction = ParameterDirection.Output

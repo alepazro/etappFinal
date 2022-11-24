@@ -105,8 +105,11 @@ Public Class geofenceClass
     <DataMember> _
     Public departureMsgId As Integer = 0
 
-    <DataMember> _
+    <DataMember>
     Public departureMsgTxt As String = ""
+
+    <DataMember>
+    Public IsStopForJob As Boolean = False
 
 End Class
 
