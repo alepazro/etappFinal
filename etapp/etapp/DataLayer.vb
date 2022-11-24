@@ -1045,7 +1045,7 @@ Public Class DataLayer
         Dim strJson As String = ""
 
         Try
-            strCommand = "Geofences_GetByToken"
+            strCommand = "Geofences_GetByToken_New"
             conString = ConfigurationManager.AppSettings("ConnectionString")
             conSQL = New SqlConnection(conString)
             Command = New SqlCommand
@@ -1198,6 +1198,9 @@ Public Class DataLayer
 
                 jsonLine.WritePropertyName("departureMsgId")
                 jsonLine.WriteValue(reader("departureMsgId"))
+
+                jsonLine.WritePropertyName("IsStop")
+                jsonLine.WriteValue(reader("IsStop"))
 
                 jsonLine.WriteEndObject()
                 jsonLine.Flush()

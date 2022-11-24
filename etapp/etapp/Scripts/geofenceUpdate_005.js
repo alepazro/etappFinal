@@ -83,6 +83,13 @@ function editGeofence(obj) {
 
             $('#newGeofenceContactName').val(jsonItem.contactName);
             $('#newGeofencePhone').val(jsonItem.phone);
+            debugger;
+            if (jsonItem.IsStop == true) {
+                $('#isStop').prop('checked', true);
+            }
+            else {
+                $('#isStop').prop('checked', false);
+            }
 
             //GEOFENCE CONTACT NOTIFICATIONS. 11/23/2013
             $('#newGeofenceContactEmail').val(jsonItem.contactEmail);
@@ -552,6 +559,7 @@ function geofenceExists(name) {
 function saveNewGeofence() {
     
     try {
+        debugger;
         var id = '';
         var suite = '';
         var street = '';
@@ -568,7 +576,8 @@ function saveNewGeofence() {
 
         id = $('#newGeofenceName').attr('data-id');
         var name = $('#newGeofenceName').val();
-
+        var isStop = $('#isStop').prop('checked');
+        debugger;
         //Is there other geofence with the same name?
         if (id == '' || id == '0') {
             if (geofenceExists(name) == true) {
@@ -760,7 +769,8 @@ function saveNewGeofence() {
                 arrivalMsgId: arrMsgId,
                 arrivalMsgTxt: arrMsgTxt,
                 departureMsgId: depMsgId,
-                departureMsgTxt: depMsgTxt
+                departureMsgTxt: depMsgTxt,
+                IsStopForJob: isStop
             }
             var postData = JSON.stringify(data);
 

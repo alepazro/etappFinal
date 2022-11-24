@@ -427,7 +427,7 @@ function dbReadWrite(methodName, data, alertFailure, isAsync) {
                 data = '';
             }
             
-            jQuery.ajax({                
+            jQuery.ajax({                    
                 url: 'ETWS.asmx/' + methodName,
                 data: data,
                 dataType: 'xml',

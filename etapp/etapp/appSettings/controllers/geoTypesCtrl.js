@@ -1,5 +1,5 @@
 ﻿etApp.controller('geoTypesCtrl', ['$scope', '$http', 'GeofenceType', function ($scope, $http, GeofenceType) {
-
+    debugger;
     $scope.geoTypes = [];
 
     $scope.getAll = function () {
@@ -14,6 +14,8 @@
     }
 
     $scope.save = function (id, name, callBack) {
+        debugger;
+        alert("dave")
         var token = getTokenCookie('ETTK');
         var noCache = Math.floor((Math.random() * 100000) + 1);
         var itm = new GeofenceType({ token: token });
@@ -42,10 +44,12 @@
 
     $scope.saveGeoType = function (ind) {
         //Saves an existing geofence type
+        debugger;
         $scope.save($scope.geoTypes[ind].id, $scope.geoTypes[ind].editName, $scope.saveExistingCallBack);
     }
 
     $scope.saveExistingCallBack = function () {
+        debugger;
         $scope.getAll();
     }
 
@@ -55,11 +59,13 @@
     }
 
     $scope.saveNewType = function () {
+        debugger;
         //Saves a new geofence type
         $scope.save(0, $scope.geoTypeNameNew, $scope.saveNewCallBack);
     }
 
     $scope.saveNewCallBack = function () {
+        debugger;
         $scope.geoTypeNameNew = '';
         $scope.getAll();
     }
