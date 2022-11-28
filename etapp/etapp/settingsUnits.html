@@ -28,7 +28,12 @@
     <!-- <script src="js/popper.min.js" ></script>  -->
     <!--<script src="js/bootstrap.min.js"></script>-->
     <!-- <script type="text/javascript" src="js/slick.min.js"></script>  -->
-
+    <style>
+        .anyClass {
+            /*height: 300px;*/
+            overflow-y: scroll;
+        }
+    </style>
 
 </head>
 <body>
@@ -53,7 +58,7 @@
                                 </li>
                                 <li class="nav-item" id="mod3">
                                     <!--  <a class="nav-link" id="rbtReports">Reports</a> -->
-                                        <label><input id="rbtReports" name="panelType" onclick="changePanel(3)" type="radio" style="margin-top:10px;" /><span class="topMenuOption lang" style="font-size:16px;font-weight:bold" key="Reports">Reports</span></label>
+                                    <label><input id="rbtReports" name="panelType" onclick="changePanel(3)" type="radio" style="margin-top:10px;" /><span class="topMenuOption lang" style="font-size:16px;font-weight:bold" key="Reports">Reports</span></label>
                                 </li>
                                 <li class="nav-item" id="mod5">
                                     <!--     <a class="nav-link" id="rbtMaintenance">Maintenance</a> -->
@@ -178,7 +183,19 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div id="activeDevices" ui-grid="gridActive" class="devicesGrid" ui-grid-resize-columns></div>
+                                    <!--<div id="activeDevices" ui-grid="gridActive" class="devicesGrid" ui-grid-resize-columns></div>-->
+                                    <div id="activeDevices" ui-grid="gridActive" ui-grid-resize-columns class="devicesGrid"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--<div id="tabs-1">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                            <!--<div id="activeDevices" ui-grid="gridActive" class="devicesGrid" ui-grid-resize-columns></div>-->
+                    <!--<div id="activeDevices" ui-grid="gridActive" class="anyClass"></div>
                                 </div>
                             </div>
                             <div class="row">
@@ -191,7 +208,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                     <div id="tabs-2">
                         <div class="container-fluid">
                             <div class="row">
@@ -291,7 +308,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="modal fade" id="popupModal" tabindex="-1" role="dialog"></div>
 
             </div>
@@ -389,6 +405,7 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+            debugger;
             loadFeedBackType();
             getAppFeatures(4);
             getBrand(onBrandSet);
