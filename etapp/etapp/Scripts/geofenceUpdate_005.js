@@ -458,29 +458,29 @@ function loadGeocoderResults(results) {
 function searchNewGeofenceAddress() {
     
     try {
-        
+        debugger;
         var addr = $('#newGeofenceAddress').val();
 
         if (addr.length == 0) {
             alert('Please enter the geofence address');
         }
         else {
-            geocode(platform,addr);         
+            //geocode(platform,addr);         
             
            
             //actual
-            //if (geocoder == false) {
-            //    geocoder = new google.maps.Geocoder();
-            //}
-            //geocoder.geocode({ 'address': addr }, function (results, status) {
-            //    
+            if (geocoder == false) {
+                geocoder = new google.maps.Geocoder();
+            }
+            geocoder.geocode({ 'address': addr }, function (results, status) {
+                debugger;
                 
-            //    if (status == google.maps.GeocoderStatus.OK) {
-            //        loadGeocoderResults(results);
-            //    } else {
-            //        alert("Geocode was not successful for the following reason: " + status);
-            //    }
-            //});
+                if (status == google.maps.GeocoderStatus.OK) {
+                    loadGeocoderResults(results);
+                } else {
+                    alert("Geocode was not successful for the following reason: " + status);
+                }
+            });
             //fin actual
         }
     }
