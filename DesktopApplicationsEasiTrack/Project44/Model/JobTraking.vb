@@ -1,7 +1,7 @@
 ﻿Public Class JobTraking
     Public ID As Integer
-    Public HdeviceID As Integer
-    Public HGeofencesID As Integer
+    Public HdeviceID As Int64
+    Public HGeofencesID As Int64
     Public CompanyID As Integer
     Public JobID As Integer
     Public StopID As String

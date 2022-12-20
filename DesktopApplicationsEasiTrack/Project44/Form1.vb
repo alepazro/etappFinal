@@ -7,7 +7,8 @@ Public Class Form1
     Private Sub btnStart_Click(sender As Object, e As EventArgs) Handles btnStart.Click
         lblStatusRun.Text = "Runnig"
         lblStatusRun.BackColor = Color.LightGreen
-        'urlFile = CreateFile()
+        urlFile = CreateFile()
+        lblLastupdate.Text = DateTime.UtcNow.ToString()
         Timer1.Enabled = True
     End Sub
 
@@ -77,8 +78,7 @@ Public Class Form1
                     up.utcTimestamp = itemg.EventDate.ToString("yyyy-MM-ddTHH:mm:ss")
 
                     Dim header1 = New List(Of Parameter) From {
-                     New Parameter("Authorization", "Bearer eyJraWQiOiJhVHBreGQyc1VLSFJteTljIiwiYWxnIjoiUlMyNTYifQ.eyJhdWQiOiJhcGk6Ly9kZWZhdWx0IiwiaWF0IjoxNjY3NTg3OTAyLCJleHAiOjE2Njc2MzExMDIsImlzcyI6Imh0dHBzOi8vdXNlci1zZXJ2aWNlLWFwaS5hbWVyaWNhcy5wcm9qZWN0NDQuY29tIiwic3ViIjoiYXBwLTBvYTFvcGd0Yjd3bXFGVmJaMGg4QGNsaWVudC1hcHBsaWNhdGlvbnMucHJvamVjdDQ0LmNvbSIsImdpdmVuTmFtZSI6IkNsaWVudCIsImZhbWlseU5hbWUiOiIwb2Exb3BndGI3d21xRlZiWjBoOCIsInRlbmFudElkIjoiMTY1MDQ5MTcxNzE0OSIsImNvbXBhbnlVaWQiOiJiNjU0YWE0Ni0wMTgwLTRhZmQtYmNhMi01NGQzYTBhYWNmMjUiLCJsYWtlSWQiOiIxNjUzNTk3MzcxMTEyIiwiY2lkIjoiMG9hMW9wZ3RiN3dtcUZWYlowaDgiLCJhdXRoSWRwcyI6WyJPQVVUSDJfQ0xJRU5UX0NSRURFTlRJQUxTIl0sImp0aSI6ImQ4NWMzNTcwLWJhY2UtNGFhNy05MzgwLWM3MTdiOGRhMGY5MyJ9.Y-BVezGwQd8AWcOIARSn71ZK99dJXQSSDjH_PSEGcoX5mPL-EBe5pVm_PTLSZZ8MKKIiNPvu76Qkhs3mi5o-XZJWh1kJulNTE3pSrbdicsMdYs7LLqFW2RfEB_grlMB3MdDfVsciE1WrHApe8VQi_2uk4m1ShCSDHQEEnCUkEAEMoPNuyW_W62hebHkQrJ29P2wotlEUDeyaloyD9Ose_y-8dzSnNnRL_JNBUZC_9N8I3qfvl2xXsdmflLNNh4DqkzQRno17ZVfh2a-E8GYrPXOB3L2yhpon5Xbd28nxgkhE_FuYZO9w_W9qcvetSJhT3dEzzBThJUpULrThD0qlSQ")
-                    }
+                     New Parameter("Authorization", "Bearer eyJraWQiOiJhVHBreGQyc1VLSFJteTljIiwiYWxnIjoiUlMyNTYifQ.eyJhdWQiOiJhcGk6Ly9kZWZhdWx0IiwiaWF0IjoxNjcxNTQ3NTkyLCJleHAiOjE2NzE1OTA3OTIsImlzcyI6Imh0dHBzOi8vdXNlci1zZXJ2aWNlLWFwaS5hbWVyaWNhcy5wcm9qZWN0NDQuY29tIiwic3ViIjoiYXBwLTBvYTFvcGd0Yjd3bXFGVmJaMGg4QGNsaWVudC1hcHBsaWNhdGlvbnMucHJvamVjdDQ0LmNvbSIsImdpdmVuTmFtZSI6IkNsaWVudCIsImZhbWlseU5hbWUiOiIwb2Exb3BndGI3d21xRlZiWjBoOCIsInRlbmFudElkIjoiMTY1MDQ5MTcxNzE0OSIsImNvbXBhbnlVaWQiOiJiNjU0YWE0Ni0wMTgwLTRhZmQtYmNhMi01NGQzYTBhYWNmMjUiLCJsYWtlSWQiOiIxNjUzNTk3MzcxMTEyIiwiY2lkIjoiMG9hMW9wZ3RiN3dtcUZWYlowaDgiLCJhdXRoSWRwcyI6WyJPQVVUSDJfQ0xJRU5UX0NSRURFTlRJQUxTIl0sImp0aSI6ImQ5N2NjMjIwLWRkYmYtNDBmYS1iNjc5LTE0MGYxZTcxOTFkOSJ9.GPA6Y6y3Rxhb9Ju-CuFoUcyN4KPNkJygl0YQOYLtu-hNNiNh9mv0q9SeZffKmok8Rgmhu23Bb146wKOc3j-cdLJms2pdouWmrVUB2hd0vJeZnUi1r8SpyIwLHGWcNOhpRpcdq_fVuqLBql8uDTDpeofdDFIaLj8CgZa0TCgkGlZpHitBeudSlfM5S5w9F7NvS0b5v7JmrvFGYlbfCFxz-CGUFioplXIjaMP3CFqWc4YSA-L1debUYIiSVjHRX_u16uTgJBpYJpNGOd-rQgQZuvnsC6PB216aoufD9AmyFlOVqH-7Ee_Uhop3lDxcItDpXsEVkpHeJFHIRvUz8wAMhA")}
 
                     Dim upJson1 = up 'JsonConvert.SerializeObject(up)
                     Dim response1 = api.UpdatePositionPost(url, header1, upJson1)
@@ -94,40 +94,46 @@ Public Class Form1
                 Next
             Else
                 Dim stops = (From c In jobsnotgeofences Where c.StopID > 0 Select c Order By c.HdeviceID Descending).Distinct().ToList()
-                For Each item2 In stops
-                    pstop.stopNumber = item2.StopNumber
-                    pstop.carrierSuppliedEta = item2.DueDate
-                    ListShipmentStops.Add(pstop)
-
-                    ShipmentIdentifiers1.type = "ORDER"
-                    ShipmentIdentifiers1.value = item2.JobNumber
-                    ListShipmentIdentifiers.Add(ShipmentIdentifiers1)
-
-                    up.customerId = item2.CustomerIDp44
-                    up.eventType = "POSITION"
-                    up.latitude = item2.Latitude
-                    up.longitude = item2.Longitude
-                    up.shipmentIdentifiers = ListShipmentIdentifiers
+                If stops.Count > 0 Then
+                    For Each item2 In stops
+                        pstop.stopNumber = item2.StopNumber
+                        pstop.carrierSuppliedEta = item2.DueDate
+                        ListShipmentStops.Add(pstop)
+                    Next
                     up.shipmentStops = ListShipmentStops
-                    up.utcTimestamp = item2.EventDate.ToString("yyyy-MM-ddTHH:mm:ss")
+                End If
 
-                    Dim header1 = New List(Of Parameter) From {
-                     New Parameter("Authorization", "Bearer eyJraWQiOiJhVHBreGQyc1VLSFJteTljIiwiYWxnIjoiUlMyNTYifQ.eyJhdWQiOiJhcGk6Ly9kZWZhdWx0IiwiaWF0IjoxNjY3NTg3OTAyLCJleHAiOjE2Njc2MzExMDIsImlzcyI6Imh0dHBzOi8vdXNlci1zZXJ2aWNlLWFwaS5hbWVyaWNhcy5wcm9qZWN0NDQuY29tIiwic3ViIjoiYXBwLTBvYTFvcGd0Yjd3bXFGVmJaMGg4QGNsaWVudC1hcHBsaWNhdGlvbnMucHJvamVjdDQ0LmNvbSIsImdpdmVuTmFtZSI6IkNsaWVudCIsImZhbWlseU5hbWUiOiIwb2Exb3BndGI3d21xRlZiWjBoOCIsInRlbmFudElkIjoiMTY1MDQ5MTcxNzE0OSIsImNvbXBhbnlVaWQiOiJiNjU0YWE0Ni0wMTgwLTRhZmQtYmNhMi01NGQzYTBhYWNmMjUiLCJsYWtlSWQiOiIxNjUzNTk3MzcxMTEyIiwiY2lkIjoiMG9hMW9wZ3RiN3dtcUZWYlowaDgiLCJhdXRoSWRwcyI6WyJPQVVUSDJfQ0xJRU5UX0NSRURFTlRJQUxTIl0sImp0aSI6ImQ4NWMzNTcwLWJhY2UtNGFhNy05MzgwLWM3MTdiOGRhMGY5MyJ9.Y-BVezGwQd8AWcOIARSn71ZK99dJXQSSDjH_PSEGcoX5mPL-EBe5pVm_PTLSZZ8MKKIiNPvu76Qkhs3mi5o-XZJWh1kJulNTE3pSrbdicsMdYs7LLqFW2RfEB_grlMB3MdDfVsciE1WrHApe8VQi_2uk4m1ShCSDHQEEnCUkEAEMoPNuyW_W62hebHkQrJ29P2wotlEUDeyaloyD9Ose_y-8dzSnNnRL_JNBUZC_9N8I3qfvl2xXsdmflLNNh4DqkzQRno17ZVfh2a-E8GYrPXOB3L2yhpon5Xbd28nxgkhE_FuYZO9w_W9qcvetSJhT3dEzzBThJUpULrThD0qlSQ")
+                Dim lastupdatejob = (From c In jobsnotgeofences Select c Order By c.HdeviceID Descending).FirstOrDefault()
+                ShipmentIdentifiers1.type = "ORDER"
+                ShipmentIdentifiers1.value = lastupdatejob.JobNumber
+                ListShipmentIdentifiers.Add(ShipmentIdentifiers1)
+
+                up.customerId = lastupdatejob.CustomerIDp44
+                up.eventType = "POSITION"
+                up.latitude = lastupdatejob.Latitude
+                up.longitude = lastupdatejob.Longitude
+                up.shipmentIdentifiers = ListShipmentIdentifiers
+                up.utcTimestamp = lastupdatejob.EventDate.ToString("yyyy-MM-ddTHH:mm:ss")
+
+                Dim header1 = New List(Of Parameter) From {
+                     New Parameter("Authorization", "Bearer eyJraWQiOiJhVHBreGQyc1VLSFJteTljIiwiYWxnIjoiUlMyNTYifQ.eyJhdWQiOiJhcGk6Ly9kZWZhdWx0IiwiaWF0IjoxNjcxMjA3MTIxLCJleHAiOjE2NzEyNTAzMjEsImlzcyI6Imh0dHBzOi8vdXNlci1zZXJ2aWNlLWFwaS5hbWVyaWNhcy5wcm9qZWN0NDQuY29tIiwic3ViIjoiYXBwLTBvYTFvcGd0Yjd3bXFGVmJaMGg4QGNsaWVudC1hcHBsaWNhdGlvbnMucHJvamVjdDQ0LmNvbSIsImdpdmVuTmFtZSI6IkNsaWVudCIsImZhbWlseU5hbWUiOiIwb2Exb3BndGI3d21xRlZiWjBoOCIsInRlbmFudElkIjoiMTY1MDQ5MTcxNzE0OSIsImNvbXBhbnlVaWQiOiJiNjU0YWE0Ni0wMTgwLTRhZmQtYmNhMi01NGQzYTBhYWNmMjUiLCJsYWtlSWQiOiIxNjUzNTk3MzcxMTEyIiwiY2lkIjoiMG9hMW9wZ3RiN3dtcUZWYlowaDgiLCJhdXRoSWRwcyI6WyJPQVVUSDJfQ0xJRU5UX0NSRURFTlRJQUxTIl0sImp0aSI6IjkxYmZhOTJlLWU4MzctNDY3My05MDBiLTZjNmUyODdiN2I4ZCJ9.HuiG73wU26sDAfsjvLtsRSgV96AmafwijADt9xruHUoim5saNlv43yUyTKYsU2xU3J0M6gyiKC5TP7xHNG9KoQBxcEcLsDU2jcRfzXwl0nrEk-k-Qqkn1QAG6yrFlbQLiWWvjvmh_u_9YwKhZS9m_e-nR7xV2JZ6Z9vQgQRm_B26eJ9ccBuEyeIxQKVjYRYAnqvjj9FjY13SJtKP6-dmJXGYeU7H7qwqCOVNhnGhfKpFNpz2QWqDXF2XqE3sTOulYrbIg__SQJwG_oSZl0KoaoWeHUU3bzIzzU0PHgv7fH1hEyInz-OBYXRrG7q5-oATcr6GVw6U8pRWzzImeckEkQ")
                     }
 
-                    Dim upJson1 = up 'JsonConvert.SerializeObject(up)
-                    Dim response1 = api.UpdatePositionPost(url, header1, upJson1)
-                    Dim result1 = JsonConvert.DeserializeObject(response1)
-                    Dim dateEvent1 = DateTime.UtcNow()
-                    Dim message1 = dateEvent1 + ": -> " + result1.ToString()
+                Dim upJson1 = up 'JsonConvert.SerializeObject(up)
+                Dim response1 = api.UpdatePositionPost(url, header1, upJson1)
+                Dim result1 = JsonConvert.DeserializeObject(response1)
+                Dim dateEvent1 = DateTime.UtcNow()
+                Dim message1 = dateEvent1 + ": -> " + result1.ToString()
 
-                    'TracingTest(urlFile, message1)
-                    tbConsole.Text = tbConsole.Text & "-->" & result1.ToString()
-                    tbConsole.ForeColor = Color.White
-                    dl.UpdateSend("", item2.ID, message1)
-                Next
+                TracingTest(urlFile, message1)
+                tbConsole.Text = tbConsole.Text & "-->" & result1.ToString()
+                tbConsole.ForeColor = Color.White
+
+                dl.UpdateSend("", lastupdatejob.ID, message1)
             End If
         Next
+        lblLastupdate.Text = DateTime.UtcNow.ToString()
+
     End Sub
     Public Sub TracingTest(ByVal fileName As String, message As String)
         ' Add text to the file.
