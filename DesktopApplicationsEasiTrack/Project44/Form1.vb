@@ -9,6 +9,11 @@ Public Class Form1
         lblStatusRun.BackColor = Color.LightGreen
         urlFile = CreateFile()
         lblLastupdate.Text = DateTime.UtcNow.ToString()
+        Dim dl As New DataLayer
+        Dim list As New List(Of JobTraking)
+        dl.Execp44_CheckGeofencesJob()
+        list = dl.GetDevicesTraking()
+        SendUpdatePosition(list)
         Timer1.Enabled = True
     End Sub
 
@@ -116,9 +121,7 @@ Public Class Form1
                 up.utcTimestamp = lastupdatejob.EventDate.ToString("yyyy-MM-ddTHH:mm:ss")
 
                 Dim header1 = New List(Of Parameter) From {
-                     New Parameter("Authorization", "Bearer eyJraWQiOiJhVHBreGQyc1VLSFJteTljIiwiYWxnIjoiUlMyNTYifQ.eyJhdWQiOiJhcGk6Ly9kZWZhdWx0IiwiaWF0IjoxNjcxMjA3MTIxLCJleHAiOjE2NzEyNTAzMjEsImlzcyI6Imh0dHBzOi8vdXNlci1zZXJ2aWNlLWFwaS5hbWVyaWNhcy5wcm9qZWN0NDQuY29tIiwic3ViIjoiYXBwLTBvYTFvcGd0Yjd3bXFGVmJaMGg4QGNsaWVudC1hcHBsaWNhdGlvbnMucHJvamVjdDQ0LmNvbSIsImdpdmVuTmFtZSI6IkNsaWVudCIsImZhbWlseU5hbWUiOiIwb2Exb3BndGI3d21xRlZiWjBoOCIsInRlbmFudElkIjoiMTY1MDQ5MTcxNzE0OSIsImNvbXBhbnlVaWQiOiJiNjU0YWE0Ni0wMTgwLTRhZmQtYmNhMi01NGQzYTBhYWNmMjUiLCJsYWtlSWQiOiIxNjUzNTk3MzcxMTEyIiwiY2lkIjoiMG9hMW9wZ3RiN3dtcUZWYlowaDgiLCJhdXRoSWRwcyI6WyJPQVVUSDJfQ0xJRU5UX0NSRURFTlRJQUxTIl0sImp0aSI6IjkxYmZhOTJlLWU4MzctNDY3My05MDBiLTZjNmUyODdiN2I4ZCJ9.HuiG73wU26sDAfsjvLtsRSgV96AmafwijADt9xruHUoim5saNlv43yUyTKYsU2xU3J0M6gyiKC5TP7xHNG9KoQBxcEcLsDU2jcRfzXwl0nrEk-k-Qqkn1QAG6yrFlbQLiWWvjvmh_u_9YwKhZS9m_e-nR7xV2JZ6Z9vQgQRm_B26eJ9ccBuEyeIxQKVjYRYAnqvjj9FjY13SJtKP6-dmJXGYeU7H7qwqCOVNhnGhfKpFNpz2QWqDXF2XqE3sTOulYrbIg__SQJwG_oSZl0KoaoWeHUU3bzIzzU0PHgv7fH1hEyInz-OBYXRrG7q5-oATcr6GVw6U8pRWzzImeckEkQ")
-                    }
-
+                     New Parameter("Authorization", "Bearer eyJraWQiOiJhVHBreGQyc1VLSFJteTljIiwiYWxnIjoiUlMyNTYifQ.eyJhdWQiOiJhcGk6Ly9kZWZhdWx0IiwiaWF0IjoxNjcxNTU1NTAxLCJleHAiOjE2NzE1OTg3MDEsImlzcyI6Imh0dHBzOi8vdXNlci1zZXJ2aWNlLWFwaS5hbWVyaWNhcy5wcm9qZWN0NDQuY29tIiwic3ViIjoiYXBwLTBvYTFvcGd0Yjd3bXFGVmJaMGg4QGNsaWVudC1hcHBsaWNhdGlvbnMucHJvamVjdDQ0LmNvbSIsImdpdmVuTmFtZSI6IkNsaWVudCIsImZhbWlseU5hbWUiOiIwb2Exb3BndGI3d21xRlZiWjBoOCIsInRlbmFudElkIjoiMTY1MDQ5MTcxNzE0OSIsImNvbXBhbnlVaWQiOiJiNjU0YWE0Ni0wMTgwLTRhZmQtYmNhMi01NGQzYTBhYWNmMjUiLCJsYWtlSWQiOiIxNjUzNTk3MzcxMTEyIiwiY2lkIjoiMG9hMW9wZ3RiN3dtcUZWYlowaDgiLCJhdXRoSWRwcyI6WyJPQVVUSDJfQ0xJRU5UX0NSRURFTlRJQUxTIl0sImp0aSI6IjYyZjQyMWRhLTMyM2UtNDI1My1hNzMwLTA0YzFjNmJhNjU0MSJ9.iviqZITgbqC6GYp-kOIqhQbZRGd1inFvy5Lu1LsMFXbRqmliCufzx4UmR-R3ZjQrH4GUB4QxKFs1ShscQgpruoTtfqSJCjp1mswcBjntXDPUSgOJiHX2eR-QRvBe61y7MvhBUK7_Gu0lgbSHer8CF1cHhHtDcoYzkGwSinIO5ZvU4iRYeoZL4zsRSWQrk_k-w8eUrjOJS2SaWU8opcDA_UpmjQZ2L_crdXwpSpONG6KJvRxZdAM2hsQhaLeGPmG5cB4ND4hlsadMmaQ9IHqWVQjORZM2SG06VOaBWNTD7Vcqa6TmTS99tMLoLw-W062N6IfVj-xzMIG8j1yC37j_0g")}
                 Dim upJson1 = up 'JsonConvert.SerializeObject(up)
                 Dim response1 = api.UpdatePositionPost(url, header1, upJson1)
                 Dim result1 = JsonConvert.DeserializeObject(response1)
