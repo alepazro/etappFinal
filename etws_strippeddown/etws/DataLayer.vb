@@ -14074,5 +14074,45 @@ Public Class DataLayer
 
     End Function
 #End Region
+#Region "VIDEO"
+    Public Function ValidateToken(ByVal Token) As DataSet
+        Dim dsData As New DataSet
+
+        Try
+            strCommand = "Video_ValidateToken"
+            conString = ConfigurationManager.AppSettings("ConnectionString")
+            conSQL = New SqlConnection(conString)
+            Command = New SqlCommand
+            Command.Connection = conSQL
+            Command.CommandText = strCommand
+            Command.CommandType = CommandType.StoredProcedure
+
+            Dim parToken As New SqlClient.SqlParameter("@Token", SqlDbType.NVarChar, 50)
+            parToken.Direction = ParameterDirection.Input
+            parToken.Value = Token
+            Command.Parameters.Add(parToken)
+
+            adapter = New SqlDataAdapter(Command)
+            adapter.Fill(dsData)
+            adapter.Dispose()
+            Command.Dispose()
+
+        Catch ex As Exception
+            dsData = Nothing
+            If ex.Message = "LOGOUT" Then
+                strError = "TOKENEXPIRED"
+            Else
+                strError = "OTHERERROR"
+            End If
+        Finally
+
+            conSQL.Dispose()
+        End Try
+
+        Return dsData
+
+    End Function
+
+#End Region
 
 End Class

@@ -204,9 +204,9 @@ Public Class pilot
 
 #Region "Devices"
 
-    Public Function GetDevicesList(ByVal token As String, ByVal sourceId As String) As List(Of device) Implements Ipilot.GetDevicesList
-        Dim devList As New List(Of device)
-        Dim dev As device = Nothing
+    Public Function GetDevicesList(ByVal token As String, ByVal sourceId As String) As List(Of FleetDeviceVideo) Implements Ipilot.GetDevicesList
+        Dim devList As New List(Of FleetDeviceVideo)
+        Dim dev As FleetDeviceVideo = Nothing
         Dim dl As New DataLayer
         Dim dsData As New DataSet
         Dim dvData As DataView
@@ -218,7 +218,7 @@ Public Class pilot
                 If dsData.Tables.Count >= 2 Then
                     dvData = dsData.Tables(1).DefaultView
                     For Each drv In dvData
-                        dev = New device
+                        dev = New FleetDeviceVideo
                         dev.id = drv.item("GUID")
                         dev.name = drv.item("Name")
                         dev.shortName = drv.item("ShortName")
@@ -245,7 +245,7 @@ Public Class pilot
             End If
 
             If devList.Count = 0 Then
-                dev = New device
+                dev = New FleetDeviceVideo
                 dev.result = "INVALIDTOKEN"
                 dev.isOk = False
                 devList.Add(dev)
@@ -259,8 +259,8 @@ Public Class pilot
 
     End Function
 
-    Public Function GetDeviceInfo(ByVal token As String, ByVal id As String, ByVal sourceId As String) As device Implements Ipilot.GetDeviceInfo
-        Dim dev As device = Nothing
+    Public Function GetDeviceInfo(ByVal token As String, ByVal id As String, ByVal sourceId As String) As FleetDeviceVideo Implements Ipilot.GetDeviceInfo
+        Dim dev As FleetDeviceVideo = Nothing
         Dim msg As String = ""
         Dim dvData As DataView = Nothing
         Dim dl As New DataLayer
@@ -268,7 +268,7 @@ Public Class pilot
         Try
             dvData = dl.Devices_GetByGUID_BasicInfo(id, msg)
 
-            dev = New device
+            dev = New FleetDeviceVideo
             dev.result = "INVALIDTOKEN"
 
             If Not IsNothing(dvData) Then

@@ -323,6 +323,11 @@ function changePanel(panelId) {
                 //location.href = 'elog.html';
                 location.href = 'EtTraking.html';
                 break;
+            case '17', 17:
+                //location.href = 'elog.html';
+                var token = getTokenCookie('ETTK');
+                window.open('https://video.easitrack.net/sso?access_token=' + token, '_blank');
+                break;
         }
     }
     catch (err) {

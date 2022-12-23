@@ -157,9 +157,9 @@ Public Class etrest
 
     End Function
 
-    Public Function GetDevicesList(ByVal token As String) As List(Of device) Implements Ietrest.GetDevicesList
-        Dim devList As New List(Of device)
-        Dim dev As device = Nothing
+    Public Function GetDevicesList(ByVal token As String) As List(Of FleetDeviceVideo) Implements Ietrest.GetDevicesList
+        Dim devList As New List(Of FleetDeviceVideo)
+        Dim dev As FleetDeviceVideo = Nothing
         Dim dl As New DataLayer
         Dim dsData As New DataSet
         Dim dvData As DataView
@@ -171,7 +171,7 @@ Public Class etrest
                 If dsData.Tables.Count >= 2 Then
                     dvData = dsData.Tables(1).DefaultView
                     For Each drv In dvData
-                        dev = New device
+                        dev = New FleetDeviceVideo
                         dev.id = drv.item("GUID")
                         dev.name = drv.item("Name")
                         dev.eventCode = drv.item("EventCode")
@@ -195,7 +195,7 @@ Public Class etrest
             End If
 
             If devList.Count = 0 Then
-                dev = New device
+                dev = New FleetDeviceVideo
                 dev.result = "INVALIDTOKEN"
                 devList.Add(dev)
             End If
@@ -208,9 +208,9 @@ Public Class etrest
 
     End Function
 
-    Public Function GetDevicesListCORS(ByVal token As String, ByVal callback As String) As List(Of device) Implements Ietrest.GetDevicesListCORS
-        Dim devList As New List(Of device)
-        Dim dev As device = Nothing
+    Public Function GetDevicesListCORS(ByVal token As String, ByVal callback As String) As List(Of FleetDeviceVideo) Implements Ietrest.GetDevicesListCORS
+        Dim devList As New List(Of FleetDeviceVideo)
+        Dim dev As FleetDeviceVideo = Nothing
         Dim dl As New DataLayer
         Dim dsData As New DataSet
         Dim dvData As DataView
@@ -222,7 +222,7 @@ Public Class etrest
                 If dsData.Tables.Count >= 2 Then
                     dvData = dsData.Tables(1).DefaultView
                     For Each drv In dvData
-                        dev = New device
+                        dev = New FleetDeviceVideo
                         dev.id = drv.item("GUID")
                         dev.name = drv.item("Name")
                         dev.eventCode = drv.item("EventCode")
@@ -246,7 +246,7 @@ Public Class etrest
             End If
 
             If devList.Count = 0 Then
-                dev = New device
+                dev = New FleetDeviceVideo
                 dev.result = "INVALIDTOKEN"
                 devList.Add(dev)
             End If
@@ -259,9 +259,9 @@ Public Class etrest
 
     End Function
 
-    Public Function GetDevicesList2(ByVal token As String, ByVal sourceId As String) As List(Of device) Implements Ietrest.GetDevicesList2
-        Dim devList As New List(Of device)
-        Dim dev As device = Nothing
+    Public Function GetDevicesList2(ByVal token As String, ByVal sourceId As String) As List(Of FleetDeviceVideo) Implements Ietrest.GetDevicesList2
+        Dim devList As New List(Of FleetDeviceVideo)
+        Dim dev As FleetDeviceVideo = Nothing
         Dim dl As New DataLayer
         Dim dsData As New DataSet
         Dim dvData As DataView
@@ -273,7 +273,7 @@ Public Class etrest
                 If dsData.Tables.Count >= 2 Then
                     dvData = dsData.Tables(1).DefaultView
                     For Each drv In dvData
-                        dev = New device
+                        dev = New FleetDeviceVideo
                         dev.id = drv.item("GUID")
                         dev.name = drv.item("Name")
                         dev.shortName = drv.item("ShortName")
@@ -299,7 +299,7 @@ Public Class etrest
             End If
 
             If devList.Count = 0 Then
-                dev = New device
+                dev = New FleetDeviceVideo
                 dev.result = "INVALIDTOKEN"
                 devList.Add(dev)
             End If
@@ -312,8 +312,8 @@ Public Class etrest
 
     End Function
 
-    Public Function GetDeviceInfo(ByVal id As String) As device Implements Ietrest.GetDeviceInfo
-        Dim dev As device = Nothing
+    Public Function GetDeviceInfo(ByVal id As String) As FleetDeviceVideo Implements Ietrest.GetDeviceInfo
+        Dim dev As FleetDeviceVideo = Nothing
         Dim msg As String = ""
         Dim dvData As DataView = Nothing
         Dim dl As New DataLayer
@@ -321,7 +321,7 @@ Public Class etrest
         Try
             dvData = dl.getDeviceByGUID(id, msg)
 
-            dev = New device
+            dev = New FleetDeviceVideo
             dev.result = "INVALIDTOKEN"
 
             If Not IsNothing(dvData) Then
@@ -354,8 +354,8 @@ Public Class etrest
 
     End Function
 
-    Public Function GetDeviceInfo2(ByVal id As String, ByVal sourceId As String) As device Implements Ietrest.GetDeviceInfo2
-        Dim dev As device = Nothing
+    Public Function GetDeviceInfo2(ByVal id As String, ByVal sourceId As String) As FleetDeviceVideo Implements Ietrest.GetDeviceInfo2
+        Dim dev As FleetDeviceVideo = Nothing
         Dim msg As String = ""
         Dim dvData As DataView = Nothing
         Dim dl As New DataLayer
@@ -363,7 +363,7 @@ Public Class etrest
         Try
             dvData = dl.getDeviceByGUID(id, msg)
 
-            dev = New device
+            dev = New FleetDeviceVideo
             dev.result = "INVALIDTOKEN"
 
             If Not IsNothing(dvData) Then
@@ -593,9 +593,9 @@ Public Class etrest
 
 #Region "Embedded map add-on"
 
-    Public Function easiTrackMap(ByVal token As String, ByVal callback As String) As List(Of device) Implements Ietrest.easiTrackMap
-        Dim devices As New List(Of device)
-        Dim dev As device
+    Public Function easiTrackMap(ByVal token As String, ByVal callback As String) As List(Of FleetDeviceVideo) Implements Ietrest.easiTrackMap
+        Dim devices As New List(Of FleetDeviceVideo)
+        Dim dev As FleetDeviceVideo
         Dim dsData As DataSet
         Dim dvData As DataView
         Dim msg As String = ""
@@ -609,7 +609,7 @@ Public Class etrest
                 If dsData.Tables.Count >= 2 Then
                     dvData = dsData.Tables(1).DefaultView
                     For Each drv In dvData
-                        dev = New device
+                        dev = New FleetDeviceVideo
                         dev.id = drv.item("GUID")
                         dev.name = drv.item("Name")
                         'dev.eventCode = drv.item("EventCode")
@@ -2098,5 +2098,44 @@ Public Class etrest
         Return response
     End Function
 #End Region
+
+#Region "VIDEO"
+    Public Function ValidateToken(ByVal token As String) As CustomerVideo Implements Ietrest.ValidateToken
+        Dim devList As New List(Of FleetDeviceVideo)
+        Dim dev As CustomerVideo = New CustomerVideo
+        Dim device As FleetVideo
+        Dim dl As New DataLayer
+        Dim dsData As New DataSet
+        Dim dvData As DataView
+        Dim msg As String = ""
+        Dim validator As Boolean = False
+        Try
+            dsData = dl.ValidateToken(token)
+            If Not IsNothing(dsData) Then
+                dvData = dsData.Tables(0).DefaultView
+                For Each drv In dvData
+                    If validator = False Then
+                        dev.CompanyName = drv.item("CompanyName")
+                        dev.FullName = drv.item("FullName")
+                        dev.Email = drv.item("Email")
+                        validator = True
+                    End If
+                    device = New FleetVideo
+                    device.DeviceId = drv.item("DeviceID")
+                    device.Name = drv.item("Name")
+                    dev.FleetVideo.Add(device)
+                Next
+            End If
+        Catch ex As Exception
+
+        End Try
+
+        Return dev
+
+    End Function
+
+
+#End Region
+
 
 End Class
