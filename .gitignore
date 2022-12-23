@@ -367,3 +367,5 @@ FodyWeavers.xsd
 /etapp/crm_etapp/obj/Debug/crm_etapp.dll
 /etapp/crm_etapp/bin/crm_etapp.dll
 /etapp/crm_etapp/bin/crm_etapp.pdb
+/etws_strippeddown/etws/bin/etws.pdb
+/etws_strippeddown/etws/bin/etws.dll
