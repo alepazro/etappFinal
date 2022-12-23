@@ -1,6 +1,6 @@
 ﻿Imports System.Runtime.Serialization
 
-Public Class device
+Public Class FleetDeviceVideo
     Public id As String = ""
     Public name As String = ""
     Public shortName As String = ""

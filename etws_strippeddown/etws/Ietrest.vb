@@ -35,23 +35,23 @@ Public Interface Ietrest
 
     <OperationContract()> _
     <WebGet(BodyStyle:=WebMessageBodyStyle.Wrapped, RequestFormat:=WebMessageFormat.Json, ResponseFormat:=WebMessageFormat.Json, UriTemplate:="devList/{token}")> _
-    Function GetDevicesList(ByVal token As String) As List(Of device)
+    Function GetDevicesList(ByVal token As String) As List(Of FleetDeviceVideo)
 
     <OperationContract()> _
     <WebGet(BodyStyle:=WebMessageBodyStyle.Bare, RequestFormat:=WebMessageFormat.Json, ResponseFormat:=WebMessageFormat.Json, UriTemplate:="devListCORS/{token}?callback={callback}")> _
-    Function GetDevicesListCORS(ByVal token As String, ByVal callback As String) As List(Of device)
+    Function GetDevicesListCORS(ByVal token As String, ByVal callback As String) As List(Of FleetDeviceVideo)
 
     <OperationContract()> _
     <WebGet(BodyStyle:=WebMessageBodyStyle.Wrapped, RequestFormat:=WebMessageFormat.Json, ResponseFormat:=WebMessageFormat.Json, UriTemplate:="devList2/{token}/{sourceId}")> _
-    Function GetDevicesList2(ByVal token As String, ByVal sourceId As String) As List(Of device)
+    Function GetDevicesList2(ByVal token As String, ByVal sourceId As String) As List(Of FleetDeviceVideo)
 
     <OperationContract()> _
     <WebGet(BodyStyle:=WebMessageBodyStyle.Wrapped, RequestFormat:=WebMessageFormat.Json, ResponseFormat:=WebMessageFormat.Json, UriTemplate:="device/{id}")> _
-    Function GetDeviceInfo(ByVal id As String) As device
+    Function GetDeviceInfo(ByVal id As String) As FleetDeviceVideo
 
     <OperationContract()> _
     <WebGet(BodyStyle:=WebMessageBodyStyle.Wrapped, RequestFormat:=WebMessageFormat.Json, ResponseFormat:=WebMessageFormat.Json, UriTemplate:="device2/{id}/{sourceId}")> _
-    Function GetDeviceInfo2(ByVal id As String, ByVal sourceId As String) As device
+    Function GetDeviceInfo2(ByVal id As String, ByVal sourceId As String) As FleetDeviceVideo
 
     <OperationContract()> _
     <WebInvoke(BodyStyle:=WebMessageBodyStyle.Wrapped, Method:="GET", RequestFormat:=WebMessageFormat.Json, ResponseFormat:=WebMessageFormat.Json, UriTemplate:="trail?id={id}&trailDate={trailDate}")> _
@@ -71,7 +71,7 @@ Public Interface Ietrest
 
     <OperationContract()> _
     <WebGet(BodyStyle:=WebMessageBodyStyle.Bare, RequestFormat:=WebMessageFormat.Json, ResponseFormat:=WebMessageFormat.Json, UriTemplate:="easiTrackMap/{token}?callback={callback}")> _
-    Function easiTrackMap(ByVal token As String, ByVal callback As String) As List(Of device)
+    Function easiTrackMap(ByVal token As String, ByVal callback As String) As List(Of FleetDeviceVideo)
 
 #End Region
 
@@ -258,6 +258,12 @@ Public Interface Ietrest
 
 #End Region
 
+#Region "Video"
+    <OperationContract()>
+    <WebInvoke(BodyStyle:=WebMessageBodyStyle.Bare, Method:="GET", RequestFormat:=WebMessageFormat.Json, ResponseFormat:=WebMessageFormat.Json, UriTemplate:="video/{token}")>
+    Function ValidateToken(ByVal token As String) As CustomerVideo
+
+#End Region
 End Interface
 
 
