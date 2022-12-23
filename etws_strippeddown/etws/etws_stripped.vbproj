@@ -623,6 +623,8 @@
       <DependentUpon>qbonline.svc</DependentUpon>
     </Compile>
     <Compile Include="ServiceGenerics.vb" />
+    <Compile Include="SpJsonModels\Video\CustomerVideo.vb" />
+    <Compile Include="SpJsonModels\Video\FleetVideo.vb" />
     <Compile Include="Trail.vb" />
     <Compile Include="User.vb" />
     <Compile Include="websync.ashx.vb">

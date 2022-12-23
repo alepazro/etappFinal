@@ -43,11 +43,11 @@ Public Interface Ipilot
 
     <OperationContract()> _
     <WebGet(BodyStyle:=WebMessageBodyStyle.Bare, RequestFormat:=WebMessageFormat.Json, ResponseFormat:=WebMessageFormat.Json, UriTemplate:="devList/{token}/{sourceId}")> _
-    Function GetDevicesList(ByVal token As String, ByVal sourceId As String) As List(Of device)
+    Function GetDevicesList(ByVal token As String, ByVal sourceId As String) As List(Of FleetDeviceVideo)
 
     <OperationContract()> _
     <WebGet(BodyStyle:=WebMessageBodyStyle.Bare, RequestFormat:=WebMessageFormat.Json, ResponseFormat:=WebMessageFormat.Json, UriTemplate:="deviceInfo/{token}/{id}/{sourceId}")> _
-    Function GetDeviceInfo(ByVal token As String, ByVal id As String, ByVal sourceId As String) As device
+    Function GetDeviceInfo(ByVal token As String, ByVal id As String, ByVal sourceId As String) As FleetDeviceVideo
 
     <OperationContract()> _
     <WebInvoke(BodyStyle:=WebMessageBodyStyle.Bare, Method:="GET", RequestFormat:=WebMessageFormat.Json, ResponseFormat:=WebMessageFormat.Json, UriTemplate:="trail/{token}/{id}/{trailDate}/{hourFrom}/{hourTo}/{sourceId}")> _
