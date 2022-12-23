@@ -365,3 +365,5 @@ FodyWeavers.xsd
 /etapp/.vs/etapp/v17/.suo
 /etapp/.vs/etapp/DesignTimeBuild/.dtbcache.v2
 /etapp/crm_etapp/obj/Debug/crm_etapp.dll
+/etapp/crm_etapp/bin/crm_etapp.dll
+/etapp/crm_etapp/bin/crm_etapp.pdb
