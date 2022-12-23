@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/etapp/.vs/etapp/config/applicationhost.config
+/etapp/.vs/etapp/v17/.suo
+/etapp/.vs/etapp/DesignTimeBuild/.dtbcache.v2
+/etapp/crm_etapp/obj/Debug/crm_etapp.dll
