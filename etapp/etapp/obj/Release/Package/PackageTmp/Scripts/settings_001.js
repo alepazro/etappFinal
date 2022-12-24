@@ -20,7 +20,8 @@
 }
 
 function showSettingsDivs(id) {
-    try {
+    
+    try {       
         
         hideSettingsDivs();
 
@@ -161,4 +162,61 @@ function buyNow() {
         alert('accountSettings: ' + err.description);
     }
 }
+function sendFeedBack() {
+    let response;
+    try {
+        
+        let idType = $("#Type").val();
+        let description = $("#comment").val();
+        let pageVisited = window.location.href;
+        if (description.length < 5) {
+            alert("enter a description");
+            return;
+        }
+        response = postSendFeedBack(pageVisited, idType, description);
+        if (response.value = "OK") {
+            $("#comment").val('');
+            alert("FeedBack sent successfully");
+
+        } else {
+            alert("error: " + response.value);
+        }
+        
+        var error = ""
+    }
+    catch (err) {
+        alert("error: " + err);
+        console.log("error1 " + err);
+    }
+}
+function loadFeedBackType() {
+    var response;
+    
+    try {
+        response = GetFeedBackType();
+        
+        for (var index = 0; index < response.ListResponse.length; index++) {
+            $("#Type").append("<option value=" + response.ListResponse[index].ID + ">" + response.ListResponse[index].Name + "</option>");
+        }
+    }
+    catch (err) {
+        alert("error: " + err);
+    }
+}
+function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+    return false;
+}
+
 

@@ -1,8 +1,8 @@
 ﻿function getDb(service, method, data, async) {
     try {
         var result = false;
-        //var url = 'https://localhost:44385/' + service + '/' + method;
-        var url = 'https://localhost:44385/' + service + '/' + method;
+        //var url = 'https://pre.etrack.ws/' + service + '/' + method;
+        var url = 'https://pre.etrack.ws/' + service + '/' + method;
         if (data.length > 0) {
             url = url + '?' + data;
         }
@@ -34,7 +34,7 @@
 function postDb(service, method, data, params) {
     try {
         var result = false;
-        var url = 'https://localhost:44385/' + service + '/' + method;
+        var url = 'https://pre.etrack.ws/' + service + '/' + method;
         if (!_.isUndefined(params)) {
             if (params.length > 0) {
                 url = url + '?' + params;

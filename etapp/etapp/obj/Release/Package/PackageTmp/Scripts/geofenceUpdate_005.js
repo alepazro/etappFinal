@@ -10,6 +10,7 @@ var poly = false;
 var polyMarkers = [];
 var polyClickListener = false;
 var geoCircle = false;
+//var position = { lat: 37.376, lng: -122.034 };
 
 function getGeofence(id) {
     try {
@@ -82,6 +83,13 @@ function editGeofence(obj) {
 
             $('#newGeofenceContactName').val(jsonItem.contactName);
             $('#newGeofencePhone').val(jsonItem.phone);
+            debugger;
+            if (jsonItem.IsStop == true) {
+                $('#isStop').prop('checked', true);
+            }
+            else {
+                $('#isStop').prop('checked', false);
+            }
 
             //GEOFENCE CONTACT NOTIFICATIONS. 11/23/2013
             $('#newGeofenceContactEmail').val(jsonItem.contactEmail);
@@ -333,6 +341,7 @@ function geocodePosition(pos) {
 
 function selectNewGeofenceResult(ind) {
     try {
+        
         if (newGeofenceMap == false) {
             initializeNewGeofenceMap();
         }
@@ -384,7 +393,7 @@ function selectNewGeofenceResult(ind) {
 
 function changeNewGeofenceResult(obj) {
     try {
-
+        
         var ind = $(obj.target).attr('data-ind');
 
         $('.newGeofenceResultItem').each(function () { $(this).removeClass('newGeofenceResultItemSelected') });
@@ -397,6 +406,7 @@ function changeNewGeofenceResult(obj) {
 }
 
 function loadGeocoderResults(results) {
+    
     try {
         var jsonAddress = false;
         var div = document.getElementById('newGeofenceResults');
@@ -412,10 +422,13 @@ function loadGeocoderResults(results) {
             $(divResult).attr('id', 'divResult' + ind);
             $(divResult).attr('data-ind', ind);
             $(divResult).attr('data-id', 0);
-            $(divResult).attr('data-latitude', results[ind].geometry.location.lat());
-            $(divResult).attr('data-longitude', results[ind].geometry.location.lng());
+            //$(divResult).attr('data-latitude', results[ind].geometry.location.lat());
+            //$(divResult).attr('data-longitude',results[ind].geometry.location.lng());
+            $(divResult).attr('data-latitude', results[ind].position.lat);
+            $(divResult).attr('data-longitude', results[ind].position.lng);
 
-            jsonAddress = getGoogleAddressComponents(results[ind]);
+            /*jsonAddress = getGoogleAddressComponents(results[ind]);  */
+            jsonAddress = getGoogleAddressComponentsNEW(results[ind]);
             $(divResult).attr('data-postalCode', jsonAddress.postalCode);
             $(divResult).attr('data-country', jsonAddress.country);
             $(divResult).attr('data-state', jsonAddress.state);
@@ -430,7 +443,8 @@ function loadGeocoderResults(results) {
             div.appendChild(divResult);
 
             var spanResult = document.createElement('span');
-            $(spanResult).text(results[ind].formatted_address);
+            /*$(spanResult).text(results[ind].formatted_address);*/
+            $(spanResult).text(results[ind].address.label);            
             $(spanResult).attr('data-ind', ind);
             divResult.appendChild(spanResult);
         }
@@ -442,38 +456,46 @@ function loadGeocoderResults(results) {
 }
 
 function searchNewGeofenceAddress() {
+    
     try {
+        debugger;
         var addr = $('#newGeofenceAddress').val();
 
         if (addr.length == 0) {
             alert('Please enter the geofence address');
         }
         else {
+            //geocode(platform,addr);         
+            
+           
+            //actual
             if (geocoder == false) {
                 geocoder = new google.maps.Geocoder();
             }
             geocoder.geocode({ 'address': addr }, function (results, status) {
+                debugger;
+                
                 if (status == google.maps.GeocoderStatus.OK) {
                     loadGeocoderResults(results);
                 } else {
                     alert("Geocode was not successful for the following reason: " + status);
                 }
             });
+            //fin actual
         }
     }
     catch (err) {
         alert('searchNewGeofenceAddress: ' + err.description);
     }
 }
-
 function newGeofence() {
     try {
         
         setReadyGeofenceDlgs();
-
+        
         //Make sure it starts with type Circle
         initGeoType();
-
+        
         $('#newGeofenceName').val('');
         $('#newGeofenceName').attr('data-id', 0);
         $('#newGeofenceAddress').val('');
@@ -501,9 +523,17 @@ function newGeofence() {
 
         $('#newGeofenceIsSpeedLimit').prop('checked', false);
         $('#newGeofenceSpeedLimit').val('0');
+        
+        //showLocationInMapHere("newGeofenceMap1", position, 5, true);
+        //addMarker(position);
+        //marker.draggable = true;
+        //addDraggableMarker();
+        
 
         initializeNewGeofenceMap();
+        
         $("#newGeofenceDlg").dialog('open')
+        //  map.getViewPort().resize();
     }
     catch (err) {
         alert('newGeofence: ' + err.description);
@@ -529,6 +559,7 @@ function geofenceExists(name) {
 function saveNewGeofence() {
     
     try {
+        debugger;
         var id = '';
         var suite = '';
         var street = '';
@@ -545,7 +576,8 @@ function saveNewGeofence() {
 
         id = $('#newGeofenceName').attr('data-id');
         var name = $('#newGeofenceName').val();
-
+        var isStop = $('#isStop').prop('checked');
+        debugger;
         //Is there other geofence with the same name?
         if (id == '' || id == '0') {
             if (geofenceExists(name) == true) {
@@ -737,7 +769,8 @@ function saveNewGeofence() {
                 arrivalMsgId: arrMsgId,
                 arrivalMsgTxt: arrMsgTxt,
                 departureMsgId: depMsgId,
-                departureMsgTxt: depMsgTxt
+                departureMsgTxt: depMsgTxt,
+                IsStopForJob: isStop
             }
             var postData = JSON.stringify(data);
 
@@ -1189,3 +1222,141 @@ function changeIcon() {
     
 
 }
+function loadGeocoderResultsNEW(results) {
+    
+    try {
+        var jsonAddress = false;
+        var div = document.getElementById('newGeofenceResults');
+        removeAllChildNodes(div);
+
+        for (var ind = 0; ind < results.length; ind++) {
+            var divResult = document.createElement('div');
+            $(divResult).addClass('newGeofenceResultItem');
+            if (ind == 0) {
+                $(divResult).addClass('newGeofenceResultItemSelected');
+            }
+            //$(divResult).click(changeNewGeofenceResult);
+            $(divResult).click(changeNewGeofenceResultNew);
+            $(divResult).attr('id', 'divResult' + ind);
+            $(divResult).attr('data-ind', ind);
+            $(divResult).attr('data-id', 0);
+            $(divResult).attr('data-latitude', results[ind].position.lat);
+            $(divResult).attr('data-longitude', results[ind].position.lng);
+
+            jsonAddress = getGoogleAddressComponentsNEW(results[ind]);
+            $(divResult).attr('data-postalCode', jsonAddress.postalCode);
+            $(divResult).attr('data-country', jsonAddress.country);
+            $(divResult).attr('data-state', jsonAddress.state);
+            $(divResult).attr('data-county', jsonAddress.county);
+            $(divResult).attr('data-city', jsonAddress.city);
+            $(divResult).attr('data-street', jsonAddress.street);
+            $(divResult).attr('data-route', jsonAddress.route);
+            $(divResult).attr('data-streetNumber', jsonAddress.streetNumber);
+            $(divResult).attr('data-suite', jsonAddress.suite);
+            $(divResult).attr('data-fullAddress', jsonAddress.fullAddress);
+
+            div.appendChild(divResult);
+
+            var spanResult = document.createElement('span');
+            $(spanResult).text(results[ind].address.label);
+            $(spanResult).attr('data-ind', ind);
+            divResult.appendChild(spanResult);
+        }
+        addMarker({ lat: jsonAddress.lat, lng: jsonAddress.lng })
+        //selectNewGeofenceResult(0);
+    }
+    catch (err) {
+        alert('loadGeocoderResults: ' + err.description);
+    }
+}
+function changeNewGeofenceResultNew(obj) {
+    try {
+        
+        var ind = $(obj.target).attr('data-ind');
+
+        $('.newGeofenceResultItem').each(function () { $(this).removeClass('newGeofenceResultItemSelected') });
+        $('#divResult' + ind).addClass('newGeofenceResultItemSelected');
+        selectNewGeofenceResult(ind);
+    }
+    catch (err) {
+        alert('changeNewGeofenceResult: ' + err.description);
+    }
+}
+function selectNewGeofenceResultNew(ind) {
+    try {
+        
+        //if (newGeofenceMap == false) {
+        //    initializeNewGeofenceMap();
+        //}
+
+        var lat = $('#divResult' + ind).attr('data-latitude');
+        var lng = $('#divResult' + ind).attr('data-longitude');
+        position = { lat: lat, lng: lng }
+        addMarker(position)
+        //var latlng = new google.maps.LatLng(lat, lng);
+        //var bounds = new google.maps.LatLngBounds();
+
+        //if (newGeofenceMarker == false) {
+        //    newGeofenceMarker = new google.maps.Marker({ map: newGeofenceMap, draggable: true });
+        //}
+        //else {
+        //    newGeofenceMarker.setMap(newGeofenceMap);
+        //}
+
+        var shapeId = $('#divResult' + ind).attr('data-shapeId');
+        if (shapeId == 1) {
+            //newGeoDrawCircle();
+        }
+        else {
+            var jsonTXT = $('#divResult' + ind).attr('data-jsonPolyVerticesTXT');
+            var jsonVertices = eval('(' + jsonTXT + ')');
+            drawPoly(jsonVertices);
+        }
+
+        //bounds.extend(latlng);
+        //if ($("#newGeofenceRadius").val() != 0) {
+        //    newGeofenceMarker.setPosition(latlng);
+        //}
+
+        //newGeofenceMap.fitBounds(bounds);
+
+        //google.maps.event.addListenerOnce(newGeofenceMap, 'idle', function () {
+        //    if (newGeofenceMap.getZoom() > 18) {
+        //        newGeofenceMap.setZoom(18);
+        //        google.maps.event.trigger(newGeofenceMap, 'resize');
+        //        newGeofenceMap.setCenter(latlng);
+        //    }
+        //});
+        //google.maps.event.addListener(newGeofenceMarker, 'dragend', function () {
+        //    geocodePosition(newGeofenceMarker.getPosition());
+        //});
+    }
+    catch (err) {
+        alert('selectNewGeofenceResult: ' + err.description);
+    }
+}
+function newGeoDrawCircleNew() {
+    try {
+        
+        //Get the radius, in feet
+        var feets = $('#newGeofenceRadius').val();
+        if (isNumber(feets) == true) {
+            addMarker(position,true,feets)
+            //clearCircleGeo();
+
+            //geoCircle = new google.maps.Circle({
+            //    map: newGeofenceMap,
+            //    radius: (parseFloat(radius) * 0.3048),    // 10 miles in metres
+            //    fillColor: '#AA0000'
+            //});
+            //geoCircle.bindTo('center', newGeofenceMarker, 'position');
+        }
+        else {
+            alert('Please enter a valid radius');
+        }
+    }
+    catch (err) {
+        alert('newGeoDrawCircle: ' + err.description);
+    }
+}
+

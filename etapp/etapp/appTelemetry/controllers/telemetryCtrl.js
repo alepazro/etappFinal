@@ -89,7 +89,7 @@
         }
 
         $http({
-            url: 'https://localhost:44385/etrack.svc/telemetry/' + token,
+            url: 'https://pre.etrack.ws/etrack.svc/telemetry/' + token,
             method: "POST",
             data: data
         }).then(function (response) {

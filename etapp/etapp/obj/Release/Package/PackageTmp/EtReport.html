@@ -50,31 +50,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a onclick="changePanel(16)" class="nav-link">Traking</a>
                 </li>
                 <!--<li class="nav-item d-none d-sm-inline-block">
-        <a onclick="changePanel(2)" class="nav-link">Multi-Traking</a>
-    </li>-->
+                    <a onclick="changePanel(2)" class="nav-link">Multi-Traking</a>
+                </li>-->
                 <li class="nav-item d-none d-sm-inline-block">
                     <a onclick="changePanel(15)" class="nav-link">Reports</a>
                 </li>
                 <!--<li class="nav-item d-none d-sm-inline-block">
-        <a onclick="changePanel(3)" class="nav-link">Reports</a>
-    </li>
-    <li class="nav-item d-none d-sm-inline-block">
-        <a onclick="changePanel(5)" class="nav-link">Maintenance</a>
-    </li>
-    <li class="nav-item d-none d-sm-inline-block">
-        <a onclick="changePanel(13)" class="nav-link">E-Log</a>
-    </li>-->
+                    <a onclick="changePanel(3)" class="nav-link">Reports</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a onclick="changePanel(5)" class="nav-link">Maintenance</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a onclick="changePanel(13)" class="nav-link">E-Log</a>
+                </li>-->
                 <li class="nav-item d-none d-sm-inline-block">
                     <a onclick="changePanel(14)" class="nav-link">Video</a>
                 </li>
                 <!--<li class="nav-item d-none d-sm-inline-block">
-        <a onclick="changePanel(4)" class="nav-link">Settings</a>
-    </li>-->
+                    <a onclick="changePanel(4)" class="nav-link">Settings</a>
+                </li>-->
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item" style="margin-top: 0px; margin-right: 20px;background-color:yellow">
                     <a href="reports.html" class="welcomeTitleDiv">Previous Version</a>
-                </li>                
+                </li>
                 <li class="nav-item dropdown" style="margin-top: 0px; margin-right: 20px;">
                     <div id="welcomeTitleDiv">
                         <span id="welcomeTitleSpan"></span>
@@ -85,8 +85,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a href="#" onclick="logout()" class="loginDivClass">Logout</a>
                     <!--<a class="nav-link" href="#" role="button">
 
-            <i class="fas fa-expand-arrows-alt">Logout</i>
-        </a>-->
+                        <i class="fas fa-expand-arrows-alt">Logout</i>
+                    </a>-->
                 </li>
             </ul>
         </nav>
@@ -97,9 +97,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Brand Logo -->
             <img src="img/EasiTrac.jpg" alt="EasiTrack" class="brand-image img-circle" style="opacity: .8;width:inherit;height:inherit">
             <!--<a href="EtReport.html" class="brand-link">
-        <img src="img/EasiTrac.jpg" alt="EasiTrack" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <h3><span class="brand-text font-weight-bold">EasiTrack</span></h3>
-    </a>-->
+                <img src="img/EasiTrac.jpg" alt="EasiTrack" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <h3><span class="brand-text font-weight-bold">EasiTrack</span></h3>
+            </a>-->
             <!-- /.sidebar -->
             <div class="sidebar">
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
@@ -113,29 +113,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div id="paramEventCode">
                             <p style="margin-top:5px;margin-bottom:0px">Event</p>
                             <input id="pEvents" style="width: 100%;" />
-                           
+
                         </div>
                         <div id="paramSpeedLimit" class="row">
                             <label style="margin-top:5px;margin-bottom:0px">Speed Limit(mph)</label>
                             <input type="number" id="pSpeedLimit" />
-                            
+
                         </div>
                         <div id="paramIdleLimit" class="row">
                             <label style="margin-top:5px;margin-bottom:0px">Idle Limit</label>
                             <input type="number" id="pIdleLimit" />
-                           
+
                         </div>
                         <div id="paramMinTime" class="row">
                             <label style="margin-top:5px;margin-bottom:0px">Min.Time</label>
-                            <input type="number" id="pMinTime" />                            
+                            <input type="number" id="pMinTime" />
                         </div>
                         <div id="paramGeofenceID">
                             <p style="margin-top:5px;margin-bottom:0px">Geofences</p>
                             <input type="number" id="pGeofences" />
                             <br />
                             <!--<select id="pGeofences" style="font-size:11px; width:145px;">
-        <option style="font-size:11px;">[No Geofences Loaded]</option>
-    </select>-->
+                                <option style="font-size:11px;">[No Geofences Loaded]</option>
+                            </select>-->
                         </div>
                         <div id="paramDriverID">
                             <!--<label style="color:white">Drivers</label>-->
@@ -143,14 +143,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <input type="number" id="pDrivers" />
                             <br />
                             <!--<select id="pDrivers" style="font-size:11px; width:145px;">
-        <option style="font-size:11px;">[No Drivers Loaded]</option>
-    </select>-->
+                                <option style="font-size:11px;">[No Drivers Loaded]</option>
+                            </select>-->
                         </div>
                         <div id="date" style="display:block">
                             <p style="margin-top:5px;margin-bottom:0px">Start date</p>
                             <input id="start" style="width: 100%;" />
                             <p style="margin-top:5px;margin-bottom:0px">End date</p>
-                            <input id="end" style="width: 100%;" />                            
+                            <input id="end" style="width: 100%;" />
                         </div>
                         <button name="runReport" style="margin:5px" type="button" id="runReport">Execute</button>
                     </div>
@@ -205,7 +205,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <button id="export" class="k-button" onclick="ExportTempLogExcel()">Export to Excel</button>
                                     </div>-->
                                     <div class="demo-section k-content wide">
-                                        <div id="grid" style="font-size:12px"></div>                                        
+                                        <div id="grid" style="font-size:12px"></div>
                                     </div>
                                 </div>
                             </div>
@@ -253,17 +253,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="https://kendo.cdn.telerik.com/2021.3.1207/js/jszip.min.js"></script>
     <script src="Scripts/utilities_002.js" type="text/javascript"></script>
     <script src="https://kendo.cdn.telerik.com/2017.3.913/js/pako_deflate.min.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?client=gme-theautomaticoffice&sensor=false&libraries=geometry"></script>
+    <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkc2PSbElBr5fANIa75Wmzc7bQnHUGTk4&sensor=false&libraries=geometry"></script>-->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBh4usXj1g6YjObXSwU0_tCnxfe511JLzA&v=3.17&sensor=false"></script>
 
     <script type="x/kendo-template" id="page-template">
         <div class="page-template">
-          <div class="header">
-            Document generated by EasiTrack
-          </div>
-          <div class="watermark">EASITRACK</div>
-          <div class="footer">
-            Page #: pageNum # of #: totalPages #
-          </div>
+            <div class="header">
+                Document generated by EasiTrack
+            </div>
+            <div class="watermark">EASITRACK</div>
+            <div class="footer">
+                Page #: pageNum # of #: totalPages #
+            </div>
         </div>
     </script>
 
@@ -289,7 +290,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             if (validateToken(false, 'etReport.html') == true) {
                 setWelcomeTitle();
             }
-            
+
             ListReports = getLoadReports();
             ListDevices = getLoadDevices();
             ListEventCode = getLoadCompaniesDevicesEvents();
@@ -311,14 +312,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
             if (ListDrivers.length > 0) {
                 ddlCreateDrivers(ListDrivers);
             }
-            
+
 
             $("#eventLocationMapDlg").kendoPopup({
                 anchor: $("#prueba")
             });
 
             function startChange() {
-                
+
                 var startDate = start.value(),
                     endDate = end.value();
 
@@ -381,7 +382,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         });
 
         function prueba() {
-            
+
             var lat = 0;
             var lgn = 0;
             var selectedItem = null;
@@ -391,7 +392,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 selectedItem = grid.dataItem(grid.select());
                 lat = parseFloat(selectedItem.Lat);
                 lgn = parseFloat(selectedItem.Lng);
-                showLocationInMap('mapCanvas', lat, lgn,1);
+                showLocationInMap('mapCanvas', lat, lgn, 1);
                 grid._selectedIds = {};
                 grid.clearSelection();
             } catch (ex) {
@@ -411,7 +412,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             var jsonFields = [];
 
             //$('#loading').html('<div id="loading" class="loading"><img src="images/loading.gif" alt="loading" /><br/>Un momento, por favor...</div>');
-            
+
 
             try {
                 $('#grid').empty();
@@ -420,7 +421,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 if (array.length > 0) {
                     array = JSON.parse(array);
                     if (IdReport == '28') {
-                        
+
                         array.forEach(function (element) {
                             arraySensor.push(element.SensorID);
 
@@ -675,26 +676,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         $("#chart").hide();
                         arrayColumns.push({
                             template: "<div class='customer-photo'" +
-                                "<div class='ID'>#: ID #</div>",
-                            field: "ID",
-                            title: "ID",
+                                "<div class='ReportName'>#: ReportName #</div>",
+                            field: "ReportName",
+                            title: "ReportName",
                             width: "200px"
                         },
-                            { field: "EventCode", title: "EventCode", format: "{0:c}", width: "200px", height: "5px" },
-                            { field: "EventDate", title: "EventDate", width: "200px", height: "5px" },
-                            { field: "FullAddress", width: "200px" },
+                            { field: "DeviceName", title: "DeviceName", format: "{0:c}", width: "200px", height: "5px" },
+                            { field: "IdleLocation", title: "IdleLocation", width: "200px", height: "5px" },
                             { field: "GeofenceName", title: "GeofenceName", width: "200px", height: "5px" },
+                            { field: "IdleStart", title: "IdleStart", width: "200px", height: "5px" },
+                            { field: "IdleEnd", title: "IdleEnd", width: "200px", height: "5px" },
+                            { field: "Duration", title: "Duration", width: "200px", height: "5px" },
                             { field: "Latitude", title: "Latitude", width: "200px", height: "5px" },
                             { field: "Longitude", title: "Longitude", width: "200px", height: "5px" }
 
                         );
 
                         jsonFields.push({
-                            ID: { type: "string" },
-                            EventCode: { type: "string" },
-                            EventDate: { type: "number" },
-                            FullAddress: { type: "string" },
+                            /*ID: { type: "string" },*/
+                            ReportName: { type: "string" },
+                            DeviceName: { type: "number" },
+                            IdleLocation: { type: "string" },
                             GeofenceName: { type: "string" },
+                            IdleStart: { type: "string" },
+                            IdleEnd: { type: "string" },
+                            Duration: { type: "string" },
                             Latitude: { type: "string" },
                             Longitude: { type: "string" }
                         }

@@ -3,7 +3,7 @@
         var token = getTokenCookie('ETTK');
         $.ajax({
             type: "POST",
-            url: 'https://localhost:44385/etrack.svc/updateUserPref/' + escape(token),
+            url: 'https://pre.etrack.ws/etrack.svc/updateUserPref/' + escape(token),
             contentType: 'application/json',
             data: JSON.stringify(jsonUserPref),
             dataType: "json",
@@ -27,7 +27,7 @@ function updateUserPrefGroup(jsonUserPref) {
         var token = getTokenCookie('ETTK');
         $.ajax({
             type: "POST",
-            url: 'https://localhost:44385/etrack.svc/updateUserPrefGroups/' + escape(token),
+            url: 'https://pre.etrack.ws/etrack.svc/updateUserPrefGroups/' + escape(token),
             contentType: 'application/json',
             data: JSON.stringify(jsonUserPref),
             dataType: "json",

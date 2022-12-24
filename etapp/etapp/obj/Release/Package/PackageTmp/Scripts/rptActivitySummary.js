@@ -36,7 +36,7 @@ function generateStaticMap() {
                 }
                 var encodeString = google.maps.geometry.encoding.encodePath(breadcrumbPath);
                 if (encodeString != null) {
-                    var url = "https://maps.googleapis.com/maps/api/staticmap?size=556x343&sensor=false&client=gme-theautomaticoffice&path=weight:3%7Ccolor:red%7Cenc:" + escape(encodeString);
+                    var url = "https://maps.googleapis.com/maps/api/staticmap?size=556x343&sensor=false&key=AIzaSyAkc2PSbElBr5fANIa75Wmzc7bQnHUGTk4&path=weight:3%7Ccolor:red%7Cenc:" + escape(encodeString);
                     var googURL = { _url: escape(url) };
                     googURL = JSON.stringify(googURL);
                     var ws = 'etrest.svc/getSignature';

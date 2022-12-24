@@ -44,7 +44,7 @@ function getNotificationsSendTo(isAsync, entityName, entityId, fOk, fError) {
 
         $.ajax({
             type: "GET",
-            url: 'https://localhost:44385/etrack.svc/getNotificationsSendTo/' + escape(token),
+            url: 'https://pre.etrack.ws/etrack.svc/getNotificationsSendTo/' + escape(token),
             contentType: 'application/json',
             data: data,
             dataType: "json",
@@ -421,7 +421,7 @@ function getUsersBasicInfo(isAsync, fOk, fError) {
         var token = getTokenCookie('ETTK');
         $.ajax({
             type: "GET",
-            url: 'https://localhost:44385/etrack.svc/getUsersBasicInfo/' + escape(token),
+            url: 'https://pre.etrack.ws/etrack.svc/getUsersBasicInfo/' + escape(token),
             contentType: 'application/json',
             data: 0,
             dataType: "json",

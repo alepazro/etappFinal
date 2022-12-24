@@ -688,7 +688,7 @@ function setupNewAlertDlg() {
         initAlertHours();
         $("#newAlertDlg").dialog({
             height: 600,
-            width: 600,
+            width: 750,
             autoOpen: false,
             modal: true,
             buttons: {

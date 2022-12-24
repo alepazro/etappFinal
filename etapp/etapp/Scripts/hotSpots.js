@@ -86,7 +86,7 @@ function getHotSpots() {
         var data = 'deviceId=' + escape(deviceId);
         $.ajax({
             type: "GET",
-            url: 'https://localhost:44385/etrack.svc/getHotSpots/' + escape(token),
+            url: 'https://pre.etrack.ws/etrack.svc/getHotSpots/' + escape(token),
             contentType: 'application/json',
             data: data,
             dataType: "json",

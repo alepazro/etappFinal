@@ -1,11 +1,11 @@
 ﻿//const { forEach } = require("core-js/library/es6/array");
-
+//test git
 //et_01_1.0.js
 var jsonDevices = false;
 var jsonDevicesGroupsNew = false;
 var lastRefreshOn = false;
-var urlServicio = 'https://localhost:44385';
-
+var urlServicio = 'https://pre.etrack.ws';
+//rest git
 function getBasicListError(jqXHR, textStatus, errorThrown) {
     try {
         return false;
@@ -14,7 +14,6 @@ function getBasicListError(jqXHR, textStatus, errorThrown) {
         alert('getBasicListError: ' + err.description);
     }
 }
-
 //This routine returns a json with ID, VALUE of an entity.
 function getBasicList(entityName, callback) {
     try {
@@ -38,7 +37,6 @@ function getBasicList(entityName, callback) {
         alert('getBasicList: ' + err.description);
     }
 }
-
 function getDeviceById(deviceId) {
     try {
         var jsonDevice = false;
@@ -68,9 +66,9 @@ function getDeviceById(deviceId) {
     catch (err) {
     }
 }
-
 function getDeviceBySearch(source, groupId, searchText) {
     try {
+        
         if (source == null) {
             source = 0;
         }
@@ -137,9 +135,8 @@ function getDeviceBySearch(source, groupId, searchText) {
     }
 
 }
-
 function getDevices(source, groupId) {
-    debugger;
+    
     try {
         if (source == null) {
             source = 0;
@@ -202,11 +199,10 @@ function getDevices(source, groupId) {
     }
 }
 function getDevicesGroupNew(source, groupId) {
-
     try {
         if (source == null) {
             source = 0;
-        }
+        } 
         /* if (_.isUndefined(groupId) || groupId==null ) {*/
         if (groupId == null) {
             groupId = '';
@@ -264,7 +260,6 @@ function getDevicesGroupNew(source, groupId) {
         return false;
     }
 }
-
 function dbReadWriteAsync(methodName, data, success, failure) {
 
     try {
@@ -409,7 +404,6 @@ function dbReadWriteAsync(methodName, data, success, failure) {
         alert('dbReadWriteAsync: ' + err.description);
     }
 }
-
 function dbReadWrite(methodName, data, alertFailure, isAsync) {
     
     var ret = true;
@@ -433,21 +427,23 @@ function dbReadWrite(methodName, data, alertFailure, isAsync) {
                 data = '';
             }
             
-            jQuery.ajax({
+            jQuery.ajax({                    
                 url: 'ETWS.asmx/' + methodName,
                 data: data,
                 dataType: 'xml',
                 type: "POST",
                 success: function (xml, textStatus) {
+                    
                     if (textStatus == 'success') {
                         if (($("string", xml).text()) == 'failure') {
                             ret = false;
                         }
                         else {
                             jsonObj = eval('(' + $("string", xml).text() + ')');
+                            
                             if (jsonObj.result == 'failure') {
                                 if (alertFailure == true) {
-                                    alert(jsonObj.error);
+                                    console.log(jsonObj.error);
                                 }
                                 if (jsonObj.error == 'LOGOUT') {
                                     logout();
@@ -580,7 +576,6 @@ function getValue(valueName) {
 
     }
 }
-
 function getMethodSync(method, param1, param2, param3) {
     try {
         var jsonResult = false;
@@ -622,7 +617,6 @@ function getMethodSync(method, param1, param2, param3) {
 
     }
 }
-
 function getDb(method, data) {
     try {
         var result = false;
@@ -653,7 +647,6 @@ function getDb(method, data) {
 
     }
 }
-
 function postDb(method, data, params) {
     try {
         var result = false;
@@ -877,7 +870,7 @@ function postSendFeedBack(visitedPage, type, description) {
             dataType: "json",
             processdata: false,
             success: function (data, textStatus, jqXHR) {
-                debugger;
+                
                 response = JSON.parse(data);
             },
             error: function () {
@@ -888,16 +881,15 @@ function postSendFeedBack(visitedPage, type, description) {
         });
     }
     catch (err) {
-        debugger;
+        
         alert('getBasicList: ' + err.description);
         response = "{id:-1,value:Error " + err.description+",name:Error in Javascript}"
     }
     return response;
 }
-
 function GetFeedBackType() {
     var response = "";
-    debugger;
+    
     try {
         var token = getTokenCookie('ETTK');
         $.ajax({
@@ -908,7 +900,7 @@ function GetFeedBackType() {
             dataType: "json",
             processdata: false,
             success: function (data, textStatus, jqXHR) {
-                debugger;
+                
                 response = JSON.parse(data);
             },
             error: function () {
@@ -923,4 +915,227 @@ function GetFeedBackType() {
         alert('GetdFeedBackType: ' + err.description);
     }
     return response;
+}
+function GetJobSupport() {
+    try {
+        var jsonJob = false;
+        var t = getTokenCookie('ETTK');
+        $.ajax({
+
+            //url: urlServicio+'/etrack.svc/deviceInfo/' + t + '/' + escape(deviceId),
+            url: urlServicio + '/jobs.svc/jobSupportTables?token=' + escape(t),
+            type: "GET",
+            data: 0,
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            processdata: true,
+            success: function (data, textStatus, jqXHR) {
+
+                jsonJob = data;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+
+                alert('Failed to fetch device info');
+            },
+            async: false
+        });
+
+        return jsonJob;
+    }
+    catch (err) {
+    }
+}
+function saveJobDb(jobObj) {
+    
+    try {
+        //data = 't=' + getTokenCookie('ETTK') + '&JobNumber=' + escape(JobNumber) + '&deviceId=' + escape(deviceId) + '&isGeofence=' + escape(isGeofence) + '&geofenceId=' + escape(geofenceId) + '&name=' + escape(name) + '&phone=' + escape(phone) + '&street=' + escape(street) + '&city=' + escape(city) + '&state=' + escape(state) + '&postalCode=' + escape(postalCode) + '&description=' + escape(description) + '&lat=' + escape(lat) + '&lng=' + escape(lng) + '&sendSMS=' + escape(sendSMS) + '&driverId=' + driverId + '&via=' + via + '&durationHH=' + durationHH + '&durationMM=' + durationMM + '&dueDate=' + dueDate + '&StartOn=' + StartOn + '&jobpriority=' + jobpriority + '&jobcategories=' + jobcategories;
+        var tmpJson = dbReadWrite('saveWorkOrderNEW', jobObj, true, false);
+
+        if (tmpJson) {
+            if (tmpJson.result != 'failure') {
+                if (tmpJson.result == 'NOTSENT') {
+                    //alert('Could not send Job.  Please make sure that the device has a driver assigned and that the driver has a cellphone assigned.');
+                    toastr.error('Could not send Job.  Please make sure that the device has a driver assigned and that the driver has a cellphone assigned.');
+                }
+                else {
+                    //alert('Job sent successfully');
+                    //clearDispatchPanel();
+                    toastr.success('Job sent successfully');
+                    clearJobs(3);
+                    $("#txtaDescription").val('');
+                    $("#dispatchJobDescription").val('');                    
+                    $('#jobDlg').dialog("close");
+                }
+            }
+            else {
+                toastr.error('Job could not be sent.  Please try again.');
+            }
+        }
+    }
+    catch (err) {
+        alert('dispatchThisVehicle: ' + err.description);
+    }
+}
+function getDbNEW(service, method, datap, async) {
+    try {
+        var result = false;
+        //var url = 'https://pre.etrack.ws/' + service + '/' + method;
+        var url = 'https://pre.etrack.ws/' + service + '/' + method;
+        if (datap.length > 0) {
+            url = url + '?' + datap;
+        }
+        $.ajax({
+            type: "GET",
+            url: url,
+            contentType: "application/json",
+            data: 0,
+            dataType: "json",
+            processdata: false,
+            cache: false,
+            success: function (data) {
+                
+                result = data;
+            },
+            error: function (err) {
+                
+                console.log(err)
+            },
+            async: async
+        });
+
+        return result;
+
+    }
+    catch (err) {
+
+    }
+}
+function GetJobStops(jobId) {
+    try {
+        var jsonJobStop = false;        
+        var t = getTokenCookie('ETTK');
+        $.ajax({
+
+            //url: urlServicio+'/etrack.svc/deviceInfo/' + t + '/' + escape(deviceId),
+            url: urlServicio + '/jobs.svc/GetJobStops?token=' + escape(t) + '&jobUniquekey=' + escape(jobId),
+            type: "GET",
+            data: 0,
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            processdata: true,
+            success: function (data, textStatus, jqXHR) {
+                jsonJobStop = data;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Failed to fetch device info');
+            },
+            async: false
+        });
+        return jsonJobStop;
+    }
+    catch (err) {
+    }
+}
+function delJobStopDB(data) {
+    try {
+        
+        var jsonJobStop = false;
+        var t = getTokenCookie('ETTK');
+        var objeto = JSON.stringify(data);
+        $.ajax({
+            //url: urlServicio+'/etrack.svc/deviceInfo/' + t + '/' + escape(deviceId),
+            url: urlServicio + '/jobs.svc/jobStop/'+escape(t),
+            type: "POST",
+            data: objeto,
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            processdata: true,
+            success: function (data, textStatus, jqXHR) {
+                
+                jsonJobStop = data;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                
+                alert('Failed to fetch device info');
+                console.log(jqXHR)
+            },
+            async: false
+        });
+        return jsonJobStop;
+    }
+    catch (err) {
+    }
+
+}
+function getDbJob(method, data) {
+    try {
+        
+        var result = false;
+        var token = getTokenCookie('ETTK');
+        var url = urlServicio + '/jobs.svc/' + method;
+        if (data!=null && data.length > 0) {
+            url = url + '?token=' + token + '&' + data;
+        } else {
+            url = url + '?token=' + token
+        }
+        $.ajax({
+            type: "GET",
+            url: url,
+            contentType: "application/json",
+            data: 0,
+            dataType: "json",
+            processdata: false,
+            success: function (data) {
+                result = data;
+            },
+            error: function (err) {
+
+            },
+            async: false
+        });
+
+        return result;
+
+    }
+    catch (err) {
+
+    }
+}
+function postDbJob(method, data, params) {
+    try {
+        
+        
+        var result = false;
+        var token = getTokenCookie('ETTK');
+        var url = urlServicio + '/jobs.svc/' + method + '?token=' + token;
+        if (!_.isUndefined(params)) {
+            if (params.length > 0) {
+                url = url + '&' + params;
+            }
+        }
+        $.ajax({
+            type: "POST",
+            url: url,
+            contentType: "application/json",
+            data: data,
+            dataType: "json",
+            processdata: false,
+            success: function (data) {
+                
+                result = data;
+            },
+            error: function (err) {
+                
+                console.log(err)
+                var a = 1;
+            },
+            async: false
+        });
+
+        return result;
+
+    }
+    catch (err) {
+
+    }
 }

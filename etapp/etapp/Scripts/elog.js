@@ -24,7 +24,7 @@ function openElog() {
         var token = getTokenCookie('ETTK');
         if (token != '') {
            
-            var url = 'https://localhost:44385/etrest.svc/wlius/key/' + token;
+            var url = 'https://pre.etrack.ws/etrest.svc/wlius/key/' + token;
 
             $.ajax({
                 url: url,
@@ -64,8 +64,8 @@ function openHvideo() {
         var token = getTokenCookie('ETTK');
         if (token != '') {
 
-            //var url = 'https://localhost:44385/etrest.svc/hvideo/key/' + token;
-            var url = 'https://localhost:44385/etrest.svc/hvideo/key/' + token;
+            //var url = 'https://pre.etrack.ws/etrest.svc/hvideo/key/' + token;
+            var url = 'https://pre.etrack.ws/etrest.svc/hvideo/key/' + token;
 
             $.ajax({
                 url: url,

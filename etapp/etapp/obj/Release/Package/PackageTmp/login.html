@@ -49,17 +49,20 @@
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/slick.min.js"></script>
+    <script src="PruebaMultiIdioma/js/script.js" charset="utf-8"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
+            
             getRememberMeCookie();
             var landingTime = new Date();
+            var lang = localStorage.getItem('language');
+            
+            if (lang!=null && lang.length > 0) $("#language").val(lang);
             $('#landingTime').text(landingTime);
-
             getBrand();
             getUserGUIDParam();
             validateToken(false, 'login.html');
-
             if (window.location.href.indexOf('matchpointgps') != -1) {
                 $('#eTrackNotice').hide();
             }
@@ -69,8 +72,6 @@
 
         });
     </script>
-
-
 </head>
 <body>
     <section class="login-section">
@@ -80,35 +81,37 @@
                     <div class="login-inputs-section">
                         <img src="images/Logo3.png">
                         <div class="loginform-desk">
-                            <h2>login</h2>
+                            <h2 class="lang" key="Login">login</h2>
                             <form>
                                 <div class="col-sm-12 padding-none">
-                                    <label>Username</label>
+                                    <label class="lang" key="Username">Username</label>
                                     <input id="txtLogin" onkeypress="moveTo(event, txtPassword);" type="text" />
                                 </div>
                                 <div class="col-sm-12 padding-none">
-                                    <label>Password</label>
+                                    <label class="lang" key="Password">Password</label>
                                     <input id="txtPassword" onkeypress="moveTo(event, btnSignIn);" type="password" />
                                 </div>
                                 <div class="col-sm-12 padding-none">
-                                    <label>Select Language</label>
+                                    <label class="lang" key="selectLanguage">Select Language</label>
                                     <select id="language" class="form-control" onchange="selectLanguage(this.value)">
+                                        <option value="-1">Select</option>
                                         <option value="en">EN</option>
-                                        <option value="es">ES</option>                                        
+                                        <option value="es">ES</option>
                                     </select>
                                 </div>                                
                                 <div class="col-sm-12 checkbox-log padding-none">
                                     <input type="checkbox" id="chkRememberMe" />
-                                    <label>Remember Me</label>
+                                    <label class="lang" key="Remember">Remember Me</label>
                                 </div>
-                                <div class="col-sm-12 button-submit padding-none">
-                                    <input id="btnSignIn" value="Sign In" onclick="validateCredentials()" type="button" />
+                                <div class="col-sm-12 col-md-12 button-submit padding-none">
+                                    <!--<button id="btnSignIn" onclick="validateCredentials()" class=" btn-primary lang" key="SignIn">Sign In</button>-->
+                                    <input id="btnSignIn" key="SignIn" class="lang" value="Sign In" onclick="validateCredentials()" type="button" />
                                 </div>
                                 <div class="col-sm-12 oror padding-none">
                                     <span>or</span>
                                 </div>
                                 <div class="col-sm-12 padding-none">
-                                    <div class="resend-btn"><a href="recoverCredentials.html">Resend me my credentials</a></div>
+                                    <div class="resend-btn"><a href="recoverCredentials.html" class="lang" key="ResendMeMy">Resend me my credentials</a></div>
                                 </div>
 
                                 <div class="col-sm-12 oror padding-none">
@@ -136,13 +139,13 @@
                                  <h5 class="alert-heading">Our Easitrack platform has a new look.... Check it out...!!</h5>
                                  <p>(Or Click on "Classic Login" to enjoy our original version for a limited period of time)</p>
                                </div> -->
-                            <h1>Do you want <span>eTrack</span> in your smartphone?</h1>
-                            <h4>Here's how to get the eTrack Mobile App From your smartphone or tablet</h4>
+                            <h1 class="lang" key="DoYouWant">Do you want <span>eTrack</span> in your smartphone?</h1>
+                            <h4 class="lang" key="HereHow">Here's how to get the eTrack Mobile App From your smartphone or tablet</h4>
                             <ul>
-                                <li>View the status of your entire fleet: Current status, event time, location, speed, etc.</li>
-                                <li>Locate one device or your entire fleet in a map.</li>
-                                <li>Call your drivers from within the app with a click of a button.</li>
-                                <li>See the trail of a vehicle and the list of all the places where the vehicle has been at in the selected time frame.</li>
+                                <li class="lang" key="ViewTheStatus">View the status of your entire fleet: Current status, event time, location, speed, etc.</li>
+                                <li class="lang" key="LocateOneDevice">Locate one device or your entire fleet in a map.</li>
+                                <li class="lang" key="CallYourDrivers">Call your drivers from within the app with a click of a button.</li>
+                                <li class="lang" key="SeeTheTrail">See the trail of a vehicle and the list of all the places where the vehicle has been at in the selected time frame.</li>
                             </ul>
                         </div>
                         <div class="brands-app">

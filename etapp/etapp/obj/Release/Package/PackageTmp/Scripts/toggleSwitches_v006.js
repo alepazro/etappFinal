@@ -12,7 +12,7 @@ var geoInfoWinArr = []
 
 function forceAutoZoomFeature() {
     try {
-
+        
         if (bAutoZoomFreezed == true) {
             $('#freezeAutoZoom').removeAttr("checked");
             $('#a_freezeAutoZoom').removeClass("checked");
@@ -22,9 +22,10 @@ function forceAutoZoomFeature() {
     catch (err) {
         alert('forceAutoZoomFeature: ' + err.description);
     }
+    
 }
 
-function toggleFreezeAutoZoom(val) {
+function toggleFreezeAutoZoom(val,source) {//1 fleetlocation - 2 mapcontrols  - 3 loadpage
     try {
         
         if (val == undefined) {
@@ -36,23 +37,42 @@ function toggleFreezeAutoZoom(val) {
         } else {
             onZoom(false)
         }
-
-        var preferences = JSON.parse(jsonAppFeatures.userPreferences[0]);
-        if (preferences.autoZoom != val) {
-            bAutoZoomFreezed = val;
-            var val2 = map.getZoom();
-            var jsonUserPref = { moduleName: 'TRACKING', preference: 'AUTOZOOM', val1: val, val2: val2 };
-            updateUserPref(jsonUserPref);
-            jsonAppFeatures = false;
-            getAppFeatures(1);
+        if (source != 1) {//from fleetlocation
+            var preferences = JSON.parse(jsonAppFeatures.userPreferences[0]);
+            if (source == 2) { //from mapcontrols
+                if (preferences.autoZoom != val) {
+                    
+                    bAutoZoomFreezed = val;
+                    var val2 = map.getZoom();
+                    var lat = map.getCenter().lat();
+                    var lng = map.getCenter().lng();
+                    var jsonUserPref = { moduleName: 'TRACKING', preference: 'AUTOZOOM', val1: val, val2: val2, lat: lat, lng: lng };
+                    updateUserPref(jsonUserPref);//alex
+                    jsonAppFeatures = false;//alex
+                    getAppFeatures(1);//alex
+                }
+            }
+            
         }
+
+        //var preferences = JSON.parse(jsonAppFeatures.userPreferences[0]);
+        //if (preferences.autoZoom != val) {
+            
+        //    bAutoZoomFreezed = val;
+        //    var val2 = map.getZoom();
+        //    var jsonUserPref = { moduleName: 'TRACKING', preference: 'AUTOZOOM', val1: val, val2: val2 };
+        //    updateUserPref(jsonUserPref);//alex
+        //    jsonAppFeatures = false;//alex
+        //    getAppFeatures(1);//alex
+        //}
     }
     catch (err) {
         alert('toggleFreezeAutoZoom: ' + err.description);
     }
 }
-function toggleGoogleTraffic(val) {
+function toggleGoogleTraffic(val,source) {
     try {
+        
         if (trafficLayer == false) {
             trafficLayer = new google.maps.TrafficLayer();
         }
@@ -63,17 +83,18 @@ function toggleGoogleTraffic(val) {
         else {
             trafficLayer.setMap(null);
         }
-
-        var jsonUserPref = { moduleName: 'TRACKING', preference: 'SHOWTRAFFIC', val1: val, val2: val };
-        updateUserPref(jsonUserPref);
-
+        if (source == 2) {
+            var jsonUserPref = { moduleName: 'TRACKING', preference: 'SHOWTRAFFIC', val1: val, val2: val };//alex
+            updateUserPref(jsonUserPref);//alex
+            getAppFeatures(1);
+        }      
     }
     catch (err) {
         alert('toggleGoogleTraffic: ' + err.description);
     }
 }
 
-async function toggleGeofencesLayer(val) {
+async function toggleGeofencesLayer(val, source) {
     
     try {
          $.each(geoMarkersArr, function () {
@@ -228,11 +249,14 @@ async function toggleGeofencesLayer(val) {
               $.each(geoPolyLabelsArr, function () {
                 this.setMap(map);
             });
-        }        
+
+        }   
+        if (source == 2) {
+            var jsonUserPref = { moduleName: 'TRACKING', preference: 'SHOWGEOFENCES', val1: val, val2: val };
+            updateUserPref(jsonUserPref);
+            getAppFeatures(1);
+        }
         
-        //alexander
-        //var jsonUserPref = { moduleName: 'TRACKING', preference: 'SHOWGEOFENCES', val1: val, val2: val };
-        //updateUserPref(jsonUserPref);
         
 
     }
@@ -240,7 +264,7 @@ async function toggleGeofencesLayer(val) {
         alert('toggleGeofencesLayer: ' + err.description);
     }
 }
-function toggleGeofencesLayerName(val) {
+function toggleGeofencesLayerName(val, source) {
     
     try {
         $.each(geoMarkersArr, function () {
@@ -397,9 +421,11 @@ function toggleGeofencesLayerName(val) {
                 this.setMap(map);
             });
         }
-        //alexander
-        //var jsonUserPref = { moduleName: 'TRACKING', preference: 'SHOWGEOFENCES', val1: val, val2: val };
-        //updateUserPref(jsonUserPref);
+        if (source == 2) {
+            var jsonUserPref = { moduleName: 'TRACKING', preference: 'SHOWGEOFENCESNAME', val1: val, val2: val };
+            updateUserPref(jsonUserPref);
+            getAppFeatures(1);
+        }
        
 
     }
@@ -448,9 +474,10 @@ function drawPoly(jsonVertices, iconURL) {
     }
 }
 
-function toggleLatLngGridLayer(val) {
+function toggleLatLngGridLayer(val, source) {
     //7/17/2015
     //This routine is based on the script latLngGridLayer
+    
     try {
         if (val == undefined) {
             val = false;
@@ -462,10 +489,12 @@ function toggleLatLngGridLayer(val) {
         else {
             latLngGridLayer.setMap(null);
         }
-
-        var jsonUserPref = { moduleName: 'TRACKING', preference: 'SHOWLATLNGGRID', val1: val, val2: val };
-        updateUserPref(jsonUserPref);
-
+        if (source == 2) {
+            var jsonUserPref = { moduleName: 'TRACKING', preference: 'SHOWLATLNGGRID', val1: val, val2: val };
+            updateUserPref(jsonUserPref);
+            getAppFeatures(1);
+        }
+        
     }
     catch (err) {
         alert('toggleLatLngGridLayer: ' + err.description);
@@ -474,8 +503,10 @@ function toggleLatLngGridLayer(val) {
 
 function toggleSwitches() {
     try {
+        
         $('body').attr('class', 'js');
         $('.checkbox').after(function () {
+            
             if ($(this).is(":checked")) {
                 return "<a href='#' class='toggle checked' ref='" + $(this).attr("id") + "' id='a_" + $(this).attr("id") + "'></a>";
             } else {
@@ -483,7 +514,8 @@ function toggleSwitches() {
             }
         });
         $('.toggle').click(function (e) {
-            toggleThisSwitch(this);
+            
+            toggleThisSwitch(this, 2);
 
             //var checkboxID = $(this).attr("ref");
             //var checkbox = $('#' + checkboxID);
@@ -512,60 +544,78 @@ function toggleSwitches() {
     }
 }
 
-function toggleThisSwitch(obj) {
+function toggleThisSwitch(obj,source) {//1 fleetlocation - 2 mapcontrols
     try {
-        var checkboxID = $(obj).attr("ref");
-        var checkbox = $('#' + checkboxID);
+        
+        if (source != 1) {
+            var checkboxID = $(obj).attr("ref");
+            var checkbox = $('#' + checkboxID);
 
-        var funcName = $(checkbox).attr('data-function');
+            var funcName = $(checkbox).attr('data-function');
 
-        if (checkbox.is(":checked")) {
-            checkbox.removeAttr("checked");
-            window[funcName](false);
+            if (checkbox.is(":checked")) {
+                checkbox.removeAttr("checked");
 
-        } else {
-            checkbox.attr("checked", "true");
-            window[funcName](true);
-        }
-        $(obj).toggleClass("checked");
+                window[funcName](false, source);
+
+            } else {
+                checkbox.attr("checked", "true");
+
+                window[funcName](true, source);
+            }
+            $(obj).toggleClass("checked");
+        }        
     }
     catch (err) {
         alert('toggleThisSwitch: ' + err.description);
     }
 }
-
-function applyToggleSwitchesPreferences() {
-    try {
-        if (_.isObject(jsonAppFeatures)) {
+function applyToggleSwitchesPreferences(source) {
+    
+    try {        
+        if (_.isObject(jsonAppFeatures)) {            
             var preferences = JSON.parse(jsonAppFeatures.userPreferences[0]);
-
+            
             var checkbox = $('#freezeAutoZoom');
-            if (preferences.autoZoom != checkbox.is(":checked")) {
-                toggleThisSwitch($('#a_freezeAutoZoom'));
+            //if (preferences.autoZoom != checkbox.is(":checked")) {
+            if (preferences.autoZoom) {
+                toggleThisSwitch($('#a_freezeAutoZoom'), source);
             }
+            
             if (preferences.autoZoom == true) {
                 if (_.isNumber(preferences.autoZoomLevel)) {
+                    
                     map.setZoom(preferences.autoZoomLevel);
-                    map.initialZoom = false;
+                    map.setCenter({ lat: preferences.ZoomLat, lng: preferences.ZoomLng });
+                    map.initialZoom = false;                    
                     getCurrentZoomLevel();
                     bAutoZoomFreezed = true;
                 }
             }
+            
             var checkbox = $('#mapTraffic');
-            if (preferences.showTraffic != checkbox.is(":checked")) {
-                toggleThisSwitch($('#a_mapTraffic'));
+            //if (preferences.showTraffic != checkbox.is(":checked")) {
+            if (preferences.showTraffic) {
+                toggleThisSwitch($('#a_mapTraffic'), source);
             }
-
+            
             var checkbox = $('#geoLayers');
-            if (preferences.showGeofences != checkbox.is(":checked")) {
-                //toggleThisSwitch($('#a_geoLayers'));
+            //if (preferences.showGeofences != checkbox.is(":checked")) {
+            if (preferences.showGeofences) {
+                toggleThisSwitch($('#a_geoLayers'), source);
             }
-
+            
+            var checkbox = $('#geoLayersNames');
+            //if (preferences.showGeofences != checkbox.is(":checked")) {
+            if (preferences.ShowGeofencesName) {
+                toggleThisSwitch($('#a_geoLayersNames'), source);
+            }
+            
             var checkbox = $('#latLngGridLayer');
-            if (preferences.showLatLngGrid != checkbox.is(":checked")) {
-                toggleThisSwitch($('#a_latLngGridLayer'));
-            }
-
+            //if (preferences.showLatLngGrid != checkbox.is(":checked")) {
+            if (preferences.showLatLngGrid) {
+                toggleThisSwitch($('#a_latLngGridLayer'), source);
+            }            
         }
     }
     catch (err) {

@@ -5,7 +5,7 @@ function loadCompaniesList() {
     try {
         var token = getCookie('ETCRMTK');
         $.ajax({
-            url: 'https://localhost:44385/etrack.svc/getCompanies/' + token,
+            url: 'https://pre.etrack.ws/etrack.svc/getCompanies/' + token,
             type: "GET",
             data: 0,
             dataType: 'json',
@@ -41,7 +41,7 @@ function loadEmailTypes(type) {
     try {
         var token = getCookie('ETCRMTK');
         $.ajax({
-            url: 'https://localhost:44385/etrack.svc/getEmailTypes/' + token + '/' + type,
+            url: 'https://pre.etrack.ws/etrack.svc/getEmailTypes/' + token + '/' + type,
             type: "GET",
             data: 0,
             dataType: 'json',
@@ -78,7 +78,7 @@ function getGenericMasters(masterKey) {
         var genericMaster = false;
         var token = getCookie('ETCRMTK');
         $.ajax({
-            url: 'https://localhost:44385/etrack.svc/getGenericMasters/' + token + '/' + masterKey,
+            url: 'https://pre.etrack.ws/etrack.svc/getGenericMasters/' + token + '/' + masterKey,
             type: "GET",
             data: 0,
             dataType: 'json',
@@ -105,7 +105,7 @@ function loadSuspendedReasonsList() {
     try {
         var token = getCookie('ETCRMTK');
         $.ajax({
-            url: 'https://localhost:44385/etrack.svc/getCompaniesSuspendedReasons/' + token,
+            url: 'https://pre.etrack.ws/etrack.svc/getCompaniesSuspendedReasons/' + token,
             type: "GET",
             data: 0,
             dataType: 'json',
@@ -142,7 +142,7 @@ function getAllCompanies(entityName) {
     try {
         basicList = false;
         var token = getCookie('ETCRMTK');
-        var url = 'https://localhost:44385/etrack.svc/getAllCompanies/' + token;
+        var url = 'https://pre.etrack.ws/etrack.svc/getAllCompanies/' + token;
         $.ajax({
             url: url,
             type: "GET",

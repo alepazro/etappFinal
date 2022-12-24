@@ -1,1 +1,1 @@
-﻿<%@ ServiceHost Language="VB" Debug="true" Service="etws.jobs" CodeBehind="jobs.svc.vb" %>
+﻿<%@ ServiceHost Language="VB" Debug="true" Service="etws.jobjson" CodeBehind="jobs.svc.vb" %>

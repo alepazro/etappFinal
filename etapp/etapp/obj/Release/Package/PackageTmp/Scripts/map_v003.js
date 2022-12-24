@@ -45,6 +45,7 @@ function deleteOverlays() {
 
 function createFleetMarkers() {
     try {
+        
         deleteOverlays();
 
         var labelContent = '';
@@ -89,6 +90,7 @@ function createFleetMarkers() {
                     var content = dev.infoTable;
                     var deviceId = dev.deviceId;
                     (function (marker, content, deviceId) {
+                        
                         //The general claim is to have infowindows triggered by a click rather than by a mouseover event.
                         google.maps.event.addListener(marker, 'click', function () {
                             if (!infowindow) {
@@ -124,10 +126,12 @@ function createFleetMarkers() {
                     marker.setMap(map);
 
                 }
+                
             }
-
+            
             map.fitBounds(bounds);
             google.maps.event.addListenerOnce(map, 'idle', function () {
+                
                 if (jsonDevices.myDevices.length == 1) {
                     map.setZoom(19);
                     map.initialZoom = false;
@@ -145,91 +149,86 @@ function createFleetMarkers() {
         alert('createFleetMarkers: ' + err.description);
     }
 }
-function createFleetMarkersGroupsNew() {
-    try {
-        deleteOverlays();
-
+function createFleetMarkersGroupsNew() {    
+    try {        
+        deleteOverlays();        
         var labelContent = '';
-
         if (jsonDevicesGroupsNew.myDevices.length > 0) {
-
-            var bounds = new google.maps.LatLngBounds();
-
+            var bounds = new google.maps.LatLngBounds();            
             for (var devInd = 0; devInd < jsonDevicesGroupsNew.myDevices.length; devInd++) {
-                var dev = eval('(' + jsonDevicesGroupsNew.myDevices[devInd] + ')');
-                if (dev.isNotWorking == false) {
-                    var devLatLng = new google.maps.LatLng(dev.latitude, dev.longitude);
-                    var txtColor = dev.txtColor;
-                    var bgndColor = dev.bgndColor;
-                    var marker = false;
-                    if (dev.shortName != '') {
-                        if (dev.iconLabelLine2 != '') {
-                            labelContent = '<span>' + dev.shortName + '<br />' + dev.iconLabelLine2 + '</span>';
+                var dev = eval('(' + jsonDevicesGroupsNew.myDevices[devInd] + ')');                
+                    if (dev.isNotWorking == false) {
+                        var devLatLng = new google.maps.LatLng(dev.latitude, dev.longitude);
+                        var txtColor = dev.txtColor;
+                        var bgndColor = dev.bgndColor;
+                        var marker = false;
+                        if (dev.shortName != '') {
+                            if (dev.iconLabelLine2 != '') {
+                                labelContent = '<span>' + dev.shortName + '<br />' + dev.iconLabelLine2 + '</span>';
+                            }
+                            else {
+                                labelContent = dev.shortName;
+                            }
+                            marker = new MarkerWithLabel({
+                                position: devLatLng,
+                                draggable: false,
+                                map: map,
+                                title: dev.name,
+                                icon: dev.iconUrl,
+                                labelContent: labelContent,
+                                labelAnchor: new google.maps.Point(22, 0),
+                                labelClass: "deviceLabel", // the CSS class for the label
+                                labelStyle: { opacity: 1.00, 'color': txtColor, 'background-color': bgndColor }
+                            });
+
                         }
                         else {
-                            labelContent = dev.shortName;
+                            marker = new google.maps.Marker({ position: devLatLng, map: map, title: dev.name, icon: dev.iconUrl });
+                        }                        
+                        //markersArray.push(marker);
+                        markersArray[dev.deviceId] = marker;
+                        var content = dev.infoTable;
+                        var deviceId = dev.deviceId;                         
+                        (function (marker, content, deviceId) {
+                                //The general claim is to have infowindows triggered by a click rather than by a mouseover event.                        
+                                google.maps.event.addListener(marker, 'click', function () {
+                                    if (!infowindow) {
+                                        infowindow = new google.maps.InfoWindow();
+                                    }
+                                    try {
+                                        var infoWin = getMethodSync('getInfoWindow', deviceId)
+                                        updateDeviceInFleetList(infoWin);
+                                        updateDeviceMarkerPosition(infoWin);
+                                        updateActiveInfoWindow(infoWin);
+
+                                        infowindow.deviceId = deviceId;
+                                        infowindow.setContent(infoWin.infoTable);
+                                        infowindow.open(map, marker);
+                                    }
+                                    catch (err) {
+
+                                    }
+                                });
+
+                                //2015.4.11  Lines commented because this is causing the infobubble to hide so it is not possible to click on the internal buttons/links.
+                                //google.maps.event.addListener(marker, 'mouseout', function () {
+                                //    infowindow.close();
+                                //});
+                            })(marker, content, deviceId);                        
+                        //Adjust viewport
+                        bounds.extend(devLatLng);
+                        //Shows the marker   
+                        if (dev.showDevice) {
+                            marker.setMap(map);
+                        } else {
+                            marker.setMap(null);
                         }
-                        marker = new MarkerWithLabel({
-                            position: devLatLng,
-                            draggable: false,
-                            map: map,
-                            title: dev.name,
-                            icon: dev.iconUrl,
-                            labelContent: labelContent,
-                            labelAnchor: new google.maps.Point(22, 0),
-                            labelClass: "deviceLabel", // the CSS class for the label
-                            labelStyle: { opacity: 1.00, 'color': txtColor, 'background-color': bgndColor }
-                        });
                     }
-                    else {
-                        marker = new google.maps.Marker({ position: devLatLng, map: map, title: dev.name, icon: dev.iconUrl });
-                    }
-
-                    //markersArray.push(marker);
-                    markersArray[dev.deviceId] = marker;
-
-                    var content = dev.infoTable;
-                    var deviceId = dev.deviceId;
-                    (function (marker, content, deviceId) {
-                        //The general claim is to have infowindows triggered by a click rather than by a mouseover event.
-                        google.maps.event.addListener(marker, 'click', function () {
-                            if (!infowindow) {
-                                infowindow = new google.maps.InfoWindow();
-                            }
-
-                            try {
-                                var infoWin = getMethodSync('getInfoWindow', deviceId)
-
-                                updateDeviceInFleetList(infoWin);
-                                updateDeviceMarkerPosition(infoWin);
-                                updateActiveInfoWindow(infoWin);
-
-                                infowindow.deviceId = deviceId;
-                                infowindow.setContent(infoWin.infoTable);
-                                infowindow.open(map, marker);
-                            }
-                            catch (err) {
-
-                            }
-                        });
-
-                        //2015.4.11  Lines commented because this is causing the infobubble to hide so it is not possible to click on the internal buttons/links.
-                        //google.maps.event.addListener(marker, 'mouseout', function () {
-                        //    infowindow.close();
-                        //});
-                    })(marker, content, deviceId);
-
-                    //Adjust viewport
-                    bounds.extend(devLatLng);
-
-                    //Shows the marker
-                    marker.setMap(map);
-
-                }
+                    console.log('contador: ' + devInd)
             }
-
-            map.fitBounds(bounds);
+            map.fitBounds(bounds);            
             google.maps.event.addListenerOnce(map, 'idle', function () {
+                
                 if (jsonDevicesGroupsNew.myDevices.length == 1) {
                     map.setZoom(19);
                     map.initialZoom = false;
@@ -241,10 +240,14 @@ function createFleetMarkersGroupsNew() {
                     getCurrentZoomLevel();
                 }
             });
+            
+            
         }
     }
     catch (err) {
-        alert('createFleetMarkers: ' + err.description);
+        
+        alert('createFleetMarkers: ' + err);
+        console.log('createFleetMarkers: ' + err)
     }
 }
 
@@ -289,8 +292,8 @@ function initialize(canvas) {
                 var preferences = JSON.parse(jsonAppFeatures.userPreferences[0]);
                 if (preferences.autoZoom == true) {
                     //toggleFreezeAutoZoom(false);
-                    jsonAppFeatures = false;
-                    getAppFeatures(1);
+                    //jsonAppFeatures = false;
+                    //getAppFeatures(1);
                 }
             }
         });
@@ -482,7 +485,34 @@ function geocodeDispatchLocationCallback(bAddressFound) {
         alert('geocodeDispatchLocationCallback: ' + err.description);
     }
 }
+function geocodeDispatchLocationCallbackJobNew(bAddressFound) {
+    try {
+        if (bAddressFound == true) {
+            var location = GetLocation(dispatchGoogleResults)
 
+            //Update the interface fields
+            if ($('#dispatchStreet').val() == '') {
+                $('#dispatchStreet').val(location.address1);
+            }
+            if ($('#dispatchCity').val() == '') {
+                $('#dispatchCity').val(location.city);
+            }
+            if ($('#dispatchState').val() == '') {
+                $('#dispatchState').val(location.state);
+            }
+            if ($('#dispatchPostalCode').val() == '') {
+                $('#dispatchPostalCode').val(location.postalCode);
+            }
+
+            //findClosestDevice(dispatchLastLoc);
+            //enableDriversList();
+            //$('#saveDispatchLocation').show();
+        }
+    }
+    catch (err) {
+        alert('geocodeDispatchLocationCallback: ' + err.description);
+    }
+}
 function geocodeLocation(address, bMapIt, callbackFunc) {
     try {
         var bFound = false;
@@ -559,8 +589,95 @@ function geocodeLocation(address, bMapIt, callbackFunc) {
         alert('geocodeLocation: ' + err.description);
     }
 }
+function geocodeLocationJobNew(address, bMapIt, callbackFunc) {
+    try {
+        
+        var bFound = false;
+
+        if (bMapIt == 'undefined') {
+            bMapIt = false;
+        }
+
+        if (!geocoder) {
+            geocoder = new google.maps.Geocoder();
+        }
+
+        var geocoderRequest = {
+            address: address
+        };
+
+        geocoder.geocode(geocoderRequest, function (results, status) {
+            //Handle the response here...
+            
+            switch (status) {
+                case google.maps.GeocoderStatus.OK:
+                    //OK The response contains a valid GeocoderResponse.
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        dispatchGoogleResults = results[0];
+                        
+                        $("#dispatchStreet").val(results[0].formatted_address);
+                        $("#dispatchCity").val(results[0].address_components[3].long_name);
+                        $("#dispatchState").val(results[0].address_components[5].long_name);
+                        //$("#dispatchPostalCode").val(results[0].address_components[7].long_name);
+                        $("#geof_latitude").val(results[0].geometry.location.lat);
+                        $("#geof_longitude").val(results[0].geometry.location.lng);
+                        console.log($("#geof_latitude").val() + ' lat  long ' + $("#geof_longitude").val());
+                        dispatchLastAddress = address;
+                        dispatchLastLoc = results[0].geometry.location;
+                        if (!dispatchLastMarker) {
+                            dispatchLastMarker = new google.maps.Marker();
+                        }
+                        dispatchLastMarker.setPosition(dispatchLastLoc);
+                        dispatchLastMarker.setIcon('https://easitrack.net/icons/DispatchTo.png');
+
+                        if (bMapIt == true) {
+                            map.setCenter(dispatchLastLoc);
+                            dispatchLastMarker.setMap(map);
+                            //infowindow.setContent(dispatchLastAddress);
+                            //infowindow.setPosition(dispatchLastLoc);
+                            //infowindow.open(map);
+                        }
+                        findClosestDevice(dispatchLastLoc);
+                        bFound = true;
+                    }
+
+                    break;
+                case google.maps.GeocoderStatus.ERROR:
+                    //ERROR There was a problem contacting the Google servers.
+                    break;
+                case google.maps.GeocoderStatus.INVALID_REQUEST:
+                    //INVALID_REQUEST This GeocoderRequest was invalid.
+                    break;
+                case google.maps.GeocoderStatus.OVER_QUERY_LIMIT:
+                    //OVER_QUERY_LIMIT The webpage has gone over the requests limit in too short a period of time.
+                    break;
+                case google.maps.GeocoderStatus.REQUEST_DENIED:
+                    //REQUEST_DENIED The webpage is not allowed to use the geocoder.
+                    break;
+                case google.maps.GeocoderStatus.UNKNOWN_ERROR:
+                    //UNKNOWN_ERROR A geocoding request could not be processed due to a server error. The request may succeed if you try again.
+                    break;
+                case google.maps.GeocoderStatus.ZERO_RESULTS:
+                    //ZERO_RESULTS No result was found for this GeocoderRequest.
+                    break;
+            }
+
+            if (callbackFunc) {
+                callbackFunc(bFound);
+            }
+            else {
+                return bFound;
+            }
+
+        });
+    }
+    catch (err) {
+        alert('geocodeLocation: ' + err.description);
+    }
+}
 
 function findDispatchLocation() {
+    
     try {
         var address = buildDispatchAddress();
 
@@ -599,6 +716,20 @@ function findDispatchLocation() {
     }
     catch (err) {
         alert('findLocation: ' + err.description);
+    }
+}
+function findDispatchLocationJobNew() {
+    
+    try {
+        var address = buildDispatchAddressJobNew();
+        if (address.length > 0) {
+            dispatchLastAddress = address.toUpperCase();
+            showLocationInMapHere("map_jobLocation", 37.376, -122.034, 15, true, dispatchLastAddress);            
+        }
+    }
+    catch (err) {
+        alert('findLocation: ' + err.description);
+        console.log("error "+err.description);
     }
 }
 //=================================================================

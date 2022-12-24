@@ -11,6 +11,12 @@ var list1 = [];
 var list2 = [];
 var list3 = [];
 var list4 = [];
+var boolpanel1 = false;
+var boolpanel2 = false;
+var boolpanel3 = false;
+var boolpanel4 = false;
+var arrayGroupsSelect = [];
+
 var globalSelectedGroupId = 0;
 
 function updateMT() {
@@ -30,7 +36,7 @@ function updateMT() {
                 for (var ind = 0; ind < jsonDevices.myDevices.length; ind++) {
                     jsonDevice = eval('(' + jsonDevices.myDevices[ind] + ')');
                     $('.mapDevicesList li[data-deviceId="' + jsonDevice.deviceId + '"]').each(function () {
-
+                        
                         $(this).attr('style', 'background-color:' + eventColor(jsonDevice.eventCode));
 
                         panelId = $(this).attr('data-panelId');
@@ -227,8 +233,7 @@ function getMTGroups() {
 
 function editGroup(groupId) {
     try {
-        globalSelectedGroupId = groupId;
-        $("#groupBuilderDlg").dialog('open')
+        $("#groupBuilderDlg1").dialog('open')
     }
     catch (err) {
         alert('editGroup: ' + err.description);
@@ -378,31 +383,31 @@ function saveGroupList() {
 
 function setupGroupDlg() {
     try {
-        $("#groupBuilderDlg").dialog({
-            height: 310,
-            width: 280,
+        $("#groupBuilderDlg1").dialog({
+            height: 500,
+            width: 400,
             autoOpen: false,
-            modal: true,
-            buttons: {
-                Save: function () {
-                    if (saveGroupList() == true) {
-                        $(this).dialog("close");
-                    }
-                    else {
-                        alert('Failed saving group.  Please try again.');
-                    }
-                },
-                Cancel: function () {
-                    $(this).dialog("close");
-                }
-            },
-            open: function () {
-                //Actions to perform upon open
-                loadGroupList();
-            },
-            close: function () {
-                //Actions to perform upon close
-            }
+            modal: true//,
+            //buttons: {
+            //    Save: function () {
+            //        if (saveGroupList() == true) {
+            //            $(this).dialog("close");
+            //        }
+            //        else {
+            //            alert('Failed saving group.  Please try again.');
+            //        }
+            //    },
+            //    Cancel: function () {
+            //        $(this).dialog("close");
+            //    }
+            //},
+            //open: function () {
+            //    //Actions to perform upon open
+            //    loadGroupList();
+            //},
+            //close: function () {
+            //    //Actions to perform upon close
+            //}
         });
     }
     catch (err) {
@@ -475,7 +480,6 @@ function initializeMTMaps() {
         map4.fitBounds(bounds);
 
         infowindow = new google.maps.InfoWindow();
-
     }
     catch (err) {
         alert('initializeMTMaps: ' + err.description);
@@ -485,8 +489,8 @@ function initializeMTMaps() {
 function initializeMT() {
     try {
         initializeMTMaps();
-        getMTGroups();
-        updateMT();
+        //getMTGroups();
+        //updateMT();
     }
     catch (err) {
         alert('initializeMT: ' + err.description);
@@ -587,20 +591,22 @@ function updateMTDeviceMarkerPosition(panelId, jsonDevice) {
 function getMTLastKnowLocation() {
     try {
         getDevices();
-        debugger;
+        
+        
         if (jsonDevices) {
+            
             if (jsonDevices.myDevices) {
                 var panelId = 0;
                 for (var ind = 0; ind < jsonDevices.myDevices.length; ind++) {
                     jsonDevice = eval('(' + jsonDevices.myDevices[ind] + ')');
 
                     $('.mapDevicesList li[data-deviceId="' + jsonDevice.deviceId + '"]').each(function () {
+                        
                         panelId = $(this).attr('data-panelId');
                         updateMTDeviceInLists(panelId, jsonDevice);
                         updateMTDeviceMarkerPosition(panelId, jsonDevice);
                     });
                 }
-
                 MTAutoCenter();
             }
         }
@@ -669,4 +675,493 @@ function MTAutoCenter() {
     catch (err) {
         alert('autoCenter: ' + err.Description);
     }
+}
+function sendFeedBack() {
+    let response;
+    try {
+        
+        let idType = $("#Type").val();
+        let description = $("#comment").val();
+        let pageVisited = window.location.href;
+        if (description.length < 5) {
+            alert("enter a description");
+            return;
+        }
+        response = postSendFeedBack(pageVisited, idType, description);
+        if (response.value = "OK") {
+            $("#comment").val('');
+            alert("FeedBack sent successfully");
+
+        } else {
+            alert("error: " + response.value);
+        }
+        
+        var error = ""
+    }
+    catch (err) {
+        alert("error: " + err);
+        console.log("error1 " + err);
+    }
+}
+function loadFeedBackType() {
+    var response;
+    
+    try {
+        response = GetFeedBackType();
+        
+        for (var index = 0; index < response.ListResponse.length; index++) {
+            $("#Type").append("<option value=" + response.ListResponse[index].ID + ">" + response.ListResponse[index].Name + "</option>");
+        }
+    }
+    catch (err) {
+        alert("error: " + err);
+    }
+}
+function getMTLastKnowLocationNew() {//original function getMTLastKnowLocation()
+    try {
+        /*getDevices();*/
+        getDevicesGroupNew(1,"");
+        /*var group = jsonDevicesGroupsNew.groups;*/
+        //var devices = jsonDevicesGroupsNew.myDevices;
+        
+        createGroupsDivs(jsonDevicesGroupsNew.groups);
+        loadPreferences(jsonDevicesGroupsNew.groups);
+        
+    }
+    catch (error) {
+        alert('getMTLastKnowLocation: ' + error.description);
+        console.log(error);
+    }
+}
+function createGroupsDivs(groups) {
+    var jsongroup = null;  
+    debugger;
+    $("#groupBuilderDlg1").empty();
+    var div = document.getElementById('groupBuilderDlg1');   
+    var ul = document.createElement('ul');
+    //$(ul).addClass("list-group");
+    var li;
+    var chk1; 
+    var span; 
+    var table = document.createElement('table');
+    $(table).addClass("table table-hover");
+    var tr;
+    var td;
+    var trtitle = document.createElement('tr');
+    var trtitlebtn = document.createElement('tr');
+    var tdtitle = document.createElement('td');
+    var tdtitle2 = document.createElement('td');
+    $(tdtitle).text("Select Group");
+    $(tdtitle).attr('style', 'font-weight:bold');
+    $(tdtitle2).text("Assign To Map");
+    $(tdtitle2).attr('style', 'font-weight:bold');
+    $(trtitle).append(tdtitle);
+    $(trtitle).append(tdtitle2);
+    var btn = document.createElement('button');
+    $(btn).attr("onclick", "savePreferences(2)");
+    $(btn).attr("style", "p");
+    $(btn).addClass("btn btn-outline-primary");
+    $(btn).text("save preferences");
+    $(trtitlebtn).append(btn);
+    table.appendChild(trtitlebtn);
+    table.appendChild(trtitle);
+    for (var ind = 0; ind < groups.length; ind++) {
+        
+        jsongroup = eval('(' + groups[ind] + ')');
+        if (!jsongroup.isdefault) {
+            tr = document.createElement('tr');
+            td = document.createElement('td');
+            td1 = document.createElement('td');
+            select = document.createElement('select');
+            $(select).addClass('form-select');
+            $(select).attr('disabled','disabled');
+            $(select).attr('onchange', 'selectionPanel(this)');
+            $(select).attr('id', 'selectgroup' + jsongroup.id);
+            $(select).attr('data-group',jsongroup.id);
+            $(select).append('<option value=0 selected>Select One..</option>');
+            $(select).append('<option value=1>Map 1</option>');
+            $(select).append('<option value=2>Map 2</option>');
+            $(select).append('<option value=3>Map 3</option>');
+            $(select).append('<option value=4>Map 4</option>');
+            $(select).addClass('selectgroup')             
+
+            span = document.createElement('span');
+            $(span).text(jsongroup.name);
+            chk1 = document.createElement('input');
+            $(chk1).attr('type', 'checkbox');
+            $(chk1).attr('id', 'chkgroup' + jsongroup.id);
+            $(chk1).addClass("chkgroup" + jsongroup.id);
+            $(chk1).addClass("mtchkgroup");
+            $(chk1).attr('style', 'margin:3px');
+            //$(chk1).attr('value', 'val' + jsongroup.id);
+            $(chk1).attr("onclick", "SelectAllDevices('" + jsongroup.id + "','" + jsongroup.name + "','" + jsongroup.map + "','" + jsongroup.showgroup+"')");//from individual group 
+            $(chk1).prop("checked", jsongroup.showgroup);                   
+            td.appendChild(chk1);
+            td.appendChild(span);
+            td1.appendChild(select);
+            tr.appendChild(td);
+            tr.appendChild(td1);           
+            table.appendChild(tr);            
+        }        
+    }    
+    div.appendChild(table);    
+}
+function SelectAllDevices(groupId, groupName, map, showgroup) {
+    
+    var countItems = $('.mtchkgroup:checked').size();    
+    if (countItems <= 4) {
+        
+        if ($("#chkgroup" + groupId).prop('checked')) {            
+            addGroupArray(groupId, groupName, -1, 1,2);
+            $('#selectgroup' + groupId).prop('disabled', false);
+        }else{            
+            deletegroupfromarray(groupId, groupName, globalSelectedGroupId);
+            $("#selectgroup" + groupId).val("0");
+            $('#selectgroup' + groupId).prop('disabled', true);
+            $(".mt" + map).remove();
+            switch (map) {
+                case "1":
+                    if (markersMap1) {
+                        for (i in markersMap1) {
+                            markersMap1[i].setMap(null);
+                        }
+                    }
+                    break;
+                case "2":
+                    if (markersMap2) {
+                        for (i in markersMap2) {
+                            markersMap2[i].setMap(null);
+                        }
+                    }
+                    break;
+                case "3":
+                    if (markersMap3) {
+                        for (i in markersMap3) {
+                            markersMap3[i].setMap(null);
+                        }
+                    }
+                    break;
+                case "4":
+                    if (markersMap4) {
+                        for (i in markersMap4) {
+                            markersMap4[i].setMap(null);
+                        }
+                    }
+                    break;
+            }
+            
+        }       
+    }else{
+        $("#chkgroup" + groupId).prop("checked", false);
+        toastr.warning("Warning",'You can only select up to 4 groups');
+    }
+   
+}
+function createGroupsDevicesDivs(array,div,panel) {
+    var jsongroup = null;
+    //var div = document.getElementById('groupBuilderDlg1');
+    //var ul = document.createElement('ul');
+    //$(ul).addClass("list-group");
+    //var li;
+    var chk1;
+    var span;
+    var table = document.createElement('table');
+    $(table).addClass("table table-hover");
+    var img;
+    var tr;
+    var td;    
+    for (var ind = 0; ind < array.length; ind++) {
+        jsonDevice = array[ind];/* eval('(' + array[ind] + ')');*/
+        
+        tr = document.createElement('tr');
+        $(tr).attr('style', 'background-color:' + eventColor(jsonDevice.eventCode));
+        td = document.createElement('td');
+        span = document.createElement('span');
+        $(span).text(jsonDevice.deviceId);  
+        img = document.createElement('img');
+        $(img).attr('src', jsonDevice.iconUrl);
+        $(img).attr('width', '25');
+        $(img).attr('height', '25');
+        //chk1 = document.createElement('input');
+        //$(chk1).attr('type', 'checkbox');
+        //$(chk1).attr('id', 'chkdevice' + jsonDevice.deviceId);
+        //$(chk1).addClass("chkdevice" + jsonDevice.deviceId);
+        //$(chk1).addClass("mt" + panel);
+        //$(chk1).attr('style', 'margin:3px');
+        ////$(chk1).attr('value', 'val' + jsongroup.id);
+        ////$(chk1).attr("onclick", "SelectAllDevices('" + jsongroup.id + "')");//from individual group 
+        //$(chk1).prop("checked", jsonDevice.showDevice);
+        //td.appendChild(chk1);
+        td.appendChild(span);
+        td.appendChild(img);
+        tr.appendChild(td);        
+        table.appendChild(tr);
+        
+    }
+    $(table).addClass("mt" + panel);
+    $(table).addClass("mtglobal");
+    div.appendChild(table);
+
+}
+function updateMTNew(array = [], panel) {
+    try {
+        //getDevices();        
+        var marker = false;
+        var bounds1 = new google.maps.LatLngBounds();
+        var devLatLng = null;
+        var content = null;
+        array.forEach(function(object) {
+                   
+            content = object.infoTable;
+            switch (panel) {
+                case "1":
+                    
+                    devLatLng = new google.maps.LatLng(object.latitude, object.longitude);
+                    marker = new google.maps.Marker({ position: devLatLng, map: map1, title: object.name, icon: object.iconUrl });
+                    markersMap1[object.deviceId] = marker;
+                    (function (marker, content) {
+                        
+                        google.maps.event.addListener(marker, 'click', function () {
+                            if (!infowindow) {
+                                infowindow = new google.maps.InfoWindow();
+                            }
+                            
+                            infowindow.setContent(content);
+                            infowindow.open(map1, marker);
+                        });
+                    })(marker, content);
+                    bounds1.extend(devLatLng);
+                    marker.setMap(map1);
+                    break;
+                case "2":
+                    
+                    devLatLng = new google.maps.LatLng(object.latitude, object.longitude);
+                    marker = new google.maps.Marker({ position: devLatLng, map: map2, title: object.name, icon: object.iconUrl });
+                    markersMap2[object.deviceId] = marker;
+                    (function (marker, content) {
+                        
+                        google.maps.event.addListener(marker, 'click', function () {
+                            if (!infowindow) {
+                                infowindow = new google.maps.InfoWindow();
+                            }
+                            
+                            infowindow.setContent(content);
+                            infowindow.open(map2, marker);
+                        });
+                    })(marker, content);
+                    bounds1.extend(devLatLng);
+                    marker.setMap(map2);
+                    break;
+                case "3":
+                    devLatLng = new google.maps.LatLng(object.latitude, object.longitude);
+                    marker = new google.maps.Marker({ position: devLatLng, map: map3, title: object.name, icon: object.iconUrl });
+                    markersMap3[object.deviceId] = marker;
+                    (function (marker, content) {
+
+                        google.maps.event.addListener(marker, 'click', function () {
+                            if (!infowindow) {
+                                infowindow = new google.maps.InfoWindow();
+                            }
+
+                            infowindow.setContent(content);
+                            infowindow.open(map3, marker);
+                        });
+                    })(marker, content);
+                    bounds1.extend(devLatLng);
+                    marker.setMap(map3);
+                    break;
+                case "4":
+                    devLatLng = new google.maps.LatLng(object.latitude, object.longitude);
+                    marker = new google.maps.Marker({ position: devLatLng, map: map4, title: object.name, icon: object.iconUrl });
+                    markersMap4[object.deviceId] = marker;
+                    (function (marker, content) {
+
+                        google.maps.event.addListener(marker, 'click', function () {
+                            if (!infowindow) {
+                                infowindow = new google.maps.InfoWindow();
+                            }
+
+                            infowindow.setContent(content);
+                            infowindow.open(map4, marker);
+                        });
+                    })(marker, content);
+                    bounds1.extend(devLatLng);
+                    marker.setMap(map4);
+                    break;
+            }
+
+        });
+    }
+    catch (err) {
+        alert('updateMT: ' + err.description);
+    }
+}
+function addGroupArray(pgroupId, pgroupName,panel, pshowGoup,source) {  //source: 1 load , 2 register
+    
+    let obj = {};
+    if (source == 1) {
+        obj = { groupId: pgroupId, groupName: pgroupName, panel: panel, showGoup: pshowGoup }
+    } else {
+        obj = { groupId: pgroupId, groupName: pgroupName, panel: panel, showGoup: pshowGoup }
+    }
+    arrayGroupsSelect.push(obj);
+    
+}
+function searchGroup(pgroupId) {//¿can you change the group?
+    let authorize = false;
+    let existGroup = false;
+    let existpanel = false;
+    if (arrayGroupsSelect.length > 0) {
+        arrayGroupsSelect.forEach(function (object) {            
+            if (object.groupId == pgroupId) {// && object.panel == ppanel) {
+                existGroup = true;
+                if (object.panel == ppanel) {
+                    existpanel = true;
+                }                
+                return;           
+            }
+        }); 
+        if (existGroup && existpanel) {
+            authorize = true;
+        }
+        if (existGroup && !existpanel) {
+            authorize = false;
+        }
+        if (!existGroup && !existpanel) {
+            authorize = true;
+        }
+        
+    }else {
+        authorize = true;
+    }
+    return authorize;
+}
+function deletegroupfromarray(pgroupId, pgroupName, ppanel) {
+    let obj = { groupId: pgroupId, groupName: pgroupName, panel: ppanel }
+    arrayGroupsSelect = $.grep(arrayGroupsSelect, function (value) {
+        return value.groupId != obj.groupId;
+    });
+
+}
+function savePreferences(source) {    
+    let object = {};
+    list1 = null;
+    var div;
+    let boolContinue = true;
+    
+    arrayGroupsSelect.forEach(function (value) {
+        if (value.panel=="-1") {
+            boolContinue = false;
+            toastr.warning("Warning", value.groupName+' group does not have a map assigned');
+            return;
+        }
+    });
+    
+    if (boolContinue) {
+        var listPreferences = [];  
+        $(".mtglobal").remove(); 
+        arrayGroupsSelect.forEach(function (value) {            
+            list1 = [];            
+            object = { moduleName: "MULTITRAKING", preference: "-1", val1: value.groupId, val2: value.showGoup, val3: value.panel };
+            listPreferences.push(object);               
+            if (object.val3 == 1) {
+                $("#group1BD").text(value.groupName);
+            }
+            if (object.val3 == 2) {
+                $("#group2BD").text(value.groupName);
+            }
+            if (object.val3 == 3) {
+                $("#group3BD").text(value.groupName);
+            }
+            if (object.val3 == 4) {
+                $("#group4BD").text(value.groupName);
+            }
+            for (var ind = 0; ind < jsonDevicesGroupsNew.myDevices.length; ind++) {
+                jsondevice = eval('(' + jsonDevicesGroupsNew.myDevices[ind] + ')');
+                if (jsondevice.GroupID == object.val1) {
+                    
+                    list1.push(jsondevice);                   
+                }
+            }            
+            div = selectDiv(object.val3.toString());
+            createGroupsDevicesDivs(list1, div, object.val3);
+            updateMTNew(list1, object.val3.toString())
+            if (object.val2) {
+                $("#selectgroup" + object.val1).val(object.val3.toString());
+                $('#selectgroup' + object.val1).prop('disabled', false);
+            } 
+        });
+        if (arrayGroupsSelect.length == 0) {
+            object = { moduleName: "MULTITRAKING", preference: "-1", val1: "-1", val2: "-1", val3: "-1" };
+            listPreferences.push(object);
+        }
+        if (source==2) {
+            updateUserPrefGroup(listPreferences);
+        }
+         
+        
+        
+    }
+    
+    //createGroupsDevicesDivs(arrayGroupsSelect, div1, globalSelectedGroupId);
+    //updateMTNew(arrayGroupsSelect, globalSelectedGroupId)
+} 
+function loadPreferences(groups) {   
+    groups.forEach(function (value) {
+        jsongroup = eval('(' + value + ')');
+        
+        if (jsongroup.showgroup) {            
+            addGroupArray(jsongroup.id, jsongroup.name,jsongroup.map,jsongroup.showgroup,1);//1: load
+            //globalSelectedGroupId = jsongroup.map;
+            //SelectAllDevices(jsongroup.id, jsongroup.name, jsongroup.showgroup);            
+        }
+    });
+    savePreferences(1);//source 1: loadPreferences
+}
+function selectionPanel(groupId) {  
+    
+    globalSelectedGroupId = groupId.value;
+    let boolContinue = true;
+    let group = parseInt($(groupId).attr('data-group'));
+    
+    arrayGroupsSelect.forEach(function (object) {
+        
+        if (object.panel == globalSelectedGroupId) {     
+            toastr.warning("Warning", 'Map ' + globalSelectedGroupId + ' was assigned to the ' + object.groupName);   
+            $("#selectgroup" + group).val("0");
+            boolContinue = false;
+        }        
+    });
+    if (boolContinue) {
+        arrayGroupsSelect.forEach(function (object) {            
+            if (object.groupId == group) {
+                object.panel = globalSelectedGroupId;
+            }
+        });
+    }
+    
+}
+function selectDiv(panel) {
+    var div;
+    switch (panel) {
+        case "1":
+            $(".mt1").empty();
+            div = document.getElementById('mySidenav');
+            break;
+        case "2":
+            $(".mt2").empty();
+            div = document.getElementById('2mySidenav');
+            break;
+        case "3":
+            $(".mt3").empty();
+            div = document.getElementById('3mySidenav');
+            break;
+        case "4":
+            $(".mt4").empty();
+            div = document.getElementById('4mySidenav');
+            break;
+    }
+
+    return div;
+
 }

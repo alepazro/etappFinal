@@ -25,6 +25,7 @@ function changeGradient() {
 }
 function hotSpotsDataOk(data, textStatus, jqXHR) {
     try {
+        
         var template = '';
         if (data[0].isOk == true) {
             hotSpotsData.length = 0;
@@ -50,8 +51,8 @@ function hotSpotsDataOk(data, textStatus, jqXHR) {
                 heatmap.setOptions({ radius: heatmap.get('radius') ? null : 20 });
                 changeGradient();
             });
-
-            template = _.template($('#hotSpotEvents-template').html(), { spots: data });
+                        
+            template = _.template($("#hotSpotEvents-template").html(), { spots: data });
             $('#hotSpotsDet').html(template);
 
         }
@@ -62,6 +63,7 @@ function hotSpotsDataOk(data, textStatus, jqXHR) {
         }
     }
     catch (err) {
+        console.log(err);
         alert('hotSpotsDataOk: ' + err.description);
     }
 }
@@ -76,6 +78,7 @@ function hotSpotsDataError(jqXHR, textStatus, errorThrown) {
 }
 
 function getHotSpots() {
+    
     try {
         $('#hotSpotsDet').empty();
         var token = getTokenCookie('ETTK');

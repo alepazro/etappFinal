@@ -11,6 +11,8 @@ var suspendedReasonId = 0;
 var userGUID = '';
 var userDealerId = -1;
 var rememberMe = false;
+var aut_latitude = 0.0;
+var aut_longitude = 0.0;
 
 function recoverCredentialsResponse(xml, textStatus) {
     try {
@@ -96,6 +98,7 @@ function setUserModules() {
                 }
             }
         }
+        
     }
     catch (err) {
         alert('setUserModules: ' + err.description);
@@ -165,6 +168,7 @@ function getAppFeatures(moduleId, sendToLogin) {
             if (token != '') {
                 var data = 't=' + getTokenCookie('ETTK') + '&moduleId=' + escape(moduleId);
                 jsonAppFeatures = dbReadWrite('getAppFeatures', data, true, false);
+                
 
                 setUserModules();
             }
@@ -319,6 +323,11 @@ function changePanel(panelId) {
                 //location.href = 'elog.html';
                 location.href = 'EtTraking.html';
                 break;
+            case '17', 17:
+                //location.href = 'elog.html';
+                var token = getTokenCookie('ETTK');
+                window.open('https://video.easitrack.net/sso?access_token=' + token, '_blank');
+                break;
         }
     }
     catch (err) {
@@ -329,6 +338,7 @@ function changePanel(panelId) {
 // Credentials
 function validateCredentialsResponse(xml, textStatus, isMobile) {
     try {
+        
         if (textStatus == 'success') {
             if (($("string", xml).text()) == 'failure') {
                 alert('Login failed.  Please try again.');
@@ -346,7 +356,7 @@ function validateCredentialsResponse(xml, textStatus, isMobile) {
             }
             else {
                 setTokenCookie(jsonResponse);
-
+                
                 welcomeTitle = jsonResponse.welcomeTitle;
                 userCompanyName = jsonResponse.companyName;
                 userFullName = jsonResponse.fullName;
@@ -357,7 +367,9 @@ function validateCredentialsResponse(xml, textStatus, isMobile) {
                 suspendedReasonId = jsonResponse.suspendedReasonId;
                 userGUID = jsonResponse.UserGUID;
                 userDealerId = jsonResponse.dealerId;
-
+                
+                aut_latitude = jsonResponse.latitude;
+                aut_longitude = jsonResponse.longitude;
                 if (rememberMe == true) {
                     setRememberMeCookie();
                 }
@@ -399,15 +411,22 @@ function validateCredentialsResponse(xml, textStatus, isMobile) {
 }
 
 function validateCredentials(isMobile) {
+    
     try {
         if (isMobile == undefined) {
             isMobile = false;
         }
+
+        
         rememberMe = $('#chkRememberMe').is(':checked');
         var login = document.getElementById('txtLogin').value;
         var pw = document.getElementById('txtPassword').value;
-        
-        var reqParams = 'Login=' + escape(login) + '&pw=' + escape(pw) + '&rememberMe=' + rememberMe;
+        var language = $('#language').val();
+        if (login.length < 1) { alert('enter a valid user'); return; }
+        if (pw.length < 3) { alert('enter a valid password'); return; }
+        if (language=="-1") { alert('Select a language'); return; }
+
+        var reqParams = 'Login=' + escape(login) + '&pw=' + escape(pw) + '&rememberMe=' + rememberMe + '&language=' + language;
         var url = "ETWS.asmx/ValidateCredentials";
         $.post(url, reqParams, function (xml, textStatus) { validateCredentialsResponse(xml, textStatus, isMobile); });
     }
@@ -460,6 +479,7 @@ function validateToken(isMobile, sourcePage) {
                 dataType: 'xml',
                 type: "POST",
                 success: function (xml, textStatus) {
+                    
                     if (textStatus == 'success') {
 
                         var objResponse = $("string", xml).text();
@@ -469,7 +489,7 @@ function validateToken(isMobile, sourcePage) {
                         }
                         var jsonResponse = eval('(' + objResponse + ')');
                         if (jsonResponse.isValid == true) {
-
+                            //2
                             welcomeTitle = jsonResponse.welcomeTitle;
                             userCompanyName = jsonResponse.companyName;
                             userFullName = jsonResponse.fullName;
@@ -480,6 +500,8 @@ function validateToken(isMobile, sourcePage) {
                             suspendedReasonId = jsonResponse.suspendedReasonId;
                             userGUID = jsonResponse.UserGUID;
                             userDealerId = jsonResponse.dealerId;
+                            aut_latitude = jsonResponse.latitude;
+                            aut_longitude = jsonResponse.longitude;
 
                             try{
                                 transactionID = jsonResponse.transactionId;
@@ -512,10 +534,13 @@ function validateToken(isMobile, sourcePage) {
                                     location.pathname.toLowerCase().indexOf('settings_v2.html') == -1 &&
                                     location.pathname.toLowerCase().indexOf('etreport.html') == -1 &&
                                     location.pathname.toLowerCase().indexOf('ettraking.html') == -1 &&
-                                    location.pathname.toLowerCase().indexOf('trackingp.html') == -1) {
+                                    location.pathname.toLowerCase().indexOf('trackingp.html') == -1 &&
+                                    location.pathname.toLowerCase().indexOf('settingsProduccion.html') == -1) {
+                                    
                                     location.href = 'tracking.html';
                                 }
                             }
+                            
                             ret = true;
                         }
                         else {
@@ -582,6 +607,7 @@ function validateDemoToken() {
 
 function getUserGUIDParam() {
     try {
+        
         var userGUID = getParameterByName('userGUID');
         if (userGUID != '') {
             var data = 'userGUID=' + userGUID;

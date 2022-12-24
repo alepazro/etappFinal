@@ -24,6 +24,7 @@
     background-color: #7ea9d6;
     border-radius: 60px 20px 5px;
 }
+
 .dispachin2 :hover {
     color: #333;
     background-color: #BDBFCB;
@@ -302,7 +303,7 @@ a:hover {
 
 .topstrip a {
     color: white !important;
-    font:bold;
+    font: bold;
 }
 
     .topstrip a:hover {
@@ -740,7 +741,7 @@ a {
     background: #3F84D8;
     padding: 10px 0px;
     font-size: 16px;
-    border: none;   
+    border: none;
 }
 
     .fleet-location-cusotme #fleetLocationDiv #lastKnownLocation a {
@@ -966,7 +967,7 @@ a:hover {
     padding: 1px 1px 1px 1px;
     margin-top: 1px;
     border-radius: 60px 20px 5px;
-    text-align:center
+    text-align: center
 }
 
 .form-dispatchnew table tr td {
@@ -1022,7 +1023,6 @@ a:hover {
     color: #313131;
     font-size: 14px !important;
     padding: 4px 15px;
-    
 }
 
 .dispatch-instructure-custome #dispatchDriversListDiv {
@@ -1639,7 +1639,7 @@ div#hotSpotsDet.hotspot-listing div {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #131313;
+    background-color: #E9F7EF; /*#131313;*/
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 27px;
@@ -2298,15 +2298,15 @@ div#reportContent.reports-pages div[style="width:100%;"] p[style="padding:5px;fo
 /*div#reportContent.reports-pages div table[style="border:1px solid #a1a1a1;"] tr td:last-child button {
     background-image: none;
 }*/
-div#reportContent.reports-pages div table[style="border:1px solid #a1a1a1;"] tr button[onclick="showLocationInMap('mapCanvas',47.375641,-122.045776)"] {
+/*div#reportContent.reports-pages div table[style="border:1px solid #a1a1a1;"] tr button[onclick="showLocationInMap('mapCanvas',47.375641,-122.045776)"] {
     background: url(../icons/map-gogle.png);
     border: none;
     background-repeat: no-repeat;
     height: 30px;
-    width: 30px;
+    width: 30px;*/
     /*    background-image: initial !important;*/
-    font-size: 0px !important;
-}
+    /*font-size: 0px !important;
+}*/
 /*div#reportContent.reports-pages table[style="border:1px solid #a1a1a1;"] tr td[style="padding:3px;font-size:11px;"] button img[src="icons/geofence-icon16x16.png"] {
     display: block;
 }
@@ -2739,8 +2739,8 @@ div#ui-datepicker-div a.ui-state-hover {
         .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close {
             background: transparent;
             border: none;
-            background: url(../icons/crossnew.png) !important;
-            filter: grayscale(100%);
+/*            background: url(../icons/crossnew.png) !important;
+*/            filter: grayscale(100%);
             background-repeat: no-repeat !important;
         }
 /*.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close::before {
@@ -3999,7 +3999,11 @@ div#userChangePWDlg {
 }
 
 .devicesGrid {
-    height: auto !important;
+    height: auto;
+}
+
+.devicesGrid1 {
+    height: inherit;
 }
 
 .setting-unitspage#ctrlPanel {
@@ -4352,7 +4356,7 @@ div#newAlertDlg div#alerts1Div table[style="width:100%;"] tr td[style="width:60%
 }
 
     div#newAlertDlg div#alerts1Div table[style="width:100%;"] tr td[style="width:60%; vertical-align:top;"] div[style="width:100%; height:200px; overflow:auto; border:1px solid #a0a0a0;"] table#newAlertUsersTbl tr td {
-        width: 100px !important;
+        width: 120px !important;
         float: left;
         font-size: 13px;
     }
@@ -4985,7 +4989,7 @@ div#alertRemoveDlg {
     }
 
 #settingsContent {
-    height: 100%;
+    height: 800px;
 }
 /*=============================================media query==============================*/
 @media(max-width: 1366px) {
@@ -5339,7 +5343,7 @@ div#alertRemoveDlg {
 
         li.linkmobilenew a.loginDivClass {
             margin-bottom: 5px;
-            display: block;                      
+            display: block;
         }
 
         li.linkmobilenew a span {
@@ -5525,9 +5529,6 @@ div#alertRemoveDlg {
         text-align: center;
         bottom: 0px;
     }
-
-
-
 
         .content-login-update .brands-app ul li {
             margin: 0px 4px 20px 4px !important;

@@ -82,12 +82,12 @@
             var a = 1;
         });
     }
-
     $scope.saveAndMore = function () {
         var a = 1;
     }
 
     $scope.cancelEntry = function () {
+        
         $location.path('/');
     }
 
