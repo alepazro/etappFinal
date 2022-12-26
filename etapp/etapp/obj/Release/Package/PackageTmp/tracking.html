@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html ng-app="etApp">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="#">
 </head>
 <body>
     <section class="header-easytrack" id="header">
@@ -54,26 +55,38 @@
                                     <!-- <a class="nav-link" id="rbtELOG">E-LOG</a> -->
                                     <label><input id="rbtELOG" name="panelType" onclick="changePanel(13)" type="radio" style="margin-top:10px;" /><span class="topMenuOption lang" style="font-size:16px;font-weight:bold" key="E-LOG">E-LOG</span></label>
                                 </li>
+                                <!--<li class="nav-item" id="mod6">-->
+                                <!-- <a class="nav-link" id="rbtELOG">E-LOG</a> -->
+                                <!--<label><input id="rbtVideo" name="panelType" onclick="changePanel(14)" type="radio" style="margin-top:10px;" /><span class="topMenuOption lang" style="font-size:16px;font-weight:bold" key="Video">Video</span></label>
+    </li>-->
+                                <li class="nav-item" id="mod6">
+                                    <!-- <a class="nav-link" id="rbtELOG">E-LOG</a> -->
+                                    <label><input id="rbtFieldService" name="panelType" onclick="changePanel(6)" type="radio" style="margin-top:10px;" /><span class="topMenuOption lang" style="font-size:16px;font-weight:bold" key="FieldService">Field Service</span></label>
+                                </li>
                                 <li class="nav-item" id="mod4">
                                     <!--   <a class="nav-link" id="rbtSettings">Settings</a> -->
                                     <label><input id="rbtSettings" name="panelType" onclick="changePanel(4)" type="radio" style="margin-top:10px;" /><span class="topMenuOption lang" style="font-size:16px;font-weight:bold" key="Settings">Settings</span></label>
                                 </li>
+                                <li class="nav-item dropdown" id="mod1">
+                                    <!--  <a class="nav-link" id="rbtTracking">Tracking</a> -->
+                                    <label><input id="rbtVideo" name="panelType" checked="checked" onclick="changePanel(17)" type="radio" style="margin-top:10px;" /><span class="topMenuOption lang" style="font-size:16px;font-weight:bold" key="Video">Video</span></label>
+                                </li>
                                 <li id="mod6">
                                     <img id="feedback" src="icons/feedback.png" style="width:40px;height:40px;" title="Send Feedback" data-toggle="modal" data-target="#myModal1" />
                                 </li>
-                                <li class="mobiletext"><a id="trackingFleetLocation" href="#" class="mainMenuOption linkmobilenew lang" onclick="mainMenuClick('fleetLocationDiv')" key="FleetLocation">FleetLocation</a></li>
-                                <li class="mobiletext"><a id="trackingQuickDispatch" href="#" class="mainMenuOption linkmobilenew lang" onclick="mainMenuClick('dispatchingDiv')" key="QuickDispatching">Quick Dispatching</a></li>
-                                <li class="mobiletext"><a id="trackingBreadcrumbTrail" href="#" class="mainMenuOption linkmobilenew lang" onclick="mainMenuClick('breadcrumbDiv')" key="BreadcrumbTrail">Breadcrumb Trail</a></li>
+                                <li class="mobiletext"><a id="trackingFleetLocation" href="#" class="mainMenuOption linkmobilenew lang" onclick="mainMenuClick('fleetLocationDiv',1)" key="FleetLocation">FleetLocation</a></li>
+                                <li class="mobiletext"><a id="trackingQuickDispatch" href="#" class="mainMenuOption linkmobilenew lang" onclick="mainMenuClick('dispatchingDiv',1)" key="QuickDispatching">Quick Dispatching</a></li>
+                                <li class="mobiletext"><a id="trackingBreadcrumbTrail" href="#" class="mainMenuOption linkmobilenew lang" onclick="mainMenuClick('breadcrumbDiv',1)" key="BreadcrumbTrail">Breadcrumb Trail</a></li>
                                 <li class="mobiletext"><a id="trackingFleetStatusBoard" href="fleetStatusBoard.html" class="mainMenuOption linkmobilenew lang" key="FleetStatusBoard">Fleet Status Board</a></li>
                                 <li class="mobiletext"><a id="trackingHotSpots" href="hotSpots.html" class="mainMenuOption linkmobilenew lang" key="HotSpots">Hot Spots</a></li>
                                 <li class="linkmobilenew mobiletext">
                                     <a href="#" onclick="logout()" class="loginDivClass lang" key="Logout">Logout</a>
                                 </li>
                                 <!-- <li class="linkmobilenew mobiletext">
-                                   <a id="feedback" class="dropdown-item" href="#">
-                                        <span style="font-weight:600;">Feedback</span>
-                                    </a>
-                                </li>-->
+       <a id="feedback" class="dropdown-item" href="#">
+            <span style="font-weight:600;">Feedback</span>
+        </a>
+    </li>-->
 
                             </ul>
 
@@ -113,9 +126,9 @@
     <section class="second-strip" id="middleMenu">
         <div class="container-fluid">
             <ul id="mainMenu">
-                <li><a id="trackingFleetLocation" href="#" class="mainMenuOption lang" onclick="mainMenuClick('fleetLocationDiv')" style="font-size:14px;font-weight:bold" key="FleetLocation">Fleet Location</a></li>
-                <li><a id="trackingQuickDispatch" href="#" class="mainMenuOption lang" onclick="mainMenuClick('dispatchingDiv')" style="font-size:14px;font-weight:bold" key="QuickDispatching">Quick Dispatching</a></li>
-                <li><a id="trackingBreadcrumbTrail" href="#" class="mainMenuOption lang" onclick="mainMenuClick('breadcrumbDiv')" style="font-size:14px;font-weight:bold" key="BreadcrumbTrail">Breadcrumb Trail</a></li>
+                <li><a id="trackingFleetLocation" href="#" class="mainMenuOption lang" onclick="mainMenuClick('fleetLocationDiv',1)" style="font-size:14px;font-weight:bold" key="FleetLocation">Fleet Location</a></li>
+                <li><a id="trackingQuickDispatch" href="#" class="mainMenuOption lang" onclick="mainMenuClick('dispatchingDiv',1)" style="font-size:14px;font-weight:bold" key="QuickDispatching">Quick Dispatching</a></li>
+                <li><a id="trackingBreadcrumbTrail" href="#" class="mainMenuOption lang" onclick="mainMenuClick('breadcrumbDiv',1)" style="font-size:14px;font-weight:bold" key="BreadcrumbTrail">Breadcrumb Trail</a></li>
                 <li><a id="trackingFleetStatusBoard" href="fleetStatusBoard.html" class="mainMenuOption lang" style="font-size:14px;font-weight:bold" key="FleetStatusBoard">Fleet Status Board</a></li>
                 <li><a id="trackingHotSpots" href="hotSpots.html" class="mainMenuOption lang" style="font-size:14px;font-weight:bold" key="HotSpots">Hot Spots</a></li>
             </ul>
@@ -152,7 +165,7 @@
                         </div>
                         <br />
                         <div id="search" class="container">
-                            <input type="text" id="searchInput" class="form-control" placeholder="Search" />
+                            <input type="text" id="searchInput" class="form-control" style="border-radius: 40px;" placeholder="Search" />
                         </div>
                         <br />
                         <div id="fleetListDiv" class="search-list-custome">
@@ -363,7 +376,7 @@
 
         <div class="mapcontrol customecontrol" id="map_area">
             <div class="dropdown" id="map_controls" style="position:absolute; top:10%; right:10px;">
-                <button type="button" class="btn btn-primary dropdown-toggle" onclick="myFunction()">
+                <button type="button" class="btn btn-primary dropdown-toggle lang" onclick="myFunction()" key="MapControls">
                     map controls
                 </button>
                 <div class="dropdown-menu" id="myDIV">
@@ -423,7 +436,7 @@
                                 <img src="https://www.easitrack.net/img/road.png" alt="Road" />
                             </td>
                             <td style="padding:1px;">
-                                <span style="font-size:10px; font-family:Arial; color:#000000;">Fleet Miles Today</span><br />
+                                <span style="font-size:10px; font-family:Arial; color:#000000;" class="lang" key="FleetMilesToday">Fleet Miles Today</span><br />
                                 <span style="font-size:12px; font-family:Arial; font-weight:bold; color:#636363;">{{fleet.fleetMiles}}</span>
                                 <span style="font-size:10px; color:#636363;">miles</span>
                             </td>
@@ -438,7 +451,7 @@
                                 <img src="https://www.easitrack.net/img/time.png" alt="Move Time" />
                             </td>
                             <td style="padding:1px;">
-                                <span style="font-size:10px; font-family:Arial; color:#000000;">Fleet Drive Time Today</span><br />
+                                <span style="font-size:10px; font-family:Arial; color:#000000;" class="lang" key="FleetDriveTimeToday">Fleet Drive Time Today</span><br />
                                 <span style="font-size:12px; font-family:Arial; font-weight:bold; color:#636363;">{{fleet.drivingHours}}</span>
                                 <span style="font-size:10px; color:#636363;">hours</span>
                             </td>
@@ -453,7 +466,7 @@
                                 <img src="https://www.easitrack.net/img/time-idle.png" alt="Idle Time" />
                             </td>
                             <td style="padding:1px;">
-                                <span style="font-size:10px; font-family:Arial; color:#000000;">Fleet Idle Time Today</span><br />
+                                <span style="font-size:10px; font-family:Arial; color:#000000;" class="lang" key="FleetIdleTimeToday">Fleet Idle Time Today</span><br />
                                 <span style="font-size:12px; font-family:Arial; font-weight:bold; color:#636363;">{{fleet.idleHours}}</span>
                                 <span style="font-size:10px; color:#636363;">hours</span>
                             </td>
@@ -468,7 +481,7 @@
                                 <img src="https://www.easitrack.net/img/map.png" alt="Most Active" />
                             </td>
                             <td style="padding:1px;">
-                                <span style="font-size:10px; font-family:Arial; color:#000000;">Most Active Vehicle</span><br />
+                                <span style="font-size:10px; font-family:Arial; color:#000000;" class="lang" key="MostActiveVehicle">Most Active Vehicle</span><br />
                                 <span style="font-size:12px; font-family:Arial; font-weight:bold; color:#636363;">{{fleet.mostActive.name}}</span>
                                 <span style="font-size:10px; color:#636363;">({{fleet.mostActive.miles}} miles driven)</span>
                             </td>
@@ -483,7 +496,7 @@
                                 <img src="https://www.easitrack.net/img/vehicle.png" alt="Best Driver" />
                             </td>
                             <td style="padding:1px;">
-                                <span style="font-size:10px; font-family:Arial; color:#000000;">Best Driving</span><br />
+                                <span style="font-size:10px; font-family:Arial; color:#000000;" class="lang" key="BestDriving">Best Driving</span><br />
                                 <span style="font-size:12px; font-family:Arial; font-weight:bold; color:#636363;">{{fleet.bestDriver.name}}</span>
                                 <span style="font-size:10px; color:#636363;">({{fleet.bestDriver.incidents}} incidents)</span>
                             </td>
@@ -498,7 +511,7 @@
                                 <img src="https://www.easitrack.net/img/vehicle-red.png" alt="Worst Driver" />
                             </td>
                             <td style="padding:1px;">
-                                <span style="font-size:10px; font-family:Arial; color:#000000;">Worst Driving</span><br />
+                                <span style="font-size:10px; font-family:Arial; color:#000000;" class="lang" key="WorstDriving">Worst Driving</span><br />
                                 <span style="font-size:12px; font-family:Arial; font-weight:bold; color:#636363;">{{fleet.worstDriver.name}}</span>
                                 <span style="font-size:10px; color:#636363;">({{fleet.worstDriver.incidents}} incidents)</span>
                             </td>
@@ -643,7 +656,7 @@
                         <div class="form-group">
                             <label for="Type">Select Type</label>
                             <select id="Type" class="form-control">
-                                <option value="-1">Select</option>                                
+                                <option value="-1">Select</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -693,17 +706,11 @@
         if (window.location.href.indexOf('mobilefleetsolutions') != -1) {
             document.write('<link rel="stylesheet" type="text/css" href="Styles/mfs.css" />')
         }
-    </script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> -->
-    <!---------custome files--------->
-    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> -->
-    <!--<script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>-->
+    </script>   
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-    <!-- <script type="text/javascript" src="js/slick.min.js"></script> -->
     <script type="text/javascript">var seJY41 = document.createElement("script"); seJY41.type = "text/javascript"; var seJY41s = (location.protocol.indexOf("https") == 0 ? "https" : "http") + "://image.providesupport.com/js/0325vm2g5aj6809q0cspkf44yw/safe-standard.js?ps_h=JY41&ps_t=" + new Date().getTime(); setTimeout("seJY41.src=seJY41s;document.getElementById('sdJY41').appendChild(seJY41)", 1)</script><noscript><div style="display:inline"><a href="http://vm.providesupport.com/0325vm2g5aj6809q0cspkf44yw">Customer Support Chat</a></div></noscript>
     <!-- END ProvideSupport.com Graphics Chat Button Code -->
     <!--    Javascript includes -->
@@ -720,7 +727,8 @@
     <script src="Scripts/tracking_v009.js" type="text/javascript"></script>
     <script src="Scripts/geofence.js" type="text/javascript"></script>
     <script src="Scripts/sendQuickMessage.js" type="text/javascript"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?client=gme-theautomaticoffice&v=3.17&sensor=false"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0_pMfDu2y89AelDFNjgdImcB4wT8jQas"></script>
+
     <script type="text/javascript" src="Scripts/MarkerWithLabel.js"></script>
     <script type="text/javascript" src="Scripts/latLngGridLayer.js"></script>
     <script src="Scripts/toggleSwitches_v006.js" type="text/javascript"></script>
@@ -742,61 +750,35 @@
     <script src="appQuickMsg/controllers/quickMsgCtrl.js" type="text/javascript"></script>
     <script src="appMsgSystem/controllers/msgSystemCtrl.js" type="text/javascript"></script>
     <script src="appFleetHeartBeat/fleetHeartBeatCtrl.js" type="text/javascript"></script>
-    <script src="Scripts/pageEngagement.js"></script>
     <script src="PruebaMultiIdioma/js/script.js" charset="utf-8"></script>
     <script type="text/javascript">
+        //$('.second-strip #mainMenu li').click(function () {
+        //    $('#mainMenu li.active').removeClass('active');
+        //    $(this).closest('li').addClass('active');
+        //});
+        //$('.header-easytrack .navbar-nav li').click(function () {
+        //    $('.navbar-nav li.current').removeClass('current');
+        //    $(this).closest('li').addClass('current');
+        //});
 
-        $('.second-strip #mainMenu li').click(function () {
-            $('#mainMenu li.active').removeClass('active');
-            $(this).closest('li').addClass('active');
-        });
+        //$('.form-dispatchnew legend label').click(function () {
+        //    $('legend label.active').removeClass('active');
+        //    $(this).closest('label').addClass('active');
+        //});
 
-        $('.header-easytrack .navbar-nav li').click(function () {
-            $('.navbar-nav li.current').removeClass('current');
-            $(this).closest('li').addClass('current');
-        });
-
-
-
-        $('.form-dispatchnew legend label').click(function () {
-            $('legend label.active').removeClass('active');
-            $(this).closest('label').addClass('active');
-        });
-       
         $(document).ready(function () {
+            var groupnameid = "";
+            $("#breadcrumbDatepicker").datepicker({ dateFormat: 'yy-mm-dd' });
             traductor();
-            loadFeedBackType();
-            getAppFeatures(1);
-            toggleSwitches();
-            getBrand(onBrandSet);
+            loadFeedBackType();            
+            getBrand(onBrandSet);           
             
-            
-            const searchInput = document.querySelector('#searchInput');
-            //var listDevices = document.querySelector("#fleetList");
-
-
-            function filter() {
-                debugger;
-                var text = searchInput.value;
-                if (text.trim().length >= 0) {
-                    var regxp = /^([a-zA-Z0-9_-]){1,16}$/;
-                    if (text.trim().match(regxp) || (text.trim() == "")) {
-                        loadDevicesBySearchText(text.trim());
-                    } else {
-                        console.log("Valor NO aceptado");
-                    }
-                } else if (text == "") {
-                    loadDevicesBySearchText(text.trim());
-                }
-
-            }
             searchInput.addEventListener("keyup", filter);
-
             $(document.getElementById('ctrlPanel')).attr('style', 'max-height:' + (h - 90 - 50) + 'px;');
-
             $("#waitingSpinner").attr('style', 'display:none;width:100px;height:100px;right:' + (w / 2) + 'px;top:' + (h / 2) + 'px;position:fixed;z-index:999;');
             $("#breadcrumbDatepicker").datepicker();
             $('#breadcrumbDatepicker').val(getNow());
+            
             setGeofenceDlg();
             setStreetViewDlg();
             dispatchToTypeToggle(1);
@@ -808,19 +790,44 @@
                 $('.navbar-collapse').toggleClass('open');
             });
             if (validateToken(false, 'tracking.html') == true) {
+                
                 setWelcomeTitle();
-                initialize("map_canvas");
-                applyAccessRights();
-                loadDevicesGroups();
-                loadDevicesGroupsNew();
+                getAppFeatures(1);
+                initialize("map_canvas");                
+                toggleSwitches(); 
+                
+                //applyAccessRights();
+                //loadDevicesGroups();
+                
+                loadDevicesGroupsNew();                
                 tooltipsSetUp();
                 setLiveChat();
-                pageEngagement();
+                //pageEngagement();
             }
-            activityIndicator();
-
-            mainMenuClick('fleetLocationDiv');
+            //activityIndicator();
+            
+            mainMenuClick('fleetLocationDiv', 3);
+            
+            SelectAllDevices("groupAll", "chkgroup" + groupnameid, "4");
         });
+        function filter() {
+            const searchInput = document.querySelector('#searchInput');
+            var text = searchInput.value;
+            
+            if (text.trim().length > 0) {
+                
+                var regxp = /^([a-zA-Z0-9_-]){1,16}$/;
+                if (text.trim().match(regxp) || (text.trim() == "")) {
+                    loadDevicesBySearchText(text.trim());
+                } else {
+                    console.log("Valor NO aceptado");
+                }
+            } else if (text == "") {
+                loadDevicesGroupsNew(); 
+                SelectAllDevices("groupAll", "chkgroup" + groupnameid, "4");
+            }
+
+        }
         function myFunction() {
             var x = document.getElementById("myDIV");
 
@@ -841,11 +848,11 @@
             }
             catch (err) {
             }
-        }        
+        }
     </script>
-    <script type="text/javascript">
-        setInterval("getLastKnowLocation()", 1 * 30 * 1000);
-    </script>
+    <!--<script type="text/javascript">
+        setInterval("getLastKnowLocation()", 1 * 15 * 1000);
+    </script>-->
     <script type="text/javascript" src="Scripts/buyNowButton.js"></script>
 </body>
 </html>

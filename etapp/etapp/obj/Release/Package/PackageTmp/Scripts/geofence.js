@@ -92,6 +92,7 @@ function cboDispatchGeofencesChange(selObj) {
         var data = 't=' + getTokenCookie('ETTK') + '&id=' + id;
         //var jsonGeo = getJsonRecord(jsonGeofences.geofences, id);
         var geo = dbReadWrite('getGeofence', data, true, false);
+        
         var jsonGeo = eval('(' + geo.geofence + ')');  
 
         if (jsonGeo) {

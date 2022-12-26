@@ -1,12 +1,13 @@
 ﻿function loadJob() {
-    try{
+    try {
+        
         var token = getTokenCookie('ETTK');
         var id = getParameterByName('id');
 
         if (id != '') {
             var data = 'token=' + token + '&id=' + escape(id);
             var job = getDb('jobs.svc', 'getJob', data, false);
-
+            
             document.title = 'Job ' + job.jobNumber;
             $('#jobNumber').text(job.jobNumber);
 
@@ -95,6 +96,28 @@ function showSignature(obj) {
         var data = 'token=' + escape(token) + '&id=' + imgId;
         var img = getDb('pilot.svc', 'getImage', data, false);
         $('#imgJobSignature').attr("src", img.imgData);
+    }
+    catch (err) {
+
+    }
+}
+function updateJob() {
+    try {
+        var id = getParameterByName('id');
+        let jobNumber= $('#jobNumber').text();
+        let custName=$('#custName').val();
+        let custContact=$('#custContact').val();
+        let custPhone=$('#custPhone').val();
+        let custEmail=$('#custEmail').val();
+        let custAddress=$('#custAddress').val();
+        let dueDate=$('#dueDate').val();
+        let estDuration=$('#estDuration').val();
+        let durationHHMM=$('#durationHHMM').val();
+        let jobDescription=$('#jobDescription').val();
+        let categoryName=$('#categoryName').val();
+        let statusName=$('#statusName').val();
+        let priorityName=$('#priorityName').val();
+        let userName =$('#userName').val();
     }
     catch (err) {
 

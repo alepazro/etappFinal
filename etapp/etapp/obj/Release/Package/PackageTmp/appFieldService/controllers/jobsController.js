@@ -1,9 +1,11 @@
-﻿etApp.controller('jobsController', ['$scope', 'SupportLists', 'Job', function ($scope, SupportLists, Job) {
+﻿
+etApp.controller('jobsController', ['$scope', 'SupportLists', 'Job', function ($scope, SupportLists, Job) {
 
     //Get basic tables
     //===========================================================
     var token = getTokenCookie('ETTK');
     var noCache = Math.floor((Math.random() * 100000) + 1);
+    var jobId;
     SupportLists.getAll({ token: token, noCache: noCache }, function (data) {
         $scope.workZones = data.workZones;
         $scope.woStatus = data.statuses;
@@ -118,15 +120,15 @@
                 command: {
                     text: "Edit", click: function (e) {
                         //editJob(e);
-
+                        
+                        jobId = 0;
                         e.preventDefault();
                         var selectedRows = this.select();
                         if (selectedRows.length > 0) {
                             var selRow = this.dataItem(selectedRows[0]);
-                            var jobId = selRow.id;
-
+                            jobId = selRow.id;
+                            
                             editJob(jobId);
-
                             //$rootScope.$apply(function () {
                             //    $location.path("job/" + jobId);
                             //});
@@ -136,7 +138,7 @@
                 title: " ",
                 width: "100px"
             },
-            { field: 'workZoneName', title: 'Work Zone', width: "100px" },
+            //{ field: 'workZoneName', title: 'Work Zone', width: "100px" },
             { field: 'jobNumber', title: 'Job No.', width: "100px" },
             { field: 'customerName', title: 'Customer', width:"150px" },
             { field: 'jobDescription', title: 'Job Description' },
@@ -144,7 +146,9 @@
             { field: 'jobStatus', title: 'Status', width: "100px" },
             { field: 'priority', title: 'Priority', width: "100px" },
             { field: 'createdOn', title: 'Created On', width: "100px" },
-            { field: 'dueOn', title: 'Due On', width: "100px" }
+            { field: 'StartOn', title: 'Start On', width: "100px" },
+            { field: 'dueOn', title: 'Due On', width: "100px" },
+            { field: 'DurationJob', title: 'Duration Job', width: "80px" }
         ],
         change: function (e) {
             var selectedRows = this.select();
@@ -157,6 +161,7 @@
     //==============================================
 
     $scope.loadJobs = function () {
+        
         var token = getCookie('ETTK');
         var noCache = Math.floor((Math.random() * 100000) + 1);
         var filterJobNumber = $scope.filterJobNumber;
@@ -168,6 +173,7 @@
             filterCustomerName = '0';
         }
         Job.getJobs({ token: token, noCache: noCache, statId: $scope.jobFilterStatus, wzId: $scope.jobFilterWorkZoneId, techId: $scope.jobFilterAssignedToId, jobNo: filterJobNumber, custName: filterCustomerName }, function (data) {
+            
             var ds = new kendo.data.DataSource({ data: data });
             var grid = $('#jobsGrid').data("kendoGrid");
             grid.setDataSource(ds);
@@ -209,8 +215,45 @@
         $scope.loadJobs();
     }
 
-    $scope.newJob = function () {
+    $scope.newJob = function () {    
         $('#jobDlg').dialog("open");
+        map.getViewPort().resize();
+        clearJobs(3);
+        
     }
+    $scope.cancelEntry = function () {
+        $('#jobDlg').dialog("close");
+        map.getViewPort().resize();
+        clearJobs(3);
+    }
+    $scope.viewMap = function () {
+        //$('#jobDlgViewMap').dialog("open");
+        
+        /*initialize("map");    */
+        let geof_latitud = parseFloat($('#geof_latitude').val());
+        let geof_longitud = parseFloat($('#geof_longitude').val());
+        let geof_name = $("#geof_name").text();
 
+        showLocationInMapHere('mapGeo', geof_latitud, geof_longitud, 16);
+        $("#jobDlgViewMap").dialog('open');
+       
+        //showLocationInMap1('mapGeo', geof_latitud, geof_longitud, "#jobDlgViewMap", 16);
+       /* initMap("mapGeo", geof_latitud, geof_longitud, geof_name);*/
+        //console.log('viewmap: lat '+geof_latitud +'long '+ geof_longitud +'name '+geof_name);
+        
+    }
+    function initMap(p_map, p_lat, p_lng, title) {
+        alert('JobController ' + initMap)
+        console.log('initMap: lat ' + p_lat + 'long ' + p_lng + 'name ' + title);
+
+        map = new google.maps.Map(document.getElementById(p_map), {
+            center: { lat: 37.09024, lng: -95.712891 },//eeuu
+            zoom: 13,
+        });
+        var marker = new google.maps.Marker({
+            position: { lat: p_lat, lng: p_lng },
+            map: map,
+            title: title
+        });
+    }
 }]);

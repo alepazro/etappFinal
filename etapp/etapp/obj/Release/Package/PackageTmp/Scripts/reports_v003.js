@@ -545,6 +545,7 @@ function loadCompaniesEventsFailure() {
 
 function loadGeofencesSuccess(xml, textStatus) {
     
+    
     try {
         if (textStatus == 'success') {
             if (($("string", xml).text()) == 'failure') {
@@ -554,7 +555,7 @@ function loadGeofencesSuccess(xml, textStatus) {
                 jsonObj = eval('(' + $("string", xml).text() + ')');
                 if (jsonObj.result == 'failure') {
                     if (alertFailure == true) {
-                        alert(jsonObj.error);
+                        console.log(jsonObj.error);
                     }
                     if (jsonObj.error == 'LOGOUT') {
                         logout();
@@ -569,7 +570,7 @@ function loadGeofencesSuccess(xml, textStatus) {
 
     }
     catch (err) {
-        alert('loadGeofencesSuccess: ' + err.description);
+        console.log('loadGeofencesSuccess: ' + err.description);
     }
 }
 
@@ -1276,4 +1277,45 @@ function onSelectddlCreateDate(e) {
         //kendoConsole.log("event :: select");
     }
     // }
+}
+function sendFeedBack() {
+    let response;
+    try {
+        
+        let idType = $("#Type").val();
+        let description = $("#comment").val();
+        let pageVisited = window.location.href;
+        if (description.length < 5) {
+            alert("enter a description");
+            return;
+        }
+        response = postSendFeedBack(pageVisited, idType, description);
+        if (response.value = "OK") {
+            $("#comment").val('');
+            alert("FeedBack sent successfully");
+
+        } else {
+            alert("error: " + response.value);
+        }
+        
+        var error = ""
+    }
+    catch (err) {
+        alert("error: " + err);
+        console.log("error1 " + err);
+    }
+}
+function loadFeedBackType() {
+    var response;
+    
+    try {
+        response = GetFeedBackType();
+        
+        for (var index = 0; index < response.ListResponse.length; index++) {
+            $("#Type").append("<option value=" + response.ListResponse[index].ID + ">" + response.ListResponse[index].Name + "</option>");
+        }
+    }
+    catch (err) {
+        alert("error: " + err);
+    }
 }

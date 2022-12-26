@@ -600,7 +600,7 @@ function buyNow() {
         };
         data = JSON.stringify(data);
 
-        var url = 'https://localhost:44385/ws.svc/saveWebForm';
+        var url = 'https://pre.etrack.ws/ws.svc/saveWebForm';
         $.ajax({
             type: "POST",
             url: url,
@@ -781,7 +781,7 @@ function dbSaveForm(methodName, data, alertFailure, isAsync, isSLL) {
             var url = 'ws.svc/' + methodName;
 
             if (isSLL == true) {
-                url = 'https://localhost:44385/' + url;
+                url = 'https://pre.etrack.ws/' + url;
             }
 
             jQuery.ajax({
@@ -838,7 +838,7 @@ function getPrice() {
         var prices = false;
         $.ajax({
             type: "GET",
-            url: 'https://localhost:44385/ws.svc/getPrice',
+            url: 'https://pre.etrack.ws/ws.svc/getPrice',
             crossDomain: true,
             contentType: "application/json",
             data: 0,

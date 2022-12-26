@@ -1,6 +1,7 @@
 ﻿function getDb(service, method, data, async) {
     try {
         var result = false;
+        //var url = 'https://pre.etrack.ws/' + service + '/' + method;
         var url = 'https://pre.etrack.ws/' + service + '/' + method;
         if (data.length > 0) {
             url = url + '?' + data;

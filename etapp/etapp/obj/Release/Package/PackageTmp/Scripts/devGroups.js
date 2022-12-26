@@ -116,7 +116,7 @@ function newDevGroup() {
 }
 
 function editDevGroup(obj) {
-    debugger;
+    
     try {
         if (validateUserAccess(36) == true) {
             if (isDevGroupsDlgReady == false) {
@@ -318,7 +318,7 @@ function clearDevGroupsList() {
 }
 
 function getDevGroups() {
-    debugger;
+    
     try {
         var data = 't=' + getTokenCookie('ETTK');
         jsonDevGroups = dbReadWrite('getDevGroups', data, true, false);
@@ -331,7 +331,7 @@ function getDevGroups() {
 }
 
 function loadDevGroups() {
-    debugger;
+    
     try {
         //Always get a fresh set of dev groups
         getDevGroups();
@@ -475,7 +475,7 @@ function loadDevGroupDlg(mode, id, jsonAllDevices, jsonAllUsers, jsonDevGroupDev
 
         //Load the device
 
-        debugger;
+        
         loadDevGroupDevices(mode, jsonAllDevices, jsonDevGroupDevices, isDefault);
 
         //Load the users

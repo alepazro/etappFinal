@@ -75,7 +75,7 @@ services.factory('JobStatus', ['$resource', function ($resource) {
 }]);
 
 services.factory('CustomerSearch', ['$resource', function ($resource) {
-    return $resource('https://localhost:44385/etrack.svc/customerSearch/:token/:noCache/:custName',
+    return $resource('https://pre.etrack.ws/etrack.svc/customerSearch/:token/:noCache/:custName',
         { token: '@token', noCache: '@noCache', custName: '@custName' },
         {
             getCustomers: { method: "GET", isArray: true, params: { token: 0, noCache: 0, custName: 0 } }

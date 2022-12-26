@@ -1,7 +1,7 @@
 ﻿var services = angular.module('etApp.services', ['ngResource']);
 
 services.factory('IDNameList', ['$resource', function ($resource) {
-    return $resource('https://localhost:44385/etrack.svc/idNameList/:token/:noCache/:listName',
+    return $resource('https://pre.etrack.ws/etrack.svc/idNameList/:token/:noCache/:listName',
         { token: '@token', noCache: '@noCache', listName: '@listName' },
         {
             getAll: { method: "GET", isArray: true, params: { token: 0, noCache: 0, listName: 0 } }
@@ -9,7 +9,7 @@ services.factory('IDNameList', ['$resource', function ($resource) {
 }]);
 
 services.factory('Device', ['$resource', function ($resource) {
-    return $resource('https://localhost:44385/etrack.svc/maintDevice/:token/:noCache/:id',
+    return $resource('https://pre.etrack.ws/etrack.svc/maintDevice/:token/:noCache/:id',
         { token: '@token', noCache: '@noCache', id: '@id' },
         {
             getAll: { method: "GET", isArray: true, params: { token: 0, noCache: 0 } },
@@ -18,7 +18,7 @@ services.factory('Device', ['$resource', function ($resource) {
 }]);
 
 //services.factory('ServiceItem', ['$resource', function ($resource) {
-//    return $resource('https://localhost:44385/etrack.svc/serviceItem/:token/:noCache/:id',
+//    return $resource('https://pre.etrack.ws/etrack.svc/serviceItem/:token/:noCache/:id',
 //        { token: '@token', noCache: '@noCache', id: '@id' },
 //        {
 //            getAll: { method: "GET", isArray: true, params: { token: 0, noCache: 0 } }
@@ -26,7 +26,7 @@ services.factory('Device', ['$resource', function ($resource) {
 //}]);
 
 services.factory('MaintSchedule', ['$resource', function ($resource) {
-    return $resource('https://localhost:44385/etrack.svc/maintSchedule/:token/:noCache/:deviceId/:id',
+    return $resource('https://pre.etrack.ws/etrack.svc/maintSchedule/:token/:noCache/:deviceId/:id',
         { token: '@token', noCache: '@noCache', deviceId: '@deviceId', id: '@id' },
         {
             getAll: { method: "GET", isArray: true, params: { token: 0, noCache: 0 } },
@@ -35,7 +35,7 @@ services.factory('MaintSchedule', ['$resource', function ($resource) {
 }]);
 
 services.factory('MaintLog', ['$resource', function ($resource) {
-    return $resource('https://localhost:44385/etrack.svc/maintLog/:token/:noCache/:deviceId/:id',
+    return $resource('https://pre.etrack.ws/etrack.svc/maintLog/:token/:noCache/:deviceId/:id',
         { token: '@token', noCache: '@noCache', deviceId: '@deviceId', id: '@id' },
         {
             getAll: { method: "GET", isArray: true, params: { token: 0, noCache: 0 } },
@@ -44,7 +44,7 @@ services.factory('MaintLog', ['$resource', function ($resource) {
 }]);
 
 services.factory('SupportLists', ['$resource', function ($resource) {
-    return $resource('https://localhost:44385/etrack.svc/maintSupportLists/:token/:noCache',
+    return $resource('https://pre.etrack.ws/etrack.svc/maintSupportLists/:token/:noCache',
         { token: '@token', noCache: '@noCache' },
         {
             getAll: { method: "GET", params: { token: 0, noCache: 0 } }

@@ -60,11 +60,12 @@ function openElog() {
 }
 function openHvideo() {
     try {
+        
         var token = getTokenCookie('ETTK');
         if (token != '') {
 
             //var url = 'https://pre.etrack.ws/etrest.svc/hvideo/key/' + token;
-            var url = 'http://localhost:51230/etrest.svc/hvideo/key/' + token;
+            var url = 'https://pre.etrack.ws/etrest.svc/hvideo/key/' + token;
 
             $.ajax({
                 url: url,
@@ -87,6 +88,7 @@ function openHvideo() {
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
+                    
                     var a = 1;
                 },
                 async: true
@@ -95,6 +97,7 @@ function openHvideo() {
         }
 
     } catch (err) {
-        alert(err.message);
+        
+        console.log(err.message);
     }
 }

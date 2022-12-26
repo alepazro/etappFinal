@@ -1,5 +1,5 @@
 ﻿var app = {
-    apiUrl: 'https://localhost:44385',
+    apiUrl: 'https://pre.etrack.ws',
     lan: 'en',
     debug: true,
     version: '1.0',

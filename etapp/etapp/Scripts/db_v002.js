@@ -4,7 +4,7 @@
 var jsonDevices = false;
 var jsonDevicesGroupsNew = false;
 var lastRefreshOn = false;
-var urlServicio = 'https://localhost:44385';
+var urlServicio = 'https://pre.etrack.ws';
 //rest git
 function getBasicListError(jqXHR, textStatus, errorThrown) {
     try {
@@ -979,8 +979,8 @@ function saveJobDb(jobObj) {
 function getDbNEW(service, method, datap, async) {
     try {
         var result = false;
-        //var url = 'https://localhost:44385/' + service + '/' + method;
-        var url = 'https://localhost:44385/' + service + '/' + method;
+        //var url = 'https://pre.etrack.ws/' + service + '/' + method;
+        var url = 'https://pre.etrack.ws/' + service + '/' + method;
         if (datap.length > 0) {
             url = url + '?' + datap;
         }

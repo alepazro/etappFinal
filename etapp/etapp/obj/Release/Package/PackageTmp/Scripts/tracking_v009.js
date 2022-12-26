@@ -7,12 +7,16 @@ var refreshLoc = 10;
 var currentGroupId = '';
 var freeze;
 var ul;
+var intervalId1=0;
+var intervalId2=0;
+
 
 function loadDevicesGroupsCallback(data) {
     try {
         var a = 1;
 
         $.each(data, function (key, value) {
+            
             $('#cbxGroups').append('<option value=' + value.id + '>' + value.value + '</option>');
         });
 
@@ -104,47 +108,56 @@ function closeCtrlPanel() {
     }
 }
 
-function mainMenuClick(activeCtrlPanel) {
+function mainMenuClick(activeCtrlPanel,source) {//source; 1:fleetlocation, 2:mapcontrols,3:loadpage
     try {
+        
         closeCtrlPanel();
         $('#ctrlPanel').show();
         $('#' + activeCtrlPanel).show();
 
         //Clean the map
-        clearMap();
-
-        forceAutoZoomFeature();
-
-        bAutoCenter = true;
-        switch (activeCtrlPanel) {
-            case 'fleetLocationDiv':
+        //clearMap();
+        
+        //forceAutoZoomFeature();
+        
+        //bAutoCenter = true;
+        switch (activeCtrlPanel) {            
+            case 'fleetLocationDiv': 
+                
                 //if no units are selected, select them all
                 //5/25/2014: Implementing user preferences... 
                 lastRefreshOn = false;
-                //loadDevices();
-                loadDevicesGroupsNew();
-
-                applyToggleSwitchesPreferences();
-
+                //loadDevices();                
+                if (source != 3) { 
+                    loadDevicesGroupsNew(source);
+                }                
+                //applyToggleSwitchesPreferences(source);
+                
                 //addAllDevicesToMap();
                 //userPreferences_showDevice();
                 break;
 
             case 'dispatchingDiv':
+                                
                 if (directionsRenderer) {
                     directionsRenderer.setMap(map);
                 }
+                
                 getGeofences_All();
-
+                
                 bAutoCenter = false;
                 break;
 
             case 'breadcrumbDiv':
+                
+                
                 showBreadcrumbTrail();
+                
                 bAutoCenter = false;
                 break;
 
             case 'geofencesDiv':
+                
                 bAutoCenter = false;
                 break;
         }
@@ -167,7 +180,7 @@ function pingDevice(deviceId) {
 
 //===================================================
 // ----- FIRST LOAD OF DEVICES
-function addDeviceToTrackingList(jsonDevice,ul) {
+function addDeviceToTrackingList(jsonDevice,ul,boolgroupall) {
     
     try {
         var li = document.createElement('li');
@@ -270,11 +283,17 @@ function addDeviceToTrackingList(jsonDevice,ul) {
         $(eventTimer).attr('style', 'float:right;');
         titleDiv.appendChild(eventTimer);
 
-        //        <input type="checkbox" id="unitId1234" onclick="showDevice('1234')" />
+        var groupName = "headingOne" + jsonDevice.GroupName.replace(/\s+/g, '')//delete emty
         var chk = document.createElement('input');
         $(chk).attr('type', 'checkbox');
-        $(chk).attr('id', 'chk' + jsonDevice.deviceId);
-        $(chk).attr("onclick", "showDevice('" + jsonDevice.deviceId + "')");
+        $(chk).attr('id', 'chk' + jsonDevice.deviceId + jsonDevice.GroupID);
+        $(chk).attr('data-id', jsonDevice.deviceId);
+        $(chk).attr('data-classDevice', "class_" + jsonDevice.deviceId);
+        $(chk).attr('data-groupid', jsonDevice.GroupID);
+        $(chk).addClass("class_" + jsonDevice.deviceId);
+        $(chk).addClass(groupName);//individual class foreach group       
+        $(chk).addClass("groupAll");//general class all group
+        $(chk).attr("onclick", "showDevice('" + jsonDevice.deviceId + "'," + jsonDevice.GroupID+",1)");//1 devices,2 group,3 allGroup
         //5/25/2014: Implementing user preferences... 
         $(chk).prop("checked", jsonDevice.showDevice);
         titleDiv.appendChild(chk);
@@ -480,7 +499,7 @@ function loadFleetList() {
             addDeviceToTrackingList(jsonDevice, ul);
             group.appendChild(ul);
         }
-
+        
         loadComboBox(jsonDevices.myDevices, document.getElementById('cboBreadcrumbVehicles'), 'Select a Vehicle');
     }
     catch (err) {
@@ -488,34 +507,55 @@ function loadFleetList() {
     }
 }
 function loadFleetListGroupNew() {
-
-    try {
+    try {        
         let arrayDevices = [];
-        debugger;
+        let arrayDevices2;        
         var jsonDevice = false;
         //var ul = document.getElementById('fleetList');        
         var div = document.getElementById('fleetListDiv');
         var group;
+        var idgroupdefault;
+        var groupname = "";
+        
         //removeAllChildNodes(ul);
         removeAllChildNodes(div);
-        createGroupsDivs();
-        arrayDevices = deleteDuplicatesforGroup(jsonDevicesGroupsNew.myDevices);
+        idgroupdefault=createGroupsDivs();
+        arrayDevices = deleteDuplicatesforGroup(jsonDevicesGroupsNew.myDevices,true);
+        group = document.getElementById('heading[All Devices]');
+        
         for (var ind = 0; ind < arrayDevices.length; ind++) {
-            debugger;
-            jsonDevice =arrayDevices[ind]; //eval('(' + arrayDevices[ind] + ')');
-            group = document.getElementById('heading' + jsonDevice.GroupID);
+            jsonDevice = arrayDevices[ind]; //eval('(' + arrayDevices[ind] + ')');
+            jsonDevice.GroupName = "[All Devices]";
+            jsonDevice.GroupID = idgroupdefault;
+            groupname = jsonDevice.GroupName;
+            groupnameid = jsonDevice.GroupID;
             ul = document.createElement('ul');
-            $(ul).attr('id', 'fleetList' + jsonDevice.GroupID);
+            $(ul).attr('id', 'fleetList' + jsonDevice.GroupName);
             $(ul).addClass("devicesListClass");
             //var ul = document.getElementById('fleetList');
-            addDeviceToTrackingList(jsonDevice, ul);
+            addDeviceToTrackingList(jsonDevice, ul,true);
             group.appendChild(ul);
+        }        
+        arrayDevices2=deleteDuplicatesforGroup(jsonDevicesGroupsNew.myDevices,false);
+        for (var ind = 0; ind < arrayDevices2.length; ind++) {
+            jsonDevice = arrayDevices2[ind];             
+            group = document.getElementById('heading' + jsonDevice.GroupName);
+            if (jsonDevice.GroupName != "[All Devices]" && jsonDevice.GroupName != "-1" && group!=null) {
+                ul = document.createElement('ul');
+                $(ul).attr('id', 'fleetList' + jsonDevice.GroupName);
+                $(ul).addClass("devicesListClass");
+                //var ul = document.getElementById('fleetList');
+                addDeviceToTrackingList(jsonDevice, ul,false);
+                group.appendChild(ul);
+            }            
         }
-
-        loadComboBox(jsonDevicesGroupsNew.myDevices, document.getElementById('cboBreadcrumbVehicles'), 'Select a Vehicle');
+        
+        loadComboBox(arrayDevices, document.getElementById('cboBreadcrumbVehicles'), 'Select a Vehicle');
+        
     }
     catch (err) {
-        alert('loadFleetListGroupNew: ' + err.description);
+        alert('loadFleetListGroupNew: ' + err);
+        console.log('loadFleetListGroupNew: ' + err);
     }
 }
 
@@ -551,8 +591,8 @@ function loadDevices() {
                 autoCenter();
 
                 //Initiate the recurrent refresh...
-                setInterval("getLastKnowLocation()", refreshLoc * 1000);
-                setInterval("calcCurrentEventTimers()", 1000);
+                //setInterval("getLastKnowLocation()", refreshLoc * 5000);
+                //setInterval("calcCurrentEventTimers()", 10000);
             }
         }
     }
@@ -560,42 +600,56 @@ function loadDevices() {
         alert('loadDevices: ' + err.description);
     }
 }
-function loadDevicesGroupsNew() {
-    
-    try {
-        getDevicesGroupNew(1, currentGroupId);
+function loadDevicesGroupsNew(source,filter) {
+    try {        
+        if (source != "1") {            
+            if (filter !=undefined && filter != null && filter != "") {
+                getDeviceBySearch(1, currentGroupId, filter);
+            } else {
+                getDevicesGroupNew(1, currentGroupId);
+            }            
 
-        if (jsonDevicesGroupsNew) {
-            if (!_.isUndefined(jsonDevicesGroupsNew.result)) {
-                if (jsonDevicesGroupsNew.result == 'failure') {
-                    location.href = 'login.html';
+            if (jsonDevicesGroupsNew) {
+                if (!_.isUndefined(jsonDevicesGroupsNew.result)) {
+                    if (jsonDevicesGroupsNew.result == 'failure') {
+                        location.href = 'login.html';
+                    }
                 }
-            }
-            else {
-                if (jsonDevicesGroupsNew.envelope) {
-                    var env = eval('(' + jsonDevicesGroupsNew.envelope + ')');
-                    lastRefreshOn = env.lastFetchOn;
+                else {
+                    if (jsonDevicesGroupsNew.envelope) {
+                        var env = eval('(' + jsonDevicesGroupsNew.envelope + ')');
+                        lastRefreshOn = env.lastFetchOn;
+                    }
+                    loadFleetListGroupNew();
+                    
+                    //Make sure all checkmarks of fleetList are checked.  This may be redundant, but it seems in some IE versions it is not taking it when it is marked upon creation.
+                    //$("#fleetList input:checkbox").each(function () {
+                    //    this.checked = true;
+                    //});                
+                    createFleetMarkersGroupsNew();
+                    //5/25/2014: Implementing user preferences... 
+                    userPreferences_showDevice();
+
+                    autoCenter();
+                    //Initiate the recurrent refresh...
+                    if (intervalId1 == 0 || intervalId2 == 0) {
+                        intervalId1 = setInterval("getLastKnowLocation()", refreshLoc * 3000);
+                        intervalId2 = setInterval("calcCurrentEventTimers()", 5000);
+                    } else {
+                        clearInterval(intervalId1);
+                        clearInterval(intervalId2);
+                        intervalId1 = setInterval("getLastKnowLocation()", refreshLoc * 3000);
+                        intervalId2 = setInterval("calcCurrentEventTimers()", 5000);
+                    }
+                    
                 }
-
-                loadFleetListGroupNew();
-
-                //Make sure all checkmarks of fleetList are checked.  This may be redundant, but it seems in some IE versions it is not taking it when it is marked upon creation.
-                $("#fleetList input:checkbox").each(function () {
-                    this.checked = true;
-                });
-
-                createFleetMarkersGroupsNew();
-
-                //5/25/2014: Implementing user preferences... 
-                userPreferences_showDevice();
-
-                autoCenter();
-
-                //Initiate the recurrent refresh...
-                setInterval("getLastKnowLocation()", refreshLoc * 1000);
-                setInterval("calcCurrentEventTimers()", 1000);
+                if (filter != undefined && filter != null && filter != "") {
+                    SelectAllDevices("groupAll", "chkgroup" + groupnameid, "4");
+                }
+                
             }
         }
+       
     }
     catch (err) {
         alert('loadDevices: ' + err.description);
@@ -604,39 +658,40 @@ function loadDevicesGroupsNew() {
 
 function loadDevicesBySearchText(searchText) {
     try {
-        getDeviceBySearch(1, currentGroupId, searchText);
+        loadDevicesGroupsNew(null,searchText); 
+        
 
-        if (jsonDevicesGroupsNew) {
-            if (!_.isUndefined(jsonDevicesGroupsNew.result)) {
-                if (jsonDevicesGroupsNew.result == 'failure') {
-                    location.href = 'login.html';
-                }
-            }
-            else {
-                if (jsonDevicesGroupsNew.envelope) {
-                    var env = eval('(' + jsonDevicesGroupsNew.envelope + ')');
-                    lastRefreshOn = env.lastFetchOn;
-                }
+        //if (jsonDevicesGroupsNew) {
+        //    if (!_.isUndefined(jsonDevicesGroupsNew.result)) {
+        //        if (jsonDevicesGroupsNew.result == 'failure') {
+        //            location.href = 'login.html';
+        //        }
+        //    }
+        //    else {
+        //        if (jsonDevicesGroupsNew.envelope) {
+        //            var env = eval('(' + jsonDevicesGroupsNew.envelope + ')');
+        //            lastRefreshOn = env.lastFetchOn;
+        //        }
 
-                loadFleetListGroupNew();
+        //        loadFleetListGroupNew();
 
-                //Make sure all checkmarks of fleetList are checked.  This may be redundant, but it seems in some IE versions it is not taking it when it is marked upon creation.
-                $("#fleetList input:checkbox").each(function () {
-                    this.checked = true;
-                });
+        //        //Make sure all checkmarks of fleetList are checked.  This may be redundant, but it seems in some IE versions it is not taking it when it is marked upon creation.
+        //        $("#fleetList input:checkbox").each(function () {
+        //            this.checked = true;
+        //        });
 
-                createFleetMarkersGroupsNew();
+        //        createFleetMarkersGroupsNew();
 
-                //5/25/2014: Implementing user preferences... 
-                userPreferences_showDevice();
+        //        //5/25/2014: Implementing user preferences... 
+        //        userPreferences_showDevice();
 
-                autoCenter();
+        //        autoCenter();
 
-                //Initiate the recurrent refresh...
-                setInterval("getLastKnowLocation()", refreshLoc * 1000);
-                setInterval("calcCurrentEventTimers()", 1000);
-            }
-        }
+        //        //Initiate the recurrent refresh...
+        //        //setInterval("getLastKnowLocation()", refreshLoc * 1000);
+        //        //setInterval("calcCurrentEventTimers()", 1000);
+        //    }
+        //}
     }
     catch (err) {
         alert('loadDevices: ' + err.description);
@@ -982,13 +1037,11 @@ function getLastKnowLocation() {
                             updateDeviceMarkerPosition(jsonDevice);
                             updateActiveInfoWindow(jsonDevice);
                         }
-                    }
-                    
+                    }                    
                     console.log("freeze: " + freeze)
                     if (freeze == false || freeze == undefined) {
                         autoCenter();
-                    }
-                    
+                    }                    
                 }
             }
         }
@@ -1001,20 +1054,80 @@ function getLastKnowLocation() {
 //===============================================
 // -- SHOW / HIDE DEVICES FROM MAP
 
-function showDevice(deviceId) {
+function showDevice(deviceId,groupID,source){
     try {
-        var chk = document.getElementById('chk' + deviceId);
+        //var valu = $(this);
+        
+        var flat = false;
+        var chk = null;
+        var jsonUserPref = {};
+        if (source == "1") {//from device
+            chk = document.getElementById('chk' + deviceId + groupID);
+            if (chk.checked == true) {
+                $(".class_" + deviceId).prop('checked', true);
+                jsonUserPref = { moduleName: 'TRACKING', preference: 'SHOWDEVICE', val1: deviceId, val2: true };
+                updateUserPref(jsonUserPref);
+                addOneDeviceToMap(deviceId);
+                autoCenter();
 
-        var jsonUserPref = { moduleName: 'TRACKING', preference: 'SHOWDEVICE', val1: deviceId, val2: chk.checked };
-        updateUserPref(jsonUserPref);
+            }
+            else {
+                $(".class_" + deviceId).prop('checked', false);
+                jsonUserPref = { moduleName: 'TRACKING', preference: 'SHOWDEVICE', val1: deviceId, val2: false };
+                updateUserPref(jsonUserPref);
+                removeOneDeviceFromMap(deviceId);
+            }
+            
+        }        
+        else if (source == "3") {//from groupAll
+            chk = document.getElementById(deviceId);
+            if (chk.checked == true) {
+                $(".groupAll").prop('checked', true);
+                $('.groupAll').each(function (x, y) {                    
+                    //$("." + group).prop('checked', true);  
+                    device = $(y).attr("data-id");
+                    groupid = $(y).attr("data-groupid");
+                    if (device != undefined && groupid != undefined) {
+                        //jsonUserPref = { moduleName: 'TRACKING', preference: 'SHOWDEVICE', val1: deviceId, val2: true };
+                        //updateUserPref(jsonUserPref);
+                        addOneDeviceToMap(device);
+                    }
+                })
+                autoCenter();
+            }
+            else {
+                $(".groupAll").prop('checked', false);
+                $('.groupAll').each(function (x, y) {
+                    device = $(y).attr("data-id");
+                    groupid = $(y).attr("data-groupid");
+                    if (device != undefined && groupid != undefined) {
+                        //jsonUserPref = { moduleName: 'TRACKING', preference: 'SHOWDEVICE', val1: deviceId, val2: false };
+                        //updateUserPref(jsonUserPref);
+                        removeOneDeviceFromMap(device);
+                    }
+                })
+            }
 
-        if (chk.checked == true) {
-            addOneDeviceToMap(deviceId);
+        } else if (source == "4") {
+            chk = document.getElementById(deviceId);
+            $(".groupAll").prop('checked', true);
+            $('.groupAll').each(function (x, y) {
+                //$("." + group).prop('checked', true);  
+                device = $(y).attr("data-id");
+                groupid = $(y).attr("data-groupid");
+                if (device != undefined && groupid != undefined) {
+                    //jsonUserPref = { moduleName: 'TRACKING', preference: 'SHOWDEVICE', val1: deviceId, val2: true };
+                    //updateUserPref(jsonUserPref);
+                    addOneDeviceToMap(device);
+                }
+            })
+            autoCenter();
         }
         else {
-            removeOneDeviceFromMap(deviceId);
+            console.log("Method "+showDevice+" : Error-> Not options")
         }
-        autoCenter();
+        
+        //autoCenter(); 
     }
     catch (err) {
         alert('showDevice: ' + err.description);
@@ -1080,6 +1193,7 @@ function removeAllDevicesFromMap() {
 function removeOneDeviceFromMap(deviceId) {
     try {
         if (markersArray[deviceId]) {
+            markersArray[deviceId].map = map;
             markersArray[deviceId].setMap(null);
         }
         infowindow.close();
@@ -1110,7 +1224,7 @@ function dispatchToTypeToggle(id) {
 }
 
 function dispatchThisVehicle(deviceId, driverId, via) {
-    
+        
     try {
         if (dispatchLastLoc == null) {
             alert('Please click Find Location to resolve this location');
@@ -1516,7 +1630,7 @@ function saveNewDispatchLocation() {
 
 function clearMap() {
     try {
-
+        
         //Hide all devices from map
         removeAllDevicesFromMap();
 
@@ -1601,6 +1715,7 @@ function clearDispatchPanel() {
 
 function createBreadcrumbTrail() {
     try {
+        
         var deviceId = getComboBoxSelectedOption(document.getElementById('cboBreadcrumbVehicles'));
 
         if (deviceId == "0") {
@@ -2131,64 +2246,26 @@ function onZoom(pfreeze) {
     freeze = pfreeze;
 
 }
-function createGroupsDivs() {
-    
-    var fleetListDiv = document.getElementById('fleetListDiv');
-    var divCard;
-    var divHeadingOne;
-    var divCollapseOne;
-    var h5;
-    var button;
-    var divCollapseOne;
-    var divCardBody;
+function createGroupsDivs() {    
     var jsongroup = null;
-    implementGroup(-1, '[All Devices]');
+    var idGroupDefault = false;
     for (var ind = 0; ind < jsonDevicesGroupsNew.groups.length; ind++) {
         jsongroup = eval('(' + jsonDevicesGroupsNew.groups[ind] + ')');
         implementGroup(jsongroup.id, jsongroup.name)
+        if (jsongroup.isdefault) {
+            idGroupDefault = jsongroup.id;
+        }
     }
-
-    //<div class="card">
-    //    <div class="card-header" id="headingOne">
-    //        <h5 class="mb-0">
-    //            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-    //                Collapsible Group Item #1
-    //            </button>
-    //        </h5>
-    //    </div>
-
-    //    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-    //        <div class="card-body">
-    //            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-    //        </div>
-    //    </div>
-    //</div>
-
-    
-    //<li>
-    //var div = document.createElement('li');
-    //$(li).attr('id', 'deviceId' + jsonDevice.deviceId);
-    //$(li).attr('data-eventCode', jsonDevice.eventCode);
-    //$(li).attr('data-eventDate', jsonDevice.eventDateString);
-    //$(li).attr('data-eventCodeStartedOn', jsonDevice.eventCodeStartedOnString);
-    //$(li).attr('data-gpsAge', jsonDevice.gpsAge);
-
-    //ul.appendChild(li);
-
-    //var badIgnitionDiv = document.createElement('div');
-    //$(badIgnitionDiv).attr('id', 'badIgnitionDiv' + jsonDevice.deviceId);
-    //$(badIgnitionDiv).attr('style', 'float:right;');
-    //$(badIgnitionDiv).attr("onclick", "resetBadIgnitionMsg('" + jsonDevice.deviceId + "')");
-    //$(inputsDiv).addClass('inputsIcons');
+    return idGroupDefault;
 }
-function implementGroup(id,name) {
+function implementGroup(id, name) {
     divCard = document.createElement('div');
     $(divCard).addClass('card');
     $(divCard).attr('style', 'padding:1px');
 
     divHeadingOne = document.createElement('div');
     $(divHeadingOne).addClass('card-header');
-    $(divHeadingOne).attr('id', 'headingOne' + id);
+    $(divHeadingOne).attr('id', 'headingOne' + name);
     $(divHeadingOne).attr('style', 'padding:1px');
     
 
@@ -2198,16 +2275,33 @@ function implementGroup(id,name) {
     button = document.createElement('button');
     $(button).addClass('btn btn-lg btn-block');
     $(button).attr('data-toggle', 'collapse');
-    $(button).attr('data-target', '#heading' + id);
+    $(button).attr('data-target', '#heading' + name);
     $(button).attr('aria-expanded', 'true');
     $(button).attr('aria-controls', 'collapseOne');
-    $(button).attr('style', 'padding:1px;background-color:#F4F6F6');
-    $(button).text('Group ' + name)
+    $(button).attr('style', 'padding:1px;background-color:#F4F6F6;text-align: left');
+    $(button).text(name)
+    var chk1 = document.createElement('input');
+    //var groupName = "headingOne" + name.replace(/\s+/g, '')//delete emty
+    var groupName = "groupAll";
+    $(chk1).attr('type', 'checkbox');
+    $(chk1).attr('id', 'chkgroup' + id);
+    $(chk1).addClass(groupName);
+    $(chk1).attr('style', 'margin:3px');
+    $(chk1).attr('title', 'Select all');
+    if (name == "[All Devices]") {
+        $(chk1).attr("onclick", "SelectAllDevices('" + groupName + "','chkgroup" + id + "',3)");//from [All Devices] group 
+    } else {
+        $(chk1).attr("onclick", "SelectAllDevices('" + name + "','chkgroup" + id + "',2)");//from individual group 
+    }
+    //5/25/2014: Implementing user preferences... 
+    //$(chk).prop("checked", jsonDevice.showDevice);
+    button.appendChild(chk1);
+
 
 
     divCollapseOne = document.createElement('div');
     $(divCollapseOne).addClass('collapse show');
-    $(divCollapseOne).attr('id', 'heading' + id);
+    $(divCollapseOne).attr('id', 'heading' + name);
     $(divCollapseOne).attr('aria-labelledby', 'headingOne');
     $(divCollapseOne).attr('data-parent', '#accordion');
 
@@ -2232,7 +2326,7 @@ function deleteDuplicates(array) {
     let ind = 0;
        
         try {
-            debugger
+            
         for (ind = 0; ind < array.length; ind++) {
             jsonDevice = eval('(' + array[ind] + ')');
             arrayDevices.push(jsonDevice);
@@ -2252,30 +2346,42 @@ function deleteDuplicates(array) {
         return;
     }
 }
-function deleteDuplicatesforGroup(array) {
+function deleteDuplicatesforGroup(array,isForAllDevices) {
     let arrayDevices = [];
     let jsonDevice;
     let jsonDevice2;
     let aux = false;
 
     try {
-        debugger
         for (ind = 0; ind < array.length; ind++) {
-            jsonDevice = eval('(' + array[ind] + ')');
-            arrayDevices.push(jsonDevice);
-            aux = false;
-            for (ind2 = ind; ind2 < array.length; ind2++) {
-                jsonDevice2 = eval('(' + array[ind2] + ')');
-                if ((jsonDevice2.deviceId == jsonDevice.deviceId) && (jsonDevice2.GroupID == jsonDevice.GroupID)) {
-                    //not action
+            //ind2 = ind + 1;
+            //jsonDevice = eval('(' + array[ind] + ')');
+            if (ind == 0) {
+                jsonDevice = eval('(' + array[ind] + ')');
+                arrayDevices.push(jsonDevice);
+
+            }else {
+                jsonDevice = eval('(' + array[ind - 1] + ')');
+                jsonDevice2 = eval('(' + array[ind] + ')');
+                if (isForAllDevices) {
+                    if ((jsonDevice2.deviceId == jsonDevice.deviceId)) {                        
+                    } else {
+                        arrayDevices.push(jsonDevice2);
+                        //ind = ind2 - 1;
+                        //ind2 = array.length;
+                        //aux = true;
+                    }
                 } else {
-                    ind = ind2 - 1;
-                    ind2 = array.length;
-                    aux = true;
+                    if ((jsonDevice2.deviceId == jsonDevice.deviceId) && (jsonDevice2.GroupID == jsonDevice.GroupID)) {
+                        //not action
+                    } else {
+                        arrayDevices.push(jsonDevice2);
+                        //ind = ind2 - 1;
+                        //ind2 = array.length;
+                        //aux = true;
+                    }
+
                 }
-            }
-            if (aux == false) {
-                ind= array.length
             }
         }
         return arrayDevices;
@@ -2286,10 +2392,11 @@ function deleteDuplicatesforGroup(array) {
     }
 
 }
+
 function sendFeedBack() {
     let response;
     try {
-        debugger;
+        
         let idType = $("#Type").val();
         let description = $("#comment").val();
         let pageVisited = window.location.href;
@@ -2305,7 +2412,7 @@ function sendFeedBack() {
         } else {
             alert("error: " + response.value);
         }
-        debugger;
+        
         var error=""
     }
     catch (err) {
@@ -2315,10 +2422,10 @@ function sendFeedBack() {
 }
 function loadFeedBackType() {
     var response;
-    debugger;
+    
     try {
         response = GetFeedBackType();
-        debugger;
+        
         for (var index = 0; index < response.ListResponse.length; index++) {
             $("#Type").append("<option value="+ response.ListResponse[index].ID +">" + response.ListResponse[index].Name + "</option>");
         }
@@ -2326,5 +2433,66 @@ function loadFeedBackType() {
     catch (err) {
         alert("error: " + err);
     }
+}
+function SelectAllDevices(group, id, source) {
+    
+    var element = $("#" + id);
+    var device = "";
+    var groupid = "";
+    if (source == "3" || source == "4" )//3 from groupAll - 4 from start load
+    {
+        
+        showDevice(id, group, source)
+        
+    }
+    else if (source == "2") {
+        var groupName = group.replace(/\s+/g, '')//delete emty
+        if (element.prop('checked')) {
+            $('.headingOne' + groupName).prop('checked', true);
+            $('.headingOne' + groupName).each(function (x, y) {
+                
+                device = $(y).attr("data-id");
+                groupid = $(y).attr("data-groupid");
+                if (device != undefined && groupid != undefined) {
+                    addOneDeviceToMap(device);
+                    autoCenter();
+                }
+            })
+        } else {
+            $('.headingOne' + groupName).prop('checked', false);
+            $('.headingOne' + groupName).each(function (x, y) {
+                device = $(y).attr("data-id");
+                groupid = $(y).attr("data-groupid");
+                if (device != undefined && groupid != undefined) {
+                    removeOneDeviceFromMap(device);                    
+                }
+            })
+        }
+    }
+    else 
+    {
+        
+        if (element.prop('checked')) {
+            $('.' + group).each(function (x, y) {
+                //$("." + group).prop('checked', true);  
+                device = $(y).attr("data-id");
+                groupid = $(y).attr("data-groupid");
+                if (device != undefined && groupid != undefined) {
+                    showDevice(device, groupid, source)
+                }
+            })
+        } else {
+            $('.' + group).each(function (x, y) {
+                $("." + group).prop('checked', false);
+                device = $(y).attr("data-id");
+                groupid = $(y).attr("data-groupid");
+                if (x > 0) {
+                    showDevice(device, groupid)
+                }
+            })
+        }
+    }
+    
+    
 }
 

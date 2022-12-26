@@ -21,7 +21,7 @@
 
     $scope.gridActive = {
         enableSorting: true,
-        minRowsToShow: 20,
+        minRowsToShow: 800,
         columnDefs: [
           { name: 'actions', displayName: 'Edit', cellTemplate: $scope.activeActionsTemplate, width: 60, enableColumnMenu:false },
           { field: 'iconUrl', displayName: '', cellTemplate: '<img src="{{row.entity.iconURL}}" />', width: 50, enableColumnMenu: false },
@@ -43,7 +43,7 @@
 
     $scope.gridNotInstalled = {
         enableSorting: true,
-        minRowsToShow: 20,
+        minRowsToShow: 500,
         columnDefs: [
           { name: 'actions', displayName: 'Edit', cellTemplate: $scope.activeActionsTemplate, width: 60, enableColumnMenu: false },
           { field: 'deviceId', displayName: 'ID', width: 50 },
@@ -56,7 +56,7 @@
 
     $scope.gridSleeping = {
         enableSorting: true,
-        minRowsToShow: 20,
+        minRowsToShow: 500,
         columnDefs: [
           { name: 'actions', displayName: 'Actions', cellTemplate: $scope.sleepingActionsTemplate, width: 150, enableColumnMenu: false },
           { field: 'deviceId', displayName: 'ID', width: 50 },
@@ -71,7 +71,7 @@
 
     $scope.gridCancelled = {
         enableSorting: true,
-        minRowsToShow: 20,
+        minRowsToShow: 500,
         columnDefs: [
           { name: 'actions', displayName: 'Reinstate', cellTemplate: $scope.cancelledActionsTemplate, width: 70, enableColumnMenu: false },
           { field: 'deviceId', displayName: 'ID', width: 50 },
@@ -86,7 +86,7 @@
 
     $scope.gridRMA = {
         enableSorting: true,
-        minRowsToShow: 20,
+        minRowsToShow: 500,
         columnDefs: [
           { field: 'deviceId', displayName: 'ID', width: 50 },
           { field: 'name', displayName: 'Name', width: 100 },
@@ -101,7 +101,7 @@
         var token = getTokenCookie('ETTK');
         var noCache = Math.floor((Math.random() * 100000) + 1);
         DevicesList.query({ token: token, noCache: noCache }, function (data) {
-
+            debugger;
             $scope.devicesList = data;
             $scope.activeDevices = _.filter($scope.devicesList, function (itm) { return itm.deviceStatus == 1; });;
             $scope.sleepingDevices = _.filter($scope.devicesList, function (itm) { return itm.deviceStatus == 2; });;

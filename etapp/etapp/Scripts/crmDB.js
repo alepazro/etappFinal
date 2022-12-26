@@ -179,7 +179,7 @@ function jsonPOST(ws, method, data) {
 function getDb(method, data) {
     try {
         var result = false;
-        var url = 'https://localhost:44385/ws.svc/' + method;
+        var url = 'https://pre.etrack.ws/ws.svc/' + method;
         if (data.length > 0) {
             url = url + '?' + data;
         }
@@ -210,7 +210,7 @@ function getDb(method, data) {
 function postDb(method, data, params) {
     try {
         var result = false;
-        var url = 'https://localhost:44385/ws.svc/' + method;
+        var url = 'https://pre.etrack.ws/ws.svc/' + method;
         if (!_.isUndefined(params)) {
             if (params.length > 0) {
                 url = url + '?' + params;

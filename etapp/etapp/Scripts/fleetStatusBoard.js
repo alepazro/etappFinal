@@ -80,7 +80,7 @@ function getBoardDevices() {
         var data = 'lastFetchOn=' + escape(lastFetchOn) + '&qtyPanels=' + qtyPanels + '&devicesPerPanel=' + devicesPerPanel;
         $.ajax({
             type: "GET",
-            url: 'https://localhost:44385/etrack.svc/getDevices/' + escape(token),
+            url: 'https://pre.etrack.ws/etrack.svc/getDevices/' + escape(token),
             contentType: 'application/json',
             data: data,
             dataType: "json",

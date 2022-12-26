@@ -104,7 +104,7 @@ function setGeofenceDlg() {
                         }
                         var postData = JSON.stringify(data);
                         $.ajax({
-                            url: 'https://localhost:44385/etrack.svc/saveGeofence',
+                            url: 'https://pre.etrack.ws/etrack.svc/saveGeofence',
                             type: "POST",
                             data: postData,
                             dataType: 'json',

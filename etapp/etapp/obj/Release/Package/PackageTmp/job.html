@@ -32,7 +32,6 @@
             <div id="my-tab-content" class="tab-content">
                 <div class="tab-pane active" id="jobDetails">
                     <h3>Job <span id="jobNumber">000000</span></h3>
-
                     <div class="panel panel-default panel-info">
                         <div class="panel-heading">Customer Details</div>
                         <div class="panel-body">
@@ -40,25 +39,25 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="custName">Customer</label>
-                                        <input type="text" class="form-control" id="custName" placeholder="" readonly="readonly">
+                                        <input type="text" class="form-control" id="custName" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="custName">Contact</label>
-                                        <input type="text" class="form-control" id="custContact" placeholder="" readonly="readonly">
+                                        <input type="text" class="form-control" id="custContact" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="custName">Phone</label>
-                                        <input type="text" class="form-control" id="custPhone" placeholder="" readonly="readonly">
+                                        <input type="text" class="form-control" id="custPhone" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="custName">Email</label>
-                                        <input type="email" class="form-control" id="custEmail" placeholder="" readonly="readonly">
+                                        <input type="email" class="form-control" id="custEmail" placeholder="">
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +65,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="custName">Address</label>
-                                        <input type="text" class="form-control" id="custAddress" placeholder="" readonly="readonly">
+                                        <input type="text" class="form-control" id="custAddress" placeholder="">
                                     </div>
                                 </div>
                             </div>
@@ -79,19 +78,19 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="custName">Due Date</label>
-                                        <input type="email" class="form-control" id="dueDate" placeholder="" readonly="readonly">
+                                        <input type="email" class="form-control" id="dueDate" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-md-1">
                                     <div class="form-group">
                                         <label for="custName">Est.Duration</label>
-                                        <input type="email" class="form-control" id="estDuration" placeholder="" readonly="readonly">
+                                        <input type="email" class="form-control" id="estDuration" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-md-1">
                                     <div class="form-group">
                                         <label for="custName">Actual Duration</label>
-                                        <input type="email" class="form-control" id="durationHHMM" placeholder="" readonly="readonly">
+                                        <input type="email" class="form-control" id="durationHHMM" placeholder="">
                                     </div>
                                 </div>
                             </div>
@@ -111,25 +110,25 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="custName">Category</label>
-                                        <input type="text" class="form-control" id="categoryName" placeholder="" readonly="readonly">
+                                        <input type="text" class="form-control" id="categoryName" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="custName">Status</label>
-                                        <input type="text" class="form-control" id="statusName" placeholder="" readonly="readonly">
+                                        <input type="text" class="form-control" id="statusName" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="custName">Priority</label>
-                                        <input type="text" class="form-control" id="priorityName" placeholder="" readonly="readonly">
+                                        <input type="text" class="form-control" id="priorityName" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="custName">Assigned To</label>
-                                        <input type="text" class="form-control" id="userName" placeholder="" readonly="readonly">
+                                        <input type="text" class="form-control" id="userName" placeholder="">
                                     </div>
                                 </div>
                             </div>
@@ -235,6 +234,7 @@
             $('#tabs').tab();
 
             if (validateToken(false, 'jobs.html') == true) {
+                
                 setWelcomeTitle();
                 loadJob();
             }

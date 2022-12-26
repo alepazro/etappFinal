@@ -2089,7 +2089,6 @@
     <Content Include="Scripts\webForms.js" />
     <Content Include="settings.html" />
     <Content Include="settingsUnits.html" />
-    <Content Include="settingsUnitsNew.html" />
     <Content Include="SnoozeThisReport.html" />
     <Content Include="directives\deviceselector.js" />
     <Content Include="emails\NewCustomer.htm" />
@@ -3829,8 +3828,6 @@
     <Content Include="Scripts\utilities_002.js" />
     <Content Include="Scripts\webForms_v1.js" />
     <Content Include="Service1.svc" />
-    <Content Include="settings-1.html" />
-    <Content Include="settings_v1.html" />
     <Content Include="SmartBriefing.html" />
     <Content Include="EtReport.html" />
     <Content Include="Styles\adapco.css" />

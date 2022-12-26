@@ -2,8 +2,10 @@
 var w = $(window).width();
 var h = $(window).height();
 var tips = false;
-var map = false;
-var marker = false;
+//var map = false;
+//var marker = false;
+var geofencesArray = [];
+var jsonGeofences = null;
 
 function getFullAddress(jsonAddress) {
     try {
@@ -122,11 +124,11 @@ function pad(str, max) {
 }
 
 function showLocationInMap(canvas, lat, lng, source) {
-    
-    //alert('canvas')
+    alert("ingresó showLocationInMap");
     try {
         var cntr = false;
         if (map == false) {
+            alert("ingresó showLocationInMap en False");
             cntr = new google.maps.LatLng(lat, lng);
             var myOptions = {
                 zoom: 16,
@@ -149,12 +151,9 @@ function showLocationInMap(canvas, lat, lng, source) {
 
         if (source != null && source > 0) {
             $("#eventLocationMapDlg").data("kendoPopup").toggle();
-        } else {
+        }else {
             $("#eventLocationMapDlg").dialog('open');
         }
-
-
-
     }
     catch (err) {
         alert('showLocationInMap: ' + err.description);
@@ -567,9 +566,11 @@ function getJsonRecord(jsonLst, id) {
 
 function loadComboBox(jsonLst, cbx, defaultOptionName, excludeDefaultOption) {
     try {
+        
+        
         //alert(defaultOptionName);
         removeAllChildNodes(cbx);
-
+        
         if (excludeDefaultOption == undefined) {
             excludeDefaultOption = false;
         }
@@ -594,6 +595,7 @@ function loadComboBox(jsonLst, cbx, defaultOptionName, excludeDefaultOption) {
 
             var cbxOption = document.createElement('option');
             cbx.appendChild(cbxOption);
+            
             $(cbxOption).attr('value', jsonItm.id);
             $(cbxOption).attr('data-id', jsonItm.id);
             $(cbxOption).attr('data-icon', jsonItm.icon);
@@ -601,11 +603,11 @@ function loadComboBox(jsonLst, cbx, defaultOptionName, excludeDefaultOption) {
             cbxOption.appendChild(cbxOptionTxt);
         }
         
-
         return cbx;
     }
     catch (err) {
         alert('loadComboBox: ' + err.description);
+        console.log('loadComboBox: ' + err.description)
     }
 }
 
@@ -700,14 +702,19 @@ function eventColor(eventCode) {
 
 function setWelcomeTitle() {
     try {
+        
         $('#welcomeTitleSpan').text(welcomeTitle);
         if ($('#userFullName').length > 0) {
             $('#userFullName').val(userFullName);
-        }
+        }        
     }
     catch (err) {
         alert('setWelcomeTitle: ' + err.description);
     }
+}
+function setPosition() {
+    
+    return { lat: aut_latitude, lng: aut_longitude }
 }
 
 //Points are given in Google LatLng format
@@ -750,10 +757,11 @@ function haversineDistanceTo(point1, point2) {
 
 //Equirectangular formula, based on Pythagoras theorem.  Faster/less calculations/less accuracy too, but good enough in small places
 function equirectangularDistanceTo(point1, point2) {
+    
     try {
         var R = 6371;
-        var lat1 = point1.lat().toRad(), lon1 = point1.lng().toRad();
-        var lat2 = point2.lat().toRad(), lon2 = point2.lng().toRad();
+        var lat1 = point1.a.lat.toRad(), lon1 = point1.a.lng.toRad();
+        var lat2 = point2.a.lat.toRad(), lon2 = point2.a.lng.toRad();
         var dLat = lat2 - lat1;
         var dLon = lon2 - lon1;
 
@@ -828,15 +836,80 @@ function buildAddress(street, city, state, postalCode) {
         alert('buildAddress: ' + err.description);
     }
 }
+function buildAddressJobNew(street, city, state, postalCode) {
+    try {
+        
+        var address = '';
 
+        //Street
+        if (street != null) {
+            if (street.length > 0) {
+                address = street;
+            }
+        }
+        //City
+        if (city != null) {
+            if (city.length > 0) {
+                if (address.length == 0) {
+                    address = city;
+                }
+                else {
+                    address = address + ', ' + city;
+                }
+            }
+        }
+        //State
+        if (state != null) {
+            if (state.length > 0) {
+                if (address.length == 0) {
+                    address = state;
+                }
+                else {
+                    address = address + ', ' + state;
+                }
+            }
+        }
+        //Postal Code
+        if (postalCode != null) {
+            if (postalCode.length > 0) {
+                if (address.length == 0) {
+                    address = postalCode;
+                }
+                else {
+                    address = address + ', ' + postalCode;
+                }
+            }
+        }
+
+        return address;
+    }
+    catch (err) {
+        alert('buildAddress: ' + err.description);
+    }
+}
 function buildDispatchAddress() {
     try {
+        
         var street = $('#dispatchStreet').attr('value');
         var city = $('#dispatchCity').attr('value');
         var state = $('#dispatchState').attr('value');
         var postalCode = $('#dispatchPostalCode').attr('value');
 
         return buildAddress(street, city, state, postalCode);
+    }
+    catch (err) {
+        alert('buildDispatchAddress: ' + err.description);
+    }
+}
+function buildDispatchAddressJobNew() {
+    try {
+        
+        var street = $('#dispatchStreet').val();// $('#dispatchStreet').attr('value');
+        var city = $('#dispatchCity').val();//$('#dispatchCity').attr('value');
+        var state = $('#dispatchState').val();// $('#dispatchState').attr('value');
+        var postalCode = $('#dispatchPostalCode').val();//$('#dispatchPostalCode').attr('value');
+
+        return buildAddressJobNew(street, city, state, postalCode);
     }
     catch (err) {
         alert('buildDispatchAddress: ' + err.description);
@@ -867,5 +940,123 @@ function getParameterByName(name) {
     else
         return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
+function sendFeedBack() {
+    let response;
+    try {
+        
+        let idType = $("#Type").val();
+        let description = $("#comment").val();
+        let pageVisited = window.location.href;
+        if (description.length < 5) {
+            alert("enter a description");
+            return;
+        }
+        response = postSendFeedBack(pageVisited, idType, description);
+        if (response.value = "OK") {
+            $("#comment").val('');
+            alert("FeedBack sent successfully");
+
+        } else {
+            alert("error: " + response.value);
+        }
+        
+        var error = ""
+    }
+    catch (err) {
+        alert("error: " + err);
+        console.log("error1 " + err);
+    }
+}
+function loadFeedBackType() {
+    var response;
+    
+    try {
+        response = GetFeedBackType();
+        
+        for (var index = 0; index < response.ListResponse.length; index++) {
+            $("#Type").append("<option value=" + response.ListResponse[index].ID + ">" + response.ListResponse[index].Name + "</option>");
+        }
+    }
+    catch (err) {
+        alert("error: " + err);
+    }
+}
+function getGoogleAddressComponentsNEW(result) {
+    try {
+        var street = '';
+        var streetNumber = '';
+        var route = '';
+        var suite = '';
+        var city = '';
+        var county = '';
+        var state = '';
+        var postalCode = '';
+        var country = '';
+        var fullAddress = result.address.label;
+        var lat = result.position.lat;
+        var lng = result.position.lng;
+        var jsonAddress = false;
+        
+        //for (var j = 0; j < result.address_components.length; j++) {
+        //    for (var k = 0; k < result.address_components[j].types.length; k++) {
+        //        switch (result.address_components[j].types[k]) {
+        //            case 'street_address':
+        //                street = result.address_components[j].short_name;
+        //                break;
+        //            case 'street_number':
+        //                streetNumber = result.address_components[j].short_name;
+        //                break;
+        //            case 'route':
+        //                route = result.address_components[j].short_name;
+        //                break;
+        //            case 'subpremise':
+        //                suite = result.address_components[j].short_name;
+        //                break;
+        //            case 'locality':
+        //                city = result.address_components[j].short_name;
+        //                break;
+        //            case 'administrative_area_level_2':
+        //                county = result.address_components[j].short_name;
+        //                break;
+        //            case 'administrative_area_level_1':
+        //                state = result.address_components[j].short_name;
+        //                break;
+        //            case 'postal_code':
+        //                postalCode = result.address_components[j].short_name;
+        //                break;
+        //            case 'country':
+        //                country = result.address_components[j].short_name;
+        //                break;
+        //        }
+        //    }
+        //}
+
+        //if (street == '') {
+        //    street = streetNumber + ' ' + route;
+        //}
+
+        jsonAddress = {
+            'street': result.address.street,
+            'streetNumber': '',
+            'route': '',
+            'suite': '',
+            'city': result.address.city,
+            'county': result.address.county,
+            'state': result.address.state,
+            'postalCode': result.address.postalCode,
+            'country': result.address.countryName,
+            'fullAddress': fullAddress,
+            'lat': lat,
+            'lng': lng
+        };
+
+        return jsonAddress;
+
+    }
+    catch (err) {
+        alert('getGoogleAddressComponents: ' + err.message + ' ' + err.description);
+    }
+}
+
 
 

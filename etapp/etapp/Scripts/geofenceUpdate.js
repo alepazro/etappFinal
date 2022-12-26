@@ -707,7 +707,7 @@ function saveNewGeofence() {
         }
             var postData = JSON.stringify(data);
             $.ajax({
-                url: 'https://localhost:44385/etrack.svc/saveGeofence',
+                url: 'https://pre.etrack.ws/etrack.svc/saveGeofence',
                 type: "POST",
                 data: postData,
                 dataType: 'json',
@@ -833,7 +833,7 @@ function loadGeoMessages() {
         var a = 1;
 
         $.ajax({
-            url: 'https://localhost:44385/etrack.svc/getGeofencesMessages/' + getTokenCookie('ETTK') + '/1',
+            url: 'https://pre.etrack.ws/etrack.svc/getGeofencesMessages/' + getTokenCookie('ETTK') + '/1',
             type: "GET",
             data: 0,
             dataType: 'json',
@@ -852,7 +852,7 @@ function loadGeoMessages() {
 
         //Get the DEPARTURE custom messages
         $.ajax({
-            url: 'https://localhost:44385/etrack.svc/getGeofencesMessages/' + getTokenCookie('ETTK') + '/2',
+            url: 'https://pre.etrack.ws/etrack.svc/getGeofencesMessages/' + getTokenCookie('ETTK') + '/2',
             type: "GET",
             data: 0,
             dataType: 'json',

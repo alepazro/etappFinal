@@ -30,7 +30,7 @@
             });
 
             //If async in then in callback do...
-            refreshingPromise = $timeout(refreshEvery, 30000)
+            refreshingPromise = $timeout(refreshEvery, 90000)
         }());
     }
 
